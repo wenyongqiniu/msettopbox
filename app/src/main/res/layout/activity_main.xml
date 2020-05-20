@@ -1,18 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="246dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/tv_bug_search_bg"
+        android:drawableStart="@drawable/system_serchb"
+        android:paddingLeft="10dp"
+        android:text="@string/hide_search"
+        android:textColor="@color/tv_color2"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="72dp"
+        android:layout_height="28dp"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/tv_bug_search_bg"
+        android:drawableStart="@drawable/userinfo"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/login"
+        android:textColor="@color/tv_color2"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/btn_search"
+        app:layout_constraintTop_toTopOf="@id/btn_search" />
+
+
+    <Button
+        android:id="@+id/btn_open_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/tv_open_vip_bg"
+        android:drawableStart="@drawable/vip"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/open_vip"
+        android:textColor="#ecce9a"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/btn_login"
+        app:layout_constraintTop_toTopOf="@id/btn_search" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="19dp"
+        android:text="15:42"
+        android:textColor="@color/tv_f1f1f1"
+        android:textSize="18sp"
+        app:layout_constraintRight_toLeftOf="@id/tv_app_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_search" />
+
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="38dp"
+        android:text="@string/app_name"
+        android:textColor="@color/tv_f1f1f1"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_search" />
+
+
+    <ImageView
+        android:id="@+id/iv_main_1"
+        android:layout_width="283dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/bitmap"
+        app:layout_constraintLeft_toLeftOf="@id/btn_search"
+        app:layout_constraintTop_toBottomOf="@id/btn_search" />
+
+
+    <LinearLayout
+        android:id="@+id/line_desc"
+        android:layout_width="295dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_desc_"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="13dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_main_1"
+        app:layout_constraintLeft_toRightOf="@id/iv_main_1"
+        app:layout_constraintTop_toTopOf="@id/iv_main_1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_brief"
+            android:textColor="@color/tv_ffffff"
+            android:textSize="15dp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/app_desc"
+            android:textColor="@color/tv_ffffff"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="283dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_main_1"
+        app:layout_constraintLeft_toRightOf="@id/line_desc"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_main_1">
+
+        <ImageView
+            android:id="@+id/iv_main_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bitmap" />
+
+
+        <TextView
+            android:id="@+id/tv_main_desc"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="5dp"
+            android:text="医生直言：食管癌是“吃”出来的，做好4点！食管癌不敢靠近你"
+            android:textColor="@color/tv_ffffff"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
 
 
     <TextView
-        android:id="@+id/tv"
-        android:onClick="click"
+        android:id="@+id/tv_classification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_marginTop="19dp"
+        android:text="@string/classification"
+        android:textColor="@color/tv_ffffff"
+        android:textSize="19sp"
+        app:layout_constraintLeft_toLeftOf="@id/btn_search"
+        app:layout_constraintTop_toBottomOf="@id/iv_main_1" />
 
 
-</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="32dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/tv_classification"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_classification" />
+
+</android.support.constraint.ConstraintLayout>

@@ -2,12 +2,10 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 28
-
-
+    compileSdkVersion 27
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -26,15 +24,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
 
 
-    api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["constraintlayout"]
-    api rootProject.ext.dependencies["material"]
-    api rootProject.ext.dependencies["recyclerview"]
-    api rootProject.ext.dependencies["cardview"]
-    api rootProject.ext.dependencies["annotation"]
+    api 'com.android.support:design:27.1.1'
+//    api 'com.android.support:appcompat-v7:23.4.0'
 
 //    api rootProject.ext.dependencies["butterknife"]
     api rootProject.ext.dependencies["glide"]

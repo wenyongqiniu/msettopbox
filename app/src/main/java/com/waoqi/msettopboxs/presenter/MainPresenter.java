@@ -3,6 +3,7 @@ package com.waoqi.msettopboxs.presenter;
 import android.app.DevInfoManager;
 
 import com.socks.library.KLog;
+import com.waoqi.msettopboxs.bean.Bean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.VerificationService;
@@ -33,7 +34,7 @@ public class MainPresenter extends XPresent<MainActivity> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
-                        KLog.a("wlx",verificationBean.getOTTUserToken());
+                        KLog.a("wlx", verificationBean.getOTTUserToken());
                     }
 
                     @Override
@@ -60,6 +61,27 @@ public class MainPresenter extends XPresent<MainActivity> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
+
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+
+    }
+
+
+    public void heartBeat() {
+        Api.getVerService("http://182.92.118.35:8088/")
+                .findHomeFavorite("0")
+                .compose(XApi.<Bean>getApiTransformer())
+                .compose(XApi.<Bean>getScheduler())
+                .compose(getV().<Bean>bindToLifecycle())
+                .subscribe(new ApiSubscriber<Bean>() {
+                    @Override
+                    public void onNext(Bean verificationBean) {
 
                     }
 

@@ -10,9 +10,11 @@
     <uses-permission android:name="com.aspire.jshdc.devinfo.permission.WRITE" />
 
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -22,6 +24,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="960" />
+
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
@@ -32,11 +40,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SplashActivity"
+        <activity
+            android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
 
         </activity>
+        <activity
+            android:name=".ui.activity.VideoActivty"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+        <activity
+            android:name=".ui.activity.VideoViewActivty"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden">
+
+
+        </activity>
+<!--        <activity android:name=".ui.activity.X5WebViewActivity">-->
+<!--        </activity>-->
     </application>
 
 </manifest>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+        <title>医学微视tv-video</title>
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/element-ui.css">
+        <link rel="stylesheet" href="css/video.css">
+        <link rel="stylesheet" href="css/video-js.min.css">
+        <link rel="stylesheet" type="text/css" href="css/alt.css" />
+    </head>
+    <body>
+        <div id="home" v-cloak>
+            <el-container>
+                <el-header>
+                    <el-row :gutter="5">
+                        <el-col :span="15">
+                            <div class="grid-content bg-purple">
+                                <el-input placeholder="搜索(病症、医生、医院、话题)" prefix-icon="el-icon-search" v-model="webdata.searth">
+                                </el-input>
+                            </div>
+                        </el-col>
+                        <el-col :span="9">
+                            <div class="grid-content bg-purple-light">
+                                <div class="tit">医学微视</div>
+                                <div class="date">{{webdata.time}}</div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-header>
+                <el-main>
+                    <el-row :gutter="5">
+                        <el-col :span="13">
+                            <div class="grid-content">
+                                <video id="my-video" class="video-js" controls preload="auto" width="939" height="454"
+                                    poster="m.jpg" data-setup="{}">
+                                    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+                                    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+                                    <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+                                    <p class="vjs-no-js">
+                                        要查看此视频，请升级到web您的浏览器
+                                        <a href="http://videojs.com/html5-video-support/" target="_blank">支持HTML5视频</a>
+                                    </p>
+                                </video>
+                            </div>
+                        </el-col>
+                        <el-col :span="11">
+                            <div class="grid-content">
+                                <div class="tit">面肌痉挛的治疗方法有哪些？</div>
+                                <div class="cont">
+                                    <div class="cont-t">
+                                        张智海（教授）
+                                    </div>
+                                    <div class="cont-c">
+                                        简介：中国医科大学航空总医院骨科主任医师
+                                    </div>
+                                </div>
+                                <div class="bottons">
+                                    <el-button type="success">免费试看</el-button>
+                                    <el-button type="info">立即购买</el-button>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <div class="vider-list">
+                        <div class="list-box">
+                            <div class="img">
+                                <img src="imgs/Bitmap2.png">
+                            </div>
+                            <div class="txt">
+                                面肌痉挛的治疗方法有哪些？
+                            </div>
+                        </div>
+                        <div class="list-box">
+                            <div class="img">
+                                <img src="imgs/Bitmap2.png">
+                            </div>
+                            <div class="txt">
+                                面肌痉挛的治疗方法有哪些？
+                            </div>
+                        </div>
+                        <div class="list-box">
+                            <div class="img">
+                                <img src="imgs/Bitmap2.png">
+                            </div>
+                            <div class="txt">
+                                面肌痉挛的治疗方法有哪些？
+                            </div>
+                        </div>
+                        <div class="list-box">
+                            <div class="img">
+                                <img src="imgs/Bitmap2.png">
+                            </div>
+                            <div class="txt">
+                                面肌痉挛的治疗方法有哪些？
+                            </div>
+                        </div>
+                        <div class="list-box">
+                            <div class="img">
+                                <img src="imgs/Bitmap2.png">
+                            </div>
+                            <div class="txt">
+                                面肌痉挛的治疗方法有哪些？
+                            </div>
+                        </div>
+                    </div>
+                </el-main>
+            </el-container>
+            <div id="alt_bac" v-if="resdata.bay_vip">
+                <div id="bay_vip" v-if="resdata.bay_vip">
+                    <div class="tit">
+                        <img src="imgs/VIP.png">
+                        会员购买
+                    </div>
+                    <div class="cont">
+                        <div class="list">
+                            <h1>套餐选择</h1>
+                            <div v-for="(item,i) in rmb" :class="i==resdata.active? 'vip_ck' :''" @click="bay_vip(item,i)">
+                                <div class="left">
+                                    包月VIP
+                                </div>
+                                <div class="right">
+                                    {{item}}
+                                    <span>元</span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="qrcode">
+                            <div class="code_box">
+
+                            </div>
+                            <div class="buy_box">
+                                支付金额：<b>{{webdata.rmb}}</b><span>元</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/vue.2.6.10.js"></script>
+    <script src="js/axios-0.19.0.min.js"></script>
+    <script src="js/element-ui.js"></script>
+    <script src="js/es6-promise.auto.js"></script>
+    <script src="js/netHttp.js"></script>
+    <script src="js/video.min.js"></script>
+    <script src="js/video.js"></script>
+</html>

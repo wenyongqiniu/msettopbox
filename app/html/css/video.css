@@ -1,0 +1,150 @@
+#home {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-image: linear-gradient(#000518, #144d95);
+}
+.el-header {
+  height: 145px !important;
+  border-bottom: 1px solid #0c1e40;
+  padding: 0 3%;
+}
+.el-header .el-row {
+  margin-bottom: 20px;
+  height: 100%;
+}
+.el-header .el-row:last-child {
+  margin-bottom: 0;
+}
+.el-header .el-col {
+  height: 100%;
+}
+.el-header .el-col > div {
+  height: 100%;
+}
+.el-header .el-col > div .el-input {
+  float: left;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  border-radius: 35px;
+  height: 70px;
+  font-size: 24px;
+}
+.el-header .el-col > div .el-input .el-input__inner {
+  background-color: transparent;
+  border-radius: 35px;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  height: 70px;
+  font-size: 24px;
+  padding-left: 60px;
+}
+.el-header .el-col > div .el-input .el-input__prefix {
+  left: 25px;
+}
+.el-header .el-col > div .el-input .el-input__prefix .el-input__icon {
+  line-height: 70px;
+}
+.el-header .el-col > div .el-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 3%;
+  height: 70px;
+  border-radius: 35px;
+  border: none;
+}
+.el-header .el-col > div .el-button i,
+.el-header .el-col > div .el-button span {
+  font-size: 22px;
+}
+.el-header .el-col > div .el-button img {
+  float: left;
+  height: 22px;
+  margin-right: 4px;
+}
+.el-header .el-col > div .vip {
+  color: #ecce9a;
+}
+.el-header .el-col > div .vip span {
+  color: #ecce9a;
+}
+.el-header .el-col > div .tit,
+.el-header .el-col > div .date {
+  height: 40px;
+  margin-top: 40px;
+  font-size: 36px;
+  line-height: 70px;
+  color: rgba(255, 255, 255, 0.5);
+  float: right;
+  margin-left: 5%;
+}
+.el-header .el-col > div .date {
+  color: rgba(255, 255, 255, 0.7);
+}
+.el-main {
+  padding: 15px 3%;
+}
+.el-main .vjs-big-play-button {
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%);
+}
+.el-main .el-row {
+  margin-bottom: 50px;
+}
+.el-main .el-row .el-col {
+  height: 454px;
+}
+.el-main .el-row .el-col .grid-content {
+  position: relative;
+  height: 100%;
+}
+.el-main .el-row .el-col .grid-content .tit {
+  font-size: 32px;
+  line-height: 1.2;
+  height: 80px;
+}
+.el-main .el-row .el-col .grid-content .cont .cont-t {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+.el-main .el-row .el-col .grid-content .cont .cont-c {
+  font-size: 24px;
+  color: #f0f0f0;
+}
+.el-main .el-row .el-col .grid-content .bottons {
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+  width: 100%;
+}
+.el-main .el-row .el-col .grid-content .bottons .el-button {
+  height: 60px;
+  width: 270px;
+  font-size: 26px;
+  border-radius: 30px;
+}
+.el-main .vider-list {
+  overflow: hidden;
+}
+.el-main .vider-list .list-box {
+  float: left;
+  margin-right: 2%;
+  width: 18%;
+  margin-bottom: 40px;
+}
+.el-main .vider-list .list-box .img {
+  margin-bottom: 15px;
+}
+.el-main .vider-list .list-box .img img {
+  display: block;
+  width: 100%;
+}
+.el-main .vider-list .list-box .txt {
+  font-size: 26px;
+  text-align: justify;
+  line-height: 1.2;
+}

@@ -1,0 +1,189 @@
+#list {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #000518 0%, #144d95 100%);
+}
+#list .list1,
+#list .list2 {
+  background-color: #03112d;
+  overflow: hidden;
+  overflow-y: auto;
+}
+#list .list1::-webkit-scrollbar,
+#list .list2::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 6px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+}
+#list .list1::-webkit-scrollbar-thumb,
+#list .list2::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 5px #a0a0a0;
+  background: #114384;
+}
+#list .list1::-webkit-scrollbar-track,
+#list .list2::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px #f5f5f5;
+  /*轨道边框颜色*/
+  border-radius: 0;
+  background: #041432;
+}
+#list .list1 .list_cont,
+#list .list2 .list_cont {
+  height: 14.28571429vh;
+  line-height: 14.28571429vh;
+  padding: 0 40px;
+  font-size: 32px;
+}
+#list .list1 .active,
+#list .list2 .active {
+  color: #2abc75;
+}
+#list .list1 .active span,
+#list .list2 .active span {
+  color: #2abc75;
+}
+#list .list2 {
+  background-color: #081b41;
+}
+#list .list2 .active {
+  color: #fff;
+  background: linear-gradient(90deg, #29dbba 0%, #2ba848 100%);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.19);
+  text-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.19);
+}
+#list .list2 .active span {
+  color: #fff;
+}
+#list .cont .el-header {
+  height: 135px !important;
+  border-bottom: 1px solid #0c1e40;
+  padding: 0 3%;
+}
+#list .cont .el-header .el-row {
+  margin-bottom: 20px;
+  height: 100%;
+}
+#list .cont .el-header .el-row:last-child {
+  margin-bottom: 0;
+}
+#list .cont .el-header .el-col {
+  height: 100%;
+}
+#list .cont .el-header .el-col > div {
+  height: 100%;
+}
+#list .cont .el-header .el-col > div .el-input {
+  float: left;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  border-radius: 35px;
+  height: 70px;
+  font-size: 24px;
+}
+#list .cont .el-header .el-col > div .el-input .el-input__inner {
+  background-color: transparent;
+  border-radius: 35px;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  height: 70px;
+  font-size: 24px;
+  padding-left: 60px;
+}
+#list .cont .el-header .el-col > div .el-input .el-input__prefix {
+  left: 25px;
+}
+#list .cont .el-header .el-col > div .el-input .el-input__prefix .el-input__icon {
+  line-height: 70px;
+}
+#list .cont .el-header .el-col > div .el-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 3%;
+  height: 70px;
+  border-radius: 35px;
+  border: none;
+}
+#list .cont .el-header .el-col > div .el-button i,
+#list .cont .el-header .el-col > div .el-button span {
+  font-size: 22px;
+}
+#list .cont .el-header .el-col > div .el-button img {
+  float: left;
+  height: 22px;
+  margin-right: 4px;
+}
+#list .cont .el-header .el-col > div .vip {
+  color: #ecce9a;
+}
+#list .cont .el-header .el-col > div .vip span {
+  color: #ecce9a;
+}
+#list .cont .el-header .el-col > div .tit,
+#list .cont .el-header .el-col > div .date {
+  height: 40px;
+  margin-top: 40px;
+  font-size: 36px;
+  line-height: 70px;
+  color: rgba(255, 255, 255, 0.5);
+  float: right;
+  margin-left: 5%;
+}
+#list .cont .el-header .el-col > div .date {
+  color: rgba(255, 255, 255, 0.7);
+}
+#list .cont .el-main {
+  padding: 15px 3%;
+  height: 85.71428571vh;
+  overflow-y: scroll;
+}
+#list .cont .el-main .el-row,
+#list .cont .el-main .el-col {
+  height: auto;
+}
+#list .cont .el-main .el-col {
+  padding: 5px;
+  box-sizing: border-box;
+  transition: all .3s;
+}
+#list .cont .el-main .el-col div {
+  overflow: hidden;
+  padding: 10px;
+}
+#list .cont .el-main .el-col div img {
+  display: block;
+  width: 100%;
+}
+#list .cont .el-main .el-col div p {
+  padding: 10px;
+  font-size: 24px;
+  text-align: justify;
+  height: 90px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  line-height: 1.6;
+}
+#list .cont .el-main .active {
+  background-color: #000000;
+  border-radius: 4px;
+  box-shadow: 0px 0px 10px 5px #117629;
+  box-sizing: border-box;
+}
+.el-row {
+  margin-bottom: 20px;
+  width: 100%;
+  height: 100%;
+}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+.el-col {
+  height: 100vh;
+}

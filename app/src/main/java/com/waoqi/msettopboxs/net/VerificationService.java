@@ -1,5 +1,6 @@
 package com.waoqi.msettopboxs.net;
 
+import com.waoqi.msettopboxs.bean.Bean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 
 import io.reactivex.Flowable;
@@ -19,6 +20,9 @@ public interface VerificationService {
     ///心跳接口
     @GET("EPG/Ott/jsp/HeartBeat.jsp")
     Flowable<VerificationBean> heartBeat(@Query("OTTUserToken") String OTTUserToken,
-                                             @Query("UserID") String userID);
+                                         @Query("UserID") String userID);
 
+    ///心跳接口
+    @GET("api/user/findHomeFavorite")
+    Flowable<Bean> findHomeFavorite(@Query("type") String type);
 }

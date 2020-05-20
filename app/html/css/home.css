@@ -1,0 +1,159 @@
+#home {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-image: linear-gradient(#000518, #144d95);
+}
+.el-header {
+  height: 145px !important;
+  border-bottom: 1px solid #0c1e40;
+  padding: 0 3%;
+}
+.el-header .el-row {
+  margin-bottom: 20px;
+  height: 100%;
+}
+.el-header .el-row:last-child {
+  margin-bottom: 0;
+}
+.el-header .el-col {
+  height: 100%;
+}
+.el-header .el-col > div {
+  height: 100%;
+}
+.el-header .el-col > div .el-input {
+  float: left;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  border-radius: 35px;
+  height: 70px;
+  font-size: 24px;
+}
+.el-header .el-col > div .el-input .el-input__inner {
+  background-color: transparent;
+  border-radius: 35px;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  height: 70px;
+  font-size: 24px;
+  padding-left: 60px;
+}
+.el-header .el-col > div .el-input .el-input__prefix {
+  left: 25px;
+}
+.el-header .el-col > div .el-input .el-input__prefix .el-input__icon {
+  line-height: 70px;
+}
+.el-header .el-col > div .el-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  margin-top: 40px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: 3%;
+  height: 70px;
+  border-radius: 35px;
+  border: none;
+}
+.el-header .el-col > div .el-button i,
+.el-header .el-col > div .el-button span {
+  font-size: 22px;
+}
+.el-header .el-col > div .el-button img {
+  float: left;
+  height: 22px;
+  margin-right: 4px;
+}
+.el-header .el-col > div .vip {
+  color: #ecce9a;
+}
+.el-header .el-col > div .vip span {
+  color: #ecce9a;
+}
+.el-header .el-col > div .tit,
+.el-header .el-col > div .date {
+  height: 40px;
+  margin-top: 40px;
+  font-size: 36px;
+  line-height: 70px;
+  color: rgba(255, 255, 255, 0.5);
+  float: right;
+  margin-left: 5%;
+}
+.el-header .el-col > div .date {
+  color: rgba(255, 255, 255, 0.7);
+}
+.el-main {
+  padding: 15px 3%;
+}
+.el-main .info {
+  margin-bottom: 20px;
+}
+.el-main .info .el-row {
+  margin-bottom: 30px;
+}
+.el-main .info .el-row:last-child {
+  margin-bottom: 0;
+}
+.el-main .info .el-col {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.el-main .info .el-col .left,
+.el-main .info .el-col .right {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.el-main .info .el-col .left > img,
+.el-main .info .el-col .right > img,
+.el-main .info .el-col .left .cont,
+.el-main .info .el-col .right .cont {
+  float: left;
+  width: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  height: 13vw;
+}
+.el-main .info .el-col .left > img .tit,
+.el-main .info .el-col .right > img .tit,
+.el-main .info .el-col .left .cont .tit,
+.el-main .info .el-col .right .cont .tit {
+  font-size: 30px;
+  margin-bottom: 0.5vw;
+}
+.el-main .info .el-col .left > img .con,
+.el-main .info .el-col .right > img .con,
+.el-main .info .el-col .left .cont .con,
+.el-main .info .el-col .right .cont .con {
+  font-size: 22px;
+}
+.el-main .info .el-col .left .cont,
+.el-main .info .el-col .right .cont {
+  padding: 1vw;
+}
+.el-main .info .el-col .right {
+  position: relative;
+}
+.el-main .info .el-col .right > img {
+  width: 100%;
+}
+.el-main .info .el-col .right span {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.el-main .list .el-col {
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+.el-main .list .el-col .grid-content {
+  border-radius: 4px;
+  overflow: hidden;
+}
+.el-main .list .el-col .grid-content > img {
+  display: block;
+  width: 100%;
+}
+.el-main .list .el-col:hover {
+  transform: scale(1.05, 1.1);
+}
