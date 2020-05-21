@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.waoqi.msettopboxs.widget.ReflectItemView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="134dp"
-    android:layout_height="79dp"
-    android:clickable="false"
-    android:focusable="false"
-    app:isReflect="true"
-    app:isShape="false">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="12dp">
+
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+        android:layout_width="134dp"
+        android:layout_height="79dp">
 
         <ImageView
             android:id="@+id/iv_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="134dp"
+            android:layout_height="79dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/img12" />
+            tools:background="@drawable/test" />
     </FrameLayout>
 
 
-</com.waoqi.msettopboxs.widget.ReflectItemView>
+</RelativeLayout>

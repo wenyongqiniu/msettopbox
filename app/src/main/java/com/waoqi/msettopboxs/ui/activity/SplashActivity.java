@@ -2,7 +2,9 @@ package com.waoqi.msettopboxs.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.presenter.SplashPresenter;
@@ -11,12 +13,9 @@ import com.waoqi.mvp.mvp.XActivity;
 
 public class SplashActivity extends XActivity<SplashPresenter> {
 
-    private ImageView lemonSplashId;
 
     @Override
     public void initView() {
-        lemonSplashId = (ImageView) findViewById(R.id.lemon_splash_id);
-        ILFactory.getLoader().loadAssets(lemonSplashId, "assets://lemon_splash.jpg", null);
     }
 
     @Override
@@ -26,7 +25,7 @@ public class SplashActivity extends XActivity<SplashPresenter> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_splash;
+        return R.layout.item_image;
     }
 
     @Override
@@ -34,9 +33,13 @@ public class SplashActivity extends XActivity<SplashPresenter> {
         return new SplashPresenter();
     }
 
-    public void startMainActivity() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+
+    public void click(View v) {
+        Toast.makeText(context, v.getId()+"点击的", Toast.LENGTH_SHORT).show();
     }
+//    public void startMainActivity() {
+//        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
 }

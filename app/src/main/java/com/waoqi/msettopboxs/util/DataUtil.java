@@ -12,7 +12,7 @@ public class DataUtil {
     public static List<ImageBean> getImageBean() {
         List<ImageBean> list = new ArrayList<>();
 
-        list.add(new ImageBean(R.drawable.test));
+        list.add(new ImageBean(R.drawable.img1));
         list.add(new ImageBean(R.drawable.img2));
         list.add(new ImageBean(R.drawable.img3));
         list.add(new ImageBean(R.drawable.img4));

@@ -49,7 +49,7 @@ public class SplashPresenter extends XPresent<SplashActivity> {
 //                        getV().startMainActivity();
 //                    }
 //                });
-        getV().startMainActivity();
+//        getV().startMainActivity();
 
     }
 }

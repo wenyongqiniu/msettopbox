@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import cn.jzvd.JzvdStd;
-
 public class VideoViewActivty extends XActivity implements View.OnClickListener {
 
     private VideoView videoView;
@@ -62,7 +60,7 @@ public class VideoViewActivty extends XActivity implements View.OnClickListener 
         try {
             InputStream myInput;
             OutputStream myOutput = new FileOutputStream(localVideoPath);
-            myInput = this.getAssets().open("local_video.mp4");
+            myInput = this.getAssets().open("html/local_video.mp4");
             byte[] buffer = new byte[1024];
             int length = myInput.read(buffer);
             while (length > 0) {

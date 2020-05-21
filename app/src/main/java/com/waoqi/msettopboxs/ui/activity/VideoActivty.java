@@ -1,13 +1,9 @@
 package com.waoqi.msettopboxs.ui.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.MotionEvent;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.mvp.mvp.XActivity;
 
@@ -43,11 +39,6 @@ public class VideoActivty extends XActivity {
     }
 
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        KLog.a("wlx", "按下  " + ev.getAction());
-//        return super.dispatchTouchEvent(ev);
-//    }
 
     @Override
     protected void onPause() {
@@ -71,7 +62,7 @@ public class VideoActivty extends XActivity {
         try {
             InputStream myInput;
             OutputStream myOutput = new FileOutputStream(localVideoPath);
-            myInput = this.getAssets().open("local_video.mp4");
+            myInput = this.getAssets().open("html/local_video.mp4");
             byte[] buffer = new byte[1024];
             int length = myInput.read(buffer);
             while (length > 0) {
