@@ -47,13 +47,6 @@
 
         </activity>
         <activity
-            android:name=".ui.activity.VideoActivty"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
-        <activity
             android:name=".ui.activity.VideoViewActivty"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
