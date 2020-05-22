@@ -7,9 +7,121 @@
     android:clipToPadding="false"
     android:focusable="false"
     android:focusableInTouchMode="false"
-    android:orientation="horizontal"
-
-    >
+    android:orientation="horizontal">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <com.waoqi.tvwidget.view.ListViewTV
+            android:id="@+id/lv_video_menu_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:descendantFocusability="afterDescendants"
+            android:focusable="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:focusableInTouchMode="true"
+            android:nextFocusRight="@+id/lv_video_menu_id_2"
+            android:scrollbars="none" />
+
+        <com.waoqi.tvwidget.view.ListViewTV
+            android:id="@+id/lv_video_menu_id_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:descendantFocusability="afterDescendants"
+            android:listSelector="@drawable/select_list"
+            android:nextFocusLeft="@+id/lv_video_menu_id"
+            android:nextFocusRight="@+id/gridviewtv"
+            android:scrollbars="none" />
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
+
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="246dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/tv_bug_search_bg"
+                android:drawableStart="@drawable/system_serchb"
+                android:nextFocusRight="@+id/btn_login"
+                android:paddingLeft="10dp"
+                android:text="@string/hide_search"
+                android:textColor="@color/font_gray_white"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/tv_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="38dp"
+                android:text="@string/app_name"
+                android:textColor="@color/tv_f1f1f1"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="19dp"
+                android:layout_toLeftOf="@+id/tv_app_name"
+                android:text="15:42"
+                android:textColor="@color/tv_f1f1f1"
+                android:textSize="18sp" />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/btn_search"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false">
+
+
+                <com.waoqi.tvwidget.view.GridViewTV
+                    android:id="@+id/gridviewtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:columnWidth="189dp"
+                    android:gravity="center_vertical"
+                    android:nextFocusLeft="@+id/lv_video_menu_id_2"
+                    android:horizontalSpacing="5dp"
+                    android:verticalSpacing="5dp"
+                    android:numColumns="auto_fit"
+                    android:scrollbars="none" />
+            </FrameLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <com.waoqi.tvwidget.view.MainUpView
+        android:id="@+id/mainUpView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </FrameLayout>

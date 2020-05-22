@@ -103,19 +103,20 @@
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.6.0@jar" level="project"/>
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.11.0@jar" level="project"/>
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.1@jar" level="project"/>
+    <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.1.3@jar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:design:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:support-v4:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:recyclerview-v7:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:transition:27.1.1@aar" level="project"/>
-    <orderEntry type="library" name="Gradle: com.github.bumptech.glide:glide:4.8.0@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.trello.rxlifecycle2:rxlifecycle-components:2.0.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7:27.1.1@aar" level="project"/>
+    <orderEntry type="library" name="Gradle: com.github.bumptech.glide:glide:4.8.0@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:support-fragment:27.1.1@aar" level="project"/>
-    <orderEntry type="library" name="Gradle: com.android.support:support-media-compat:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:support-core-ui:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:support-core-utils:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable:27.1.1@aar" level="project"/>
+    <orderEntry type="library" name="Gradle: com.android.support:support-media-compat:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.android.support:support-compat:27.1.1@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.github.zhaokaiqiang.klog:library:1.6.0@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.trello.rxlifecycle2:rxlifecycle-android:2.0.1@aar" level="project"/>
@@ -129,6 +130,7 @@
     <orderEntry type="library" name="Gradle: com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar" level="project"/>
     <orderEntry type="library" name="Gradle: me.jessyan:autosize:1.1.2@aar" level="project"/>
     <orderEntry type="library" name="Gradle: com.zhy:base-adapter:3.0.3@aar" level="project"/>
+    <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout:1.1.3@aar" level="project"/>
     <orderEntry type="module" module-name="core"/>
     <orderEntry type="module" module-name="jiaozivideo"/>
     <orderEntry type="module" module-name="tvwidget"/>

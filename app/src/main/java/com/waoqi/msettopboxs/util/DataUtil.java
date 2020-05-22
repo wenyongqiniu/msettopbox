@@ -2,6 +2,8 @@ package com.waoqi.msettopboxs.util;
 
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.ImageBean;
+import com.waoqi.msettopboxs.bean.TypeListMenuBean;
+import com.waoqi.msettopboxs.bean.VideoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,36 @@ public class DataUtil {
         list.add(new ImageBean(R.drawable.img34));
 
 
+        return list;
+    }
+
+
+    public static List<TypeListMenuBean> getTypeMenu1() {
+        List<TypeListMenuBean> list = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            list.add(new TypeListMenuBean(i, "标题测试" + i));
+        }
+
+        return list;
+    }
+
+    public static List<TypeListMenuBean> getTypeMenu2() {
+        List<TypeListMenuBean> list = new ArrayList<>();
+
+        for (int i = 11; i < 20; i++) {
+            list.add(new TypeListMenuBean(i, "标题测试" + i));
+        }
+
+        return list;
+    }
+
+    public static List<VideoBean> getTypeVideo() {
+        List<VideoBean> list = new ArrayList<>();
+
+        for (int i = 20; i < 40; i++) {
+            list.add(new VideoBean(i, "http://182.92.118.35:8088/loadFile/draw/2020/05/22/fa4f9afc-f5f4-4b2f-a417-e7a9aece89f6.png", "视频标题是" + i));
+        }
 
         return list;
     }

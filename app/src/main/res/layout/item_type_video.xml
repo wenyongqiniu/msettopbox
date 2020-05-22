@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="189dp"
+    android:layout_height="178dp" >
+
+    <ImageView
+        android:id="@+id/iv_video_cover"
+        android:layout_width="171dp"
+        android:layout_height="96dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="9dp"
+        android:scaleType="center"
+        android:src="@drawable/bitmap2" />
+
+
+    <TextView
+        android:id="@+id/tv_video_desc"
+        android:layout_width="171dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_video_cover"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#fff0f0f0"
+        android:textSize="14sp"
+        tools:text="面肌痉挛的治疗方法有哪些？" />
+
+
+</RelativeLayout>

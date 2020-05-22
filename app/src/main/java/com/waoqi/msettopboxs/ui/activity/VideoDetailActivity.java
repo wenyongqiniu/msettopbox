@@ -1,13 +1,13 @@
 package com.waoqi.msettopboxs.ui.activity;
 
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,8 +15,7 @@ import android.widget.Toast;
 
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
-import com.waoqi.msettopboxs.presenter.MainPresenter;
-import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
+import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataUtil;
 import com.waoqi.mvp.mvp.XActivity;
@@ -25,49 +24,49 @@ import com.waoqi.tvwidget.bridge.OpenEffectBridge;
 import com.waoqi.tvwidget.view.GridViewTV;
 import com.waoqi.tvwidget.view.MainUpView;
 
+public class VideoDetailActivity extends XActivity implements View.OnClickListener {
 
-public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
-    private String TAG = MainActivity.class.getName();
+
+    private static final String TAG = VideoDetailActivity.class.getName();
+
     private Button btnSearch;
-    private Button btnLogin;
-    private Button btnOpenVip;
+    private TextView tvAppName;
     private TextView tvTime;
-
-    private ImageView ivMain1;
-    private LinearLayout lineDesc;
-    private ImageView ivMain2;
-    private TextView tvMainDesc;
-    private MainUpView mainUpView2;
+    private ImageView ivVideoCover;
+    private TextView tvVideoTitle;
+    private TextView tvVideoTeacher;
+    private TextView tvVideoTeacherDesc;
+    private Button btnFreeTrial;
+    private Button btnPurchase;
     private GridViewTV gridviewtv;
-
-
-    private MainAdpter mMainAdpter;
+    private MainUpView mainUpView2;
 
 
     private OpenEffectBridge mOpenEffectBridge;
     private View mOldGridView;
     private int point = 0; //gridview 位置
 
+    private TypeVideoGridViewAdpter mVideoGridViewAdpter;
+
 
     @Override
     public void initView() {
+
         btnSearch = (Button) findViewById(R.id.btn_search);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
+        tvAppName = (TextView) findViewById(R.id.tv_app_name);
         tvTime = (TextView) findViewById(R.id.tv_time);
-
-        ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
-        lineDesc = (LinearLayout) findViewById(R.id.line_desc);
-        ivMain2 = (ImageView) findViewById(R.id.iv_main_2);
-        tvMainDesc = (TextView) findViewById(R.id.tv_main_desc);
-
-        mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
+        ivVideoCover = (ImageView) findViewById(R.id.iv_video_cover);
+        tvVideoTitle = (TextView) findViewById(R.id.tv_video_title);
+        tvVideoTeacher = (TextView) findViewById(R.id.tv_video_teacher);
+        tvVideoTeacherDesc = (TextView) findViewById(R.id.tv_video_teacher_desc);
+        btnFreeTrial = (Button) findViewById(R.id.btn_free_trial);
+        btnPurchase = (Button) findViewById(R.id.btn_purchase);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
-
+        mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
 
         btnSearch.setOnClickListener(this);
-        btnLogin.setOnClickListener(this);
-        btnOpenVip.setOnClickListener(this);
+        btnFreeTrial.setOnClickListener(this);
+        btnPurchase.setOnClickListener(this);
 
         initGridView();
     }
@@ -78,12 +77,13 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         effectNoDrawBridge.setTranDurAnimTime(1);
         mOpenEffectBridge.setDrawUpRectEnabled(false);
         mainUpView2.setEffectBridge(effectNoDrawBridge); // 4.3以下版本边框移动.
-        mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
+        mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
+
 
         gridviewtv.setIsSearch(true);
         mOpenEffectBridge.setVisibleWidget(true); // 隐藏
-        mMainAdpter = new MainAdpter(this, R.layout.item_image, DataUtil.getImageBean());
-        gridviewtv.setAdapter(mMainAdpter);
+        mVideoGridViewAdpter = new TypeVideoGridViewAdpter(this, R.layout.item_type_video, DataUtil.getTypeVideo());
+        gridviewtv.setAdapter(mVideoGridViewAdpter);
         gridviewtv.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -119,7 +119,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 KLog.i(TAG, "gridView" + hasFocus);
                 if (hasFocus) {
                     mOpenEffectBridge.setVisibleWidget(false);
-                    mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
+                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     if (mOldGridView == null) {
                         //TODO
                     } else {
@@ -136,70 +136,41 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArtUtils.startActivity(context, TypeVideoActivity.class);
+                ArtUtils.startActivity(context, VideoViewActivty.class);
             }
         });
     }
 
-
     @Override
     public void initData(Bundle savedInstanceState) {
-//        DevInfoUtil.getValue(this);
-//        @SuppressLint("WrongConstant") final DevInfoManager devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
-//        DevInfoUtil.getToken(this, new OnResultCall() {
-//            @Override
-//            public void onResult(String token) {
-//                getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS), token, devInfoManager.getValue(DevInfoManager.PHONE), devInfoManager.getValue(DevInfoManager.STB_MAC));
-//            }
-//        });
 
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_video_detail;
     }
 
     @Override
-    public MainPresenter newP() {
-        return new MainPresenter();
+    public Object newP() {
+        return null;
     }
-
-    public void click(View view) {
-//        X5WebViewActivity.loadUrl(this, "file:///android_asset/home.html", "");
-//        X5WebViewActivity.loadUrl(this, "https://www.baidu.com", "");
-//        startActivity(new Intent(this, VideoActivty.class));
-
-//        getP().heartBeat();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return super.onKeyDown(keyCode, event);
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            if (gridviewtv.isFocusable()) {
-                KLog.i(TAG, "右键");
-                gridviewtv.requestFocus();
-            }
-        }
-        return false;
-    }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_search:
                 Toast.makeText(context, "搜索", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_login:
-                Toast.makeText(context, "登录", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_open_vip:
-                Toast.makeText(context, "开通", Toast.LENGTH_SHORT).show();
-                break;
 
+                break;
+            case R.id.btn_free_trial:
+                Toast.makeText(context, "免费", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.btn_purchase:
+                Toast.makeText(context, "购买", Toast.LENGTH_SHORT).show();
+
+                break;
         }
     }
 }

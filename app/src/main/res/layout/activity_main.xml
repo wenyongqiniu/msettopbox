@@ -31,10 +31,9 @@
                 android:layout_height="28dp"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/system_serchb"
-                android:nextFocusRight="@+id/btn_login"
                 android:paddingLeft="10dp"
                 android:text="@string/hide_search"
-                android:textColor="@color/tv_color2"
+                android:textColor="@color/font_gray_white"
                 android:textSize="12sp" />
 
 
@@ -46,13 +45,10 @@
                 android:layout_toRightOf="@+id/btn_search"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/userinfo"
-                android:nextFocusLeft="@+id/btn_search"
-                android:nextFocusRight="@+id/btn_open_vip"
-
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/login"
-                android:textColor="@color/tv_color2"
+                android:textColor="@color/font_gray_white"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -65,7 +61,6 @@
                 android:layout_toRightOf="@+id/btn_login"
                 android:background="@drawable/tv_open_vip_bg"
                 android:drawableStart="@drawable/vip"
-                android:nextFocusLeft="@+id/btn_login"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/open_vip"
@@ -99,12 +94,12 @@
 
 
         <LinearLayout
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="117dp"
-            android:focusable="false"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:focusable="false"
             android:orientation="horizontal">
 
 
@@ -129,6 +124,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
                     android:text="@string/app_brief"
                     android:textColor="@color/tv_ffffff"
                     android:textSize="15dp" />
@@ -159,7 +155,8 @@
                 <TextView
                     android:id="@+id/tv_main_desc"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
                     android:paddingBottom="5dp"
@@ -187,8 +184,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" android:layout_marginTop="10dp"
-
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
             android:layout_marginBottom="32dp"
             android:focusable="false"
             android:focusableInTouchMode="false">
@@ -204,7 +201,8 @@
                 android:horizontalSpacing="15dp"
                 android:nextFocusUp="@+id/btn_open_vip"
                 android:numColumns="auto_fit"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:verticalSpacing="15dp" />
         </FrameLayout>
 
 

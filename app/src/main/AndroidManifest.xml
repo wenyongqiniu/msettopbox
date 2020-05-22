@@ -8,11 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.aspire.jshdc.devinfo.permission.READ" />
     <uses-permission android:name="com.aspire.jshdc.devinfo.permission.WRITE" />
-
-
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -24,18 +21,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.VideoDetailActivity">
+
+        </activity>
 
         <meta-data
             android:name="design_width_in_dp"
             android:value="960" />
 
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.TypeVideoActivity" />
         <activity
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
@@ -55,14 +59,9 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden">
 
-
         </activity>
         <activity android:name=".ui.activity.WebViewActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

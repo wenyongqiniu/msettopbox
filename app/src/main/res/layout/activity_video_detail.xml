@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    tools:context=".ui.activity.VideoDetailActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp">
+
+
+            <Button
+                android:id="@+id/btn_search"
+                android:layout_width="246dp"
+                android:layout_height="28dp"
+                android:background="@drawable/tv_bug_search_bg"
+                android:drawableStart="@drawable/system_serchb"
+                android:paddingLeft="10dp"
+                android:text="@string/hide_search"
+                android:textColor="@color/font_gray_white"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/tv_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="38dp"
+                android:text="@string/app_name"
+                android:textColor="@color/tv_f1f1f1"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="19dp"
+                android:layout_toLeftOf="@+id/tv_app_name"
+                android:text="15:42"
+                android:textColor="@color/tv_f1f1f1"
+                android:textSize="18sp" />
+
+
+        </RelativeLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="227dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginRight="30dp">
+
+                    <FrameLayout
+                        android:id="@+id/frame"
+                        android:layout_width="469dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_video_cover"
+                        android:padding="2dp">
+
+                        <ImageView
+                            android:id="@+id/iv_video_cover"
+                            android:layout_width="469dp"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            tools:src="@drawable/bitmap2" />
+
+                    </FrameLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/line_video_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/frame"
+                        android:orientation="vertical"
+                        android:paddingLeft="15dp">
+
+                        <TextView
+                            android:id="@+id/tv_video_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="#fff0f0f0"
+                            android:textSize="16sp"
+                            tools:text="面肌痉挛的治疗方法有哪些？" />
+
+                        <TextView
+                            android:id="@+id/tv_video_teacher"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:textColor="#fff0f0f0"
+                            android:textSize="16sp"
+                            tools:text="张智海（教授）" />
+
+
+                        <TextView
+                            android:id="@+id/tv_video_teacher_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:textColor="#F1F1F1"
+                            android:textSize="15sp"
+                            tools:text="简介：中国医科大学航空总医院骨科主任医师" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="36dp">
+
+                            <Button
+                                android:id="@+id/btn_free_trial"
+                                android:layout_width="98dp"
+                                android:layout_height="28dp"
+                                android:background="@drawable/btn_select_bg"
+                                android:text="@string/free_trial"
+                                android:textColor="@color/tv_f1f1f1"
+                                android:textSize="14sp" />
+
+                            <Button
+                                android:id="@+id/btn_purchase"
+                                android:layout_width="98dp"
+                                android:layout_height="28dp"
+                                android:layout_marginLeft="28dp"
+                                android:background="@drawable/btn_select_bg"
+                                android:text="@string/purchase"
+                                android:textColor="@color/tv_f1f1f1"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/btn_search"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false">
+
+
+                    <com.waoqi.tvwidget.view.GridViewTV
+                        android:id="@+id/gridviewtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:columnWidth="189dp"
+                        android:gravity="center_vertical"
+                        android:horizontalSpacing="5dp"
+                        android:nextFocusLeft="@+id/lv_video_menu_id_2"
+                        android:numColumns="auto_fit"
+                        android:scrollbars="none"
+                        android:verticalSpacing="5dp" />
+                </FrameLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <com.waoqi.tvwidget.view.MainUpView
+        android:id="@+id/mainUpView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</FrameLayout>
