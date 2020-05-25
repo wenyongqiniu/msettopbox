@@ -1,23 +1,15 @@
 package com.waoqi.msettopboxs.view;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewParent;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
 import cn.jzvd.JZUtils;
 import cn.jzvd.JzvdStd;
 
@@ -74,81 +66,64 @@ public class JzvdTvStd extends JzvdStd implements SeekBar.OnSeekBarChangeListene
         }
     }
 
-    /**
-     * 按下逻辑
-     *
-     * @param keyCode
-     */
-    public void onKeyDown(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_DPAD_LEFT://向左
-                changeUiToPauseShow();
 
-                startProgressTimer();
-                //当前时间
-                long quickRetreatCurrentPositionWhenPlaying = getCurrentPositionWhenPlaying();
-                //快退（15S）
-                long quickRetreatProgress = quickRetreatCurrentPositionWhenPlaying - 15 * 1000;
-                if (quickRetreatProgress > 0) {
-                    mediaInterface.seekTo(quickRetreatProgress);
-                } else {
-                    mediaInterface.seekTo(0);
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_RIGHT://向右
-                KLog.e("wlx", "向右快进");
-                changeUiToPauseShow();
+    public void quickRetreatProgress() {
+        mGestureDownPosition = getCurrentPositionWhenPlaying();
+        changeUiToPauseShow();
 
-                startProgressTimer();
-
-                //总时间长度
-                long duration = getDuration();
-                //当前时间
-                long currentPositionWhenPlaying = getCurrentPositionWhenPlaying();
-                //快进（15S）
-                long fastForwardProgress = currentPositionWhenPlaying + 15 * 1000;
-                if (duration > fastForwardProgress) {
-                    mediaInterface.seekTo(fastForwardProgress);
-                } else {
-                    mediaInterface.seekTo(duration);
-                }
-                break;
+        startProgressTimer();
+        //当前时间
+        long quickRetreatCurrentPositionWhenPlaying = getCurrentPositionWhenPlaying();
+        //快退（15S）
+        long quickRetreatProgress = quickRetreatCurrentPositionWhenPlaying - 15 * 1000;
+        KLog.e("wlx", "quickRetreatCurrentPositionWhenPlaying " + quickRetreatCurrentPositionWhenPlaying);
+        if (quickRetreatProgress > 0) {
+            mediaInterface.seekTo(quickRetreatProgress);
+        } else {
+            mediaInterface.seekTo(0);
         }
     }
 
-    /**
-     * 抬起逻辑
-     *
-     * @param keyCode
-     */
-    public void onKeyUp(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_DPAD_CENTER://中
-                if (state == STATE_NORMAL) {
-                    if (!jzDataSource.getCurrentUrl().toString().startsWith("file") && !
-                            jzDataSource.getCurrentUrl().toString().startsWith("/") &&
-                            !JZUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {//这个可以放到std中
-                        showWifiDialog();
-                        return;
-                    }
-                    startVideo();
-                } else if (state == STATE_PLAYING) {
-                    Log.d(TAG, "pauseVideo [" + this.hashCode() + "] ");
-                    mediaInterface.pause();
-                    onStatePause();
-                } else if (state == STATE_PAUSE) {
-                    mediaInterface.start();
-                    onStatePlaying();
-                } else if (state == STATE_AUTO_COMPLETE) {
-                    startVideo();
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_LEFT://向左
-            case KeyEvent.KEYCODE_DPAD_RIGHT://向右
-                startDismissControlViewTimer();
-                break;
-        }
 
+    public void fastForwardProgress() {
+        mGestureDownPosition = getCurrentPositionWhenPlaying();
+        changeUiToPauseShow();
+
+        startProgressTimer();
+        //总时间长度
+        long duration = getDuration();
+        //当前时间
+        long currentPositionWhenPlaying = getCurrentPositionWhenPlaying();
+        KLog.e("wlx", "currentPositionWhenPlaying " + currentPositionWhenPlaying);
+        //快进（15S）
+        long fastForwardProgress = currentPositionWhenPlaying + 15 * 1000;
+        if (duration > fastForwardProgress) {
+            mediaInterface.seekTo(fastForwardProgress);
+        } else {
+            mediaInterface.seekTo(duration);
+        }
+    }
+
+
+    public void center() {
+        if (state == STATE_NORMAL) {
+            if (!jzDataSource.getCurrentUrl().toString().startsWith("file") && !
+                    jzDataSource.getCurrentUrl().toString().startsWith("/") &&
+                    !JZUtils.isWifiConnected(getContext()) && !WIFI_TIP_DIALOG_SHOWED) {//这个可以放到std中
+                showWifiDialog();
+                return;
+            }
+            startVideo();
+        } else if (state == STATE_PLAYING) {
+            Log.d(TAG, "pauseVideo [" + this.hashCode() + "] ");
+            mediaInterface.pause();
+            onStatePause();
+        } else if (state == STATE_PAUSE) {
+            mediaInterface.start();
+            onStatePlaying();
+        } else if (state == STATE_AUTO_COMPLETE) {
+            startVideo();
+        }
     }
 
 
@@ -179,17 +154,44 @@ public class JzvdTvStd extends JzvdStd implements SeekBar.OnSeekBarChangeListene
     }
 
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        KLog.e("WLX", "onProgressChanged" + seekBar.getProgress() + "    fromUser:" + fromUser);
-
-
-        if (state != STATE_PLAYING &&
-                state != STATE_PAUSE) return;
-        long time = seekBar.getProgress() * getDuration() / 100;
-        seekToManulPosition = seekBar.getProgress();
-        mediaInterface.seekTo(time);
-
-    }
+//    @Override
+//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//        KLog.e("WLX", "onProgressChanged" + seekBar.getProgress() + "    fromUser:" + fromUser);
+//
+//        long totalTimeDuration = getDuration();
+//        if (fromUser) {
+//
+//
+//            if (state != STATE_PLAYING &&
+//                    state != STATE_PAUSE) return;
+//            long time = seekBar.getProgress() * getDuration() / 100;
+//            seekToManulPosition = seekBar.getProgress();
+//            if (mediaInterface != null) {
+//                mediaInterface.seekTo(time);
+//            }
+//
+//
+//            long duration = getDuration();
+//            int progress2 = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
+//            progressBar.setProgress(progress2);
+//
+//        } else {
+//
+//
+//            if (state != STATE_PLAYING &&
+//                    state != STATE_PAUSE) return;
+//            long time = seekBar.getProgress() * getDuration() / 100;
+//            seekToManulPosition = seekBar.getProgress();
+//            if (mediaInterface != null) {
+//                mediaInterface.seekTo(time);
+//            }
+//
+//
+//            long duration = getDuration();
+//            int progress2 = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
+//            progressBar.setProgress(progress2);
+//        }
+//
+//    }
 
 }

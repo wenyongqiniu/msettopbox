@@ -61,19 +61,37 @@ public class VideoViewActivty extends XActivity {
     }
 
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        video.onKeyDown(keyCode);
-        return true;
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_LEFT://向左
+                KLog.e("wlx", "向左快退");
+                video.quickRetreatProgress();
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT://向右
+                KLog.e("wlx", "向右快进");
+                video.fastForwardProgress();
+                break;
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-         video.onKeyUp(keyCode);
-        return true;
-    }
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_CENTER://中
+                video.center();
+                break;
+//            case KeyEvent.KEYCODE_DPAD_LEFT://向左
+//            case KeyEvent.KEYCODE_DPAD_RIGHT://向右
+//                startDismissControlViewTimer();
+//                break;
+        }
 
+        return super.onKeyUp(keyCode, event);
+
+    }
 
 
 }

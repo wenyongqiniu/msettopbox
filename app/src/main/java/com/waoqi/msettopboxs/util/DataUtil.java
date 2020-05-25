@@ -54,25 +54,25 @@ public class DataUtil {
     }
 
 
-    public static List<TypeListMenuBean> getTypeMenu1() {
-        List<TypeListMenuBean> list = new ArrayList<>();
+//    public static List<TypeListMenuBean> getTypeMenu1() {
+//        List<TypeListMenuBean> list = new ArrayList<>();
+//
+//        for (int i = 0; i < 10; i++) {
+//            list.add(new TypeListMenuBean(i, "标题测试" + i));
+//        }
+//
+//        return list;
+//    }
 
-        for (int i = 0; i < 10; i++) {
-            list.add(new TypeListMenuBean(i, "标题测试" + i));
-        }
-
-        return list;
-    }
-
-    public static List<TypeListMenuBean> getTypeMenu2() {
-        List<TypeListMenuBean> list = new ArrayList<>();
-
-        for (int i = 11; i < 20; i++) {
-            list.add(new TypeListMenuBean(i, "标题测试" + i));
-        }
-
-        return list;
-    }
+//    public static List<TypeListMenuBean> getTypeMenu2() {
+//        List<TypeListMenuBean> list = new ArrayList<>();
+//
+//        for (int i = 11; i < 20; i++) {
+//            list.add(new TypeListMenuBean(i, "标题测试" + i));
+//        }
+//
+//        return list;
+//    }
 
     public static List<VideoBean> getTypeVideo() {
         List<VideoBean> list = new ArrayList<>();

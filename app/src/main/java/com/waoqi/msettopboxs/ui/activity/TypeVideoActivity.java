@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.bean.SearchLevelBean;
+import com.waoqi.msettopboxs.bean.TypeListMenuBean;
 import com.waoqi.msettopboxs.presenter.TypeListPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
@@ -24,6 +26,9 @@ import com.waoqi.tvwidget.bridge.OpenEffectBridge;
 import com.waoqi.tvwidget.view.GridViewTV;
 import com.waoqi.tvwidget.view.ListViewTV;
 import com.waoqi.tvwidget.view.MainUpView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TypeVideoActivity extends XActivity<TypeListPresenter> implements View.OnClickListener {
     private static final String TAG = TypeVideoActivity.class.getName();
@@ -43,6 +48,9 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     private OpenEffectBridge mOpenEffectBridge;
     private View mOldGridView;
     private int point = 0; //gridview 位置
+    private List<SearchLevelBean> mSearchLevel = new ArrayList<>();
+    private List<TypeListMenuBean> mSearchLevel2 = new ArrayList<>();//二级分类
+
 
     @Override
     public void initView() {
@@ -60,28 +68,53 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
         initListView();
         initGridView();
+
+        getP().getSearchLevel();
+        getP().getSearchLevel(5);
+
     }
 
     private void initListView() {
-        mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type_menu_1, DataUtil.getTypeMenu1());
+        mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type_menu_1, mSearchLevel);
         lvVideoMenuId.setItemsCanFocus(true);
         lvVideoMenuId.requestFocus();
         lvVideoMenuId.setAdapter(mTypeListMenuAdpter);
-//        lvVideoMenuId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        lvVideoMenuId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SearchLevelBean searchLevelBean = mSearchLevel.get(position);
+                getP().getSearchLevel(searchLevelBean.getId());
+                lvVideoMenuId.setPoint(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+//        lvVideoMenuId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (view != null) {
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
 //
-//                    view.bringToFront();
+//                } else {
+//                    lvVideoMenuId2.setPoint(point);
 //                }
 //            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
 //        });
+        mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type_menu_2, mSearchLevel2);
+        lvVideoMenuId2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lvVideoMenuId2.setPoint(point);
+            }
 
-        mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type_menu_2, DataUtil.getTypeMenu2());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        lvVideoMenuId2.setItemsCanFocus(true);
         lvVideoMenuId2.setAdapter(mTypeListMenu2Adpter);
     }
 
@@ -167,7 +200,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
     @Override
     public TypeListPresenter newP() {
-        return null;
+        return new TypeListPresenter();
     }
 
     @Override
@@ -177,5 +210,19 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
                 Toast.makeText(context, "搜索", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    public void setSearchLevel(List<SearchLevelBean> searchLevel) {
+        mSearchLevel.clear();
+        mSearchLevel.addAll(searchLevel);
+        mTypeListMenuAdpter.notifyDataSetChanged();
+    }
+
+
+
+    public void setSearchLevel2(List<TypeListMenuBean> searchLevelBeanData) {
+        mSearchLevel2.clear();
+        mSearchLevel2.addAll(searchLevelBeanData);
+        mTypeListMenu2Adpter.notifyDataSetChanged();
     }
 }

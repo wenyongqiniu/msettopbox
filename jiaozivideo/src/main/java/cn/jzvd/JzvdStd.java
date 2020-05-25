@@ -230,55 +230,55 @@ public class JzvdStd extends Jzvd {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-//        int id = v.getId();
-//        if (id == R.id.surface_container) {
-//            switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                case MotionEvent.ACTION_MOVE:
-//                    break;
-//                case MotionEvent.ACTION_UP:
-//                    startDismissControlViewTimer();
-//                    if (mChangePosition) {
-//                        long duration = getDuration();
-//                        int progress = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
-//                        bottomProgressBar.setProgress(progress);
-//                    }
-//
-//                    //加上延时是为了判断点击是否是双击之一，双击不执行这个逻辑
-//                    Runnable task = () -> {
-//                        if (!mChangePosition && !mChangeVolume) {
-//                            onClickUiToggle();
-//                        }
-//                    };
-//                    v.postDelayed(task, doubleTime + 20);
-//                    delayTask.add(task);
-//                    while (delayTask.size() > 2) {
-//                        delayTask.pollFirst();
-//                    }
-//
-//                    long currentTimeMillis = System.currentTimeMillis();
-//                    if (currentTimeMillis - lastClickTime < doubleTime) {
-//                        for (Runnable taskItem : delayTask) {
-//                            v.removeCallbacks(taskItem);
-//                        }
-//                        if (state == STATE_PLAYING || state == STATE_PAUSE) {
-//                            Log.d(TAG, "doublClick [" + this.hashCode() + "] ");
-//                            startButton.performClick();
-//                        }
-//                    }
-//                    lastClickTime = currentTimeMillis;
-//                    break;
-//            }
-//        } else if (id == R.id.bottom_seek_progress) {
-//            switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    cancelDismissControlViewTimer();
-//                    break;
-//                case MotionEvent.ACTION_UP:
-//                    startDismissControlViewTimer();
-//                    break;
-//            }
-//        }
+        int id = v.getId();
+        if (id == R.id.surface_container) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_MOVE:
+                    break;
+                case MotionEvent.ACTION_UP:
+                    startDismissControlViewTimer();
+                    if (mChangePosition) {
+                        long duration = getDuration();
+                        int progress = (int) (mSeekTimePosition * 100 / (duration == 0 ? 1 : duration));
+                        bottomProgressBar.setProgress(progress);
+                    }
+
+                    //加上延时是为了判断点击是否是双击之一，双击不执行这个逻辑
+                    Runnable task = () -> {
+                        if (!mChangePosition && !mChangeVolume) {
+                            onClickUiToggle();
+                        }
+                    };
+                    v.postDelayed(task, doubleTime + 20);
+                    delayTask.add(task);
+                    while (delayTask.size() > 2) {
+                        delayTask.pollFirst();
+                    }
+
+                    long currentTimeMillis = System.currentTimeMillis();
+                    if (currentTimeMillis - lastClickTime < doubleTime) {
+                        for (Runnable taskItem : delayTask) {
+                            v.removeCallbacks(taskItem);
+                        }
+                        if (state == STATE_PLAYING || state == STATE_PAUSE) {
+                            Log.d(TAG, "doublClick [" + this.hashCode() + "] ");
+                            startButton.performClick();
+                        }
+                    }
+                    lastClickTime = currentTimeMillis;
+                    break;
+            }
+        } else if (id == R.id.bottom_seek_progress) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    cancelDismissControlViewTimer();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    startDismissControlViewTimer();
+                    break;
+            }
+        }
         return super.onTouch(v, event);
     }
 

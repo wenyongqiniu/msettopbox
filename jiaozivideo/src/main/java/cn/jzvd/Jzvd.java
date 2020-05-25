@@ -473,7 +473,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
 
     private void touchActionDown(float x, float y) {
         Log.i(TAG, "onTouch surfaceContainer actionDown [" + this.hashCode() + "] ");
-        mTouchingProgressBar = false;
+        mTouchingProgressBar = true;
 
         mDownX = x;
         mDownY = y;

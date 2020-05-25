@@ -30,6 +30,8 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/jz_bottom_bg"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="invisible">
@@ -65,8 +67,6 @@
             android:layout_toRightOf="@+id/current"
             android:layout_weight="1.0"
             android:background="@null"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:max="100"
             android:maxHeight="1dp"
             android:minHeight="1dp"

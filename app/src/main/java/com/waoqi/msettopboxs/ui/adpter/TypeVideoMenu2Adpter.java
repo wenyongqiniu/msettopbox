@@ -16,6 +16,6 @@ public class TypeVideoMenu2Adpter extends CommonAdapter<TypeListMenuBean> {
 
     @Override
     protected void convert(ViewHolder viewHolder, TypeListMenuBean item, int position) {
-        viewHolder.setText(R.id.tv_menu_2, item.getName());
+        viewHolder.setText(R.id.tv_menu_2, item.getAlbumName());
     }
 }
