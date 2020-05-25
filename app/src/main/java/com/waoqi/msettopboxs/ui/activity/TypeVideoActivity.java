@@ -74,6 +74,8 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
     }
 
+    private boolean islvVideoMenu1 = false;//lvVideoMenuId是否获取焦点
+
     private void initListView() {
         mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type_menu_1, mSearchLevel);
         lvVideoMenuId.setItemsCanFocus(true);
@@ -92,26 +94,42 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
             }
         });
-//        lvVideoMenuId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//
-//                } else {
-//                    lvVideoMenuId2.setPoint(point);
-//                }
-//            }
-//        });
+        lvVideoMenuId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                islvVideoMenu1 = hasFocus;
+                if (hasFocus) {
+                    lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
+                } else {
+
+                }
+            }
+        });
         mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type_menu_2, mSearchLevel2);
         lvVideoMenuId2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lvVideoMenuId2.setPoint(point);
+                lvVideoMenuId2.setPoint(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+        lvVideoMenuId2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.select_list));
+                } else {
+                    if (!islvVideoMenu1) {
+                        lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.select_list));
+                    } else {
+                        lvVideoMenuId2.setSelector(new ColorDrawable(Color.TRANSPARENT));
+
+                    }
+                }
             }
         });
         lvVideoMenuId2.setItemsCanFocus(true);
@@ -217,7 +235,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mSearchLevel.addAll(searchLevel);
         mTypeListMenuAdpter.notifyDataSetChanged();
     }
-
 
 
     public void setSearchLevel2(List<TypeListMenuBean> searchLevelBeanData) {
