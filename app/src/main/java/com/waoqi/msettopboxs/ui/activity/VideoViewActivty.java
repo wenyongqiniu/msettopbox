@@ -60,17 +60,20 @@ public class VideoViewActivty extends XActivity {
         return null;
     }
 
+
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         video.onKeyDown(keyCode);
-        return super.onKeyDown(keyCode, event);
+        return true;
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        video.onKeyUp(keyCode);
-        return super.onKeyUp(keyCode, event);
+         video.onKeyUp(keyCode);
+        return true;
     }
+
 
 
 }
