@@ -2,7 +2,7 @@ package com.waoqi.msettopboxs.bean;
 
 import java.util.List;
 
-public class VideoBean  extends BasePresponce<List<VideoBean>>{
+public class VideoDetailBean extends BasePresponce<VideoDetailBean>{
 
     /**
      * id : 17
@@ -32,7 +32,7 @@ public class VideoBean  extends BasePresponce<List<VideoBean>>{
     private int isPurchase;
     private int playOrder;
     private String tvUrl;
-    private Object tvDuration;
+    private String tvDuration;
     private String tvPicHead;
     private Object bitRate;
     private String viceoFormat;
@@ -112,11 +112,11 @@ public class VideoBean  extends BasePresponce<List<VideoBean>>{
         this.tvUrl = tvUrl;
     }
 
-    public Object getTvDuration() {
+    public String getTvDuration() {
         return tvDuration;
     }
 
-    public void setTvDuration(Object tvDuration) {
+    public void setTvDuration(String tvDuration) {
         this.tvDuration = tvDuration;
     }
 

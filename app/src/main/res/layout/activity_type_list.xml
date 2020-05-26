@@ -25,7 +25,7 @@
             android:descendantFocusability="afterDescendants"
             android:focusable="true"
             android:layout_marginTop="15dp"
-            android:listSelector="@drawable/lemon_liangguang_03"
+            android:listSelector="@drawable/select_list"
             android:layout_marginBottom="15dp"
             android:focusableInTouchMode="true"
             android:nextFocusRight="@+id/lv_video_menu_id_2"

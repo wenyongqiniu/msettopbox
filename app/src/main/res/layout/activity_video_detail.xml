@@ -28,6 +28,7 @@
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/system_serchb"
                 android:paddingLeft="10dp"
+                android:nextFocusRight="@+id/btn_free_trial"
                 android:text="@string/hide_search"
                 android:textColor="@color/font_gray_white"
                 android:textSize="12sp" />
@@ -146,6 +147,9 @@
                                 android:layout_height="28dp"
                                 android:background="@drawable/btn_select_bg"
                                 android:text="@string/free_trial"
+                                android:focusable="auto"
+                                android:nextFocusRight="@+id/btn_purchase"
+                                android:nextFocusLeft="@id/btn_search"
                                 android:textColor="@color/tv_f1f1f1"
                                 android:textSize="14sp" />
 
@@ -155,7 +159,9 @@
                                 android:layout_height="28dp"
                                 android:layout_marginLeft="28dp"
                                 android:background="@drawable/btn_select_bg"
+                                android:focusable="auto"
                                 android:text="@string/purchase"
+                                android:nextFocusDown="@+id/gridviewtv"
                                 android:textColor="@color/tv_f1f1f1"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -185,7 +191,7 @@
                         android:columnWidth="189dp"
                         android:gravity="center_vertical"
                         android:horizontalSpacing="5dp"
-                        android:nextFocusLeft="@+id/lv_video_menu_id_2"
+                        android:nextFocusUp="@+id/btn_free_trial"
                         android:numColumns="auto_fit"
                         android:scrollbars="none"
                         android:verticalSpacing="5dp" />

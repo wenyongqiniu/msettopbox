@@ -20,3 +20,21 @@
     多CDN调度员系统主地址 :CDNDispatchURL   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
     多CDN调度员系统备地址 :CDNDispatchURLBackup   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
 {"ResultCode":1000,"ResultDesc":"","Token":"JSHDC-ASPIRE-dc04bae8-e572-4e8f-a962-a213c950ac73"}
+
+
+
+
+
+{
+            "id": 411,
+            "cpAlbumId": "158813987059492",
+            "albumName": "妇科",
+            "cpTvId": "51",
+            "tvName": "12、针灸、推拿能治疗月经量少吗？需要和服药联合应用吗？",
+            "result": 2,
+            "errReason": "成功",
+            "seriesId": "sjsag003230100000000000000000061",
+            "programId": "pjsag003230100000000000000000061",
+            "movieId": "mjsag003230100000000000000000061",
+            "type": 1
+        }

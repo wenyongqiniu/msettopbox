@@ -4,6 +4,7 @@ import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
+import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
 import com.waoqi.msettopboxs.ui.activity.TypeVideoActivity;
@@ -42,6 +43,25 @@ public class TypeListPresenter extends XPresent<TypeVideoActivity> {
                     @Override
                     public void onNext(TypeListMenuBean searchLevelBean) {
                         getV().setSearchLevel2(searchLevelBean.getData());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+
+    }
+
+    public void getVideo(String cpAlbumId) {
+        MyApi.getMyApiService()
+                .getVideo(cpAlbumId)
+                .compose(XApi.<VideoBean>getApiTransformer())
+                .compose(XApi.<VideoBean>getScheduler())
+                .subscribe(new ApiSubscriber<VideoBean>() {
+                    @Override
+                    public void onNext(VideoBean videoBean) {
+                        getV().setVideoGridData(videoBean.getData());
                     }
 
                     @Override

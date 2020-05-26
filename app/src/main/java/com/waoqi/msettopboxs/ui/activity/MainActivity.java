@@ -1,5 +1,7 @@
 package com.waoqi.msettopboxs.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DevInfoManager;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -13,17 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chinamobile.authclient.AuthClient;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.presenter.MainPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
+import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DataUtil;
+import com.waoqi.msettopboxs.util.DateUtil;
+import com.waoqi.msettopboxs.util.DevInfoUtil;
+import com.waoqi.msettopboxs.util.OnResultCall;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
 import com.waoqi.tvwidget.bridge.OpenEffectBridge;
 import com.waoqi.tvwidget.view.GridViewTV;
 import com.waoqi.tvwidget.view.MainUpView;
+
+import org.json.JSONObject;
 
 
 public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
@@ -47,10 +56,13 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private OpenEffectBridge mOpenEffectBridge;
     private View mOldGridView;
     private int point = 0; //gridview 位置
+    private DevInfoManager devInfoManager;
 
-
+    @SuppressLint("WrongConstant")
     @Override
     public void initView() {
+        devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
+
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
@@ -70,6 +82,9 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         btnOpenVip.setOnClickListener(this);
 
         initGridView();
+
+        tvTime.setText(DateUtil.getTime());
+
     }
 
     private void initGridView() {
@@ -195,6 +210,18 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 break;
             case R.id.btn_login:
                 Toast.makeText(context, "登录", Toast.LENGTH_SHORT).show();
+
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        DataHelper.setStringSF(context, "token", token);
+
+                        getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
+                                ,token,devInfoManager.getValue(DevInfoManager.PHONE)
+                                ,devInfoManager.getValue(DevInfoManager.STB_MAC));
+                    }
+                });
+
                 break;
             case R.id.btn_open_vip:
                 Toast.makeText(context, "开通", Toast.LENGTH_SHORT).show();

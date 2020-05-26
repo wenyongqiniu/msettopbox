@@ -1,5 +1,8 @@
 package com.waoqi.msettopboxs.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DevInfoManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,18 +16,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.bean.VideoAddressBean;
+import com.waoqi.msettopboxs.bean.VideoBean;
+import com.waoqi.msettopboxs.bean.VideoDetailBean;
+import com.waoqi.msettopboxs.presenter.VideoDetailPresenter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
+import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DataUtil;
+import com.waoqi.msettopboxs.util.DateUtil;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
 import com.waoqi.tvwidget.bridge.OpenEffectBridge;
 import com.waoqi.tvwidget.view.GridViewTV;
 import com.waoqi.tvwidget.view.MainUpView;
 
-public class VideoDetailActivity extends XActivity implements View.OnClickListener {
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class VideoDetailActivity extends XActivity<VideoDetailPresenter> implements View.OnClickListener {
 
 
     private static final String TAG = VideoDetailActivity.class.getName();
@@ -48,6 +62,9 @@ public class VideoDetailActivity extends XActivity implements View.OnClickListen
 
     private TypeVideoGridViewAdpter mVideoGridViewAdpter;
 
+    private List<VideoBean> mVideoBeans = new ArrayList<>();
+    private int videoId;
+    private String classificationId;
 
     @Override
     public void initView() {
@@ -67,8 +84,15 @@ public class VideoDetailActivity extends XActivity implements View.OnClickListen
         btnSearch.setOnClickListener(this);
         btnFreeTrial.setOnClickListener(this);
         btnPurchase.setOnClickListener(this);
-
         initGridView();
+        videoId = getIntent().getIntExtra("videoId", 0);
+        classificationId = getIntent().getStringExtra("classificationId");
+
+        getP().getVideoDetail(videoId);
+        getP().getVideo(classificationId);
+
+        tvTime.setText(DateUtil.getTime());
+
     }
 
     private void initGridView() {
@@ -78,11 +102,9 @@ public class VideoDetailActivity extends XActivity implements View.OnClickListen
         mOpenEffectBridge.setDrawUpRectEnabled(false);
         mainUpView2.setEffectBridge(effectNoDrawBridge); // 4.3以下版本边框移动.
         mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
-
-
         gridviewtv.setIsSearch(true);
         mOpenEffectBridge.setVisibleWidget(true); // 隐藏
-        mVideoGridViewAdpter = new TypeVideoGridViewAdpter(this, R.layout.item_type_video, DataUtil.getTypeVideo());
+        mVideoGridViewAdpter = new TypeVideoGridViewAdpter(this, R.layout.item_type_video, mVideoBeans);
         gridviewtv.setAdapter(mVideoGridViewAdpter);
         gridviewtv.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -136,15 +158,21 @@ public class VideoDetailActivity extends XActivity implements View.OnClickListen
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArtUtils.startActivity(context, VideoViewActivty.class);
+                VideoBean videoBean = mVideoBeans.get(position);
+                Intent intent = new Intent(context, VideoDetailActivity.class);
+                intent.putExtra("videoId", videoBean.getId());
+                intent.putExtra("classificationId", classificationId);
+                ArtUtils.startActivity(context, intent);
             }
         });
     }
+
 
     @Override
     public void initData(Bundle savedInstanceState) {
 
     }
+
 
     @Override
     public int getLayoutId() {
@@ -152,8 +180,8 @@ public class VideoDetailActivity extends XActivity implements View.OnClickListen
     }
 
     @Override
-    public Object newP() {
-        return null;
+    public VideoDetailPresenter newP() {
+        return new VideoDetailPresenter();
     }
 
     @Override
@@ -165,12 +193,41 @@ public class VideoDetailActivity extends XActivity implements View.OnClickListen
                 break;
             case R.id.btn_free_trial:
                 Toast.makeText(context, "免费", Toast.LENGTH_SHORT).show();
-
+                getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
                 break;
             case R.id.btn_purchase:
                 Toast.makeText(context, "购买", Toast.LENGTH_SHORT).show();
-
                 break;
         }
+    }
+
+    private VideoDetailBean mVideoDetailBean;
+
+    public void setVideoDetail(VideoDetailBean videoBeanData) {
+        this.mVideoDetailBean = videoBeanData;
+        Glide.with(this)
+//                .load(videoBeanData.getTvPicHead())
+                .load(R.drawable.bitmap)
+                .into(ivVideoCover);
+
+
+        tvVideoTitle.setText(videoBeanData.getTvName());
+        tvVideoTeacher.setText("我是老师");
+        tvVideoTeacherDesc.setText(videoBeanData.getTvDesc());
+        //相关课程
+
+    }
+
+    public void setVideoGridData(List<VideoBean> videoBeans) {
+        mVideoBeans.clear();
+        mVideoBeans.addAll(videoBeans);
+        mVideoGridViewAdpter.notifyDataSetChanged();
+    }
+
+    public void startActivity(String videoAddress) {
+        Intent intent = new Intent(this, VideoViewActivty.class);
+        intent.putExtra("video", videoAddress);
+        intent.putExtra("local", false);
+        startActivity(intent);
     }
 }

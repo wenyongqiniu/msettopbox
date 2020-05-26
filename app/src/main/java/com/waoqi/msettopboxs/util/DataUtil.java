@@ -74,14 +74,14 @@ public class DataUtil {
 //        return list;
 //    }
 
-    public static List<VideoBean> getTypeVideo() {
-        List<VideoBean> list = new ArrayList<>();
-
-        for (int i = 20; i < 40; i++) {
-            list.add(new VideoBean(i, "http://182.92.118.35:8088/loadFile/draw/2020/05/22/fa4f9afc-f5f4-4b2f-a417-e7a9aece89f6.png", "视频标题是" + i));
-        }
-
-        return list;
-    }
+//    public static List<VideoBean> getTypeVideo() {
+//        List<VideoBean> list = new ArrayList<>();
+//
+//        for (int i = 20; i < 40; i++) {
+//            list.add(new VideoBean(i, "http://182.92.118.35:8088/loadFile/draw/2020/05/22/fa4f9afc-f5f4-4b2f-a417-e7a9aece89f6.png", "视频标题是" + i));
+//        }
+//
+//        return list;
+//    }
 
 }

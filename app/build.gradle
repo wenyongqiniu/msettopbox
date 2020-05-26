@@ -51,7 +51,7 @@ dependencies {
     implementation files('libs/jsmcc_sso.jar')
     implementation files('libs/DevinfoManager-2.0.1.jar')
     implementation project(path: ':core')
-    implementation project(path: ':jiaozivideo')
+//    implementation project(path: ':jiaozivideo')
     implementation project(path: ':tvwidget')
 //    implementation project(path: ':LibEasyWebview')
     implementation 'com.github.zhaokaiqiang.klog:library:1.6.0'

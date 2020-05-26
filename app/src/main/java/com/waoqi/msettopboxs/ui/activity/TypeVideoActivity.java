@@ -1,5 +1,8 @@
 package com.waoqi.msettopboxs.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DevInfoManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
+import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.presenter.TypeListPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
@@ -20,6 +24,7 @@ import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu1Adpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu2Adpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataUtil;
+import com.waoqi.msettopboxs.util.DateUtil;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
 import com.waoqi.tvwidget.bridge.OpenEffectBridge;
@@ -51,6 +56,9 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     private List<SearchLevelBean> mSearchLevel = new ArrayList<>();
     private List<TypeListMenuBean> mSearchLevel2 = new ArrayList<>();//二级分类
 
+    private List<VideoBean> mVideoBeans = new ArrayList<>();
+
+    private String classificationId;
 
     @Override
     public void initView() {
@@ -69,8 +77,11 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         initListView();
         initGridView();
 
+        tvTime.setText(DateUtil.getTime());
+
         getP().getSearchLevel();
         getP().getSearchLevel(5);
+        getP().getVideo("158813987059492");
 
     }
 
@@ -110,6 +121,9 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lvVideoMenuId2.setPoint(position);
+                TypeListMenuBean typeListMenuBean = mSearchLevel2.get(position);
+                classificationId = typeListMenuBean.getCpAlbumId();
+                getP().getVideo(typeListMenuBean.getCpAlbumId());
             }
 
             @Override
@@ -146,7 +160,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
         gridviewtv.setIsSearch(true);
         mOpenEffectBridge.setVisibleWidget(true); // 隐藏
-        mVideoGridViewAdpter = new TypeVideoGridViewAdpter(this, R.layout.item_type_video, DataUtil.getTypeVideo());
+        mVideoGridViewAdpter = new TypeVideoGridViewAdpter(this, R.layout.item_type_video, mVideoBeans);
         gridviewtv.setAdapter(mVideoGridViewAdpter);
         gridviewtv.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -200,15 +214,21 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArtUtils.startActivity(context, VideoDetailActivity.class);
+                VideoBean videoBean = mVideoBeans.get(position);
+                Intent intent = new Intent(context, VideoDetailActivity.class);
+                intent.putExtra("videoId", videoBean.getId());
+                intent.putExtra("classificationId", classificationId);
+                ArtUtils.startActivity(context, intent);
             }
         });
     }
 
+    private DevInfoManager devInfoManager;
 
+    @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
     }
 
     @Override
@@ -241,5 +261,11 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mSearchLevel2.clear();
         mSearchLevel2.addAll(searchLevelBeanData);
         mTypeListMenu2Adpter.notifyDataSetChanged();
+    }
+
+    public void setVideoGridData(List<VideoBean> videoBeanData) {
+        mVideoBeans.clear();
+        mVideoBeans.addAll(videoBeanData);
+        mVideoGridViewAdpter.notifyDataSetChanged();
     }
 }

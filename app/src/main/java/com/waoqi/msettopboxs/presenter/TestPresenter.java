@@ -1,22 +1,17 @@
 package com.waoqi.msettopboxs.presenter;
 
-import android.app.DevInfoManager;
-
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.Bean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
-import com.waoqi.msettopboxs.net.VerificationService;
 import com.waoqi.msettopboxs.ui.activity.MainActivity;
-import com.waoqi.msettopboxs.util.DataHelper;
+import com.waoqi.msettopboxs.ui.activity.Test;
 import com.waoqi.mvp.mvp.XPresent;
 import com.waoqi.mvp.net.ApiSubscriber;
 import com.waoqi.mvp.net.NetError;
 import com.waoqi.mvp.net.XApi;
 
-import static android.app.DevInfoManager.EPG_ADDRESS;
-
-public class MainPresenter extends XPresent<MainActivity> {
+public class TestPresenter extends XPresent<Test> {
 
     /**
      * 认证SSO
@@ -34,12 +29,9 @@ public class MainPresenter extends XPresent<MainActivity> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
-                        DataHelper.setStringSF(getV().getApplication(), "UserID", verificationBean.getUserID());
-                        DataHelper.setStringSF(getV().getApplication(), "OTTUserToken", verificationBean.getOTTUserToken());
-
                         KLog.a("wlx", verificationBean.getOTTUserToken());
-                        KLog.a("wlx", verificationBean.getUserID());
-                        heartBeat(epg_address,verificationBean.getOTTUserToken(),mobile_phone_number);
+
+                        heartBeat(epg_address, verificationBean.getOTTUserToken(), mobile_phone_number);
                     }
 
                     @Override

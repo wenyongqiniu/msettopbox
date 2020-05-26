@@ -19,11 +19,12 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
     @Override
     protected void convert(ViewHolder viewHolder, VideoBean item, int position) {
 
-        viewHolder.setText(R.id.tv_video_desc,item.getName());
+        viewHolder.setText(R.id.tv_video_desc, item.getTvName());
 
 
         Glide.with(mContext)
-                .load(item.getCover())
+//                .load(item.getCover())
+                .load(R.drawable.bitmap2)
                 .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
     }
 }
