@@ -4,8 +4,10 @@ import android.app.DevInfoManager;
 
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.Bean;
+import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
+import com.waoqi.msettopboxs.net.MyApi;
 import com.waoqi.msettopboxs.net.VerificationService;
 import com.waoqi.msettopboxs.ui.activity.MainActivity;
 import com.waoqi.msettopboxs.util.DataHelper;
@@ -77,7 +79,23 @@ public class MainPresenter extends XPresent<MainActivity> {
 
     }
 
+    public void getSearchLevel() {
+        MyApi.getMyApiService()
+                .getSearchLevel()
+                .compose(XApi.<SearchLevelBean>getApiTransformer())
+                .compose(XApi.<SearchLevelBean>getScheduler())
+                .subscribe(new ApiSubscriber<SearchLevelBean>() {
+                    @Override
+                    public void onNext(SearchLevelBean searchLevelBean) {
+                        getV().setSearchLevel(searchLevelBean.getData());
+                    }
 
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
 
 
 

@@ -2,8 +2,7 @@ package com.waoqi.msettopboxs.util;
 
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.ImageBean;
-import com.waoqi.msettopboxs.bean.TypeListMenuBean;
-import com.waoqi.msettopboxs.bean.VideoBean;
+import com.waoqi.msettopboxs.bean.SearchLevelBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,44 +10,79 @@ import java.util.List;
 public class DataUtil {
 
 
-    public static List<ImageBean> getImageBean() {
+    public static List<ImageBean> getImageBean(List<SearchLevelBean> levelList) {
         List<ImageBean> list = new ArrayList<>();
 
-        list.add(new ImageBean(R.drawable.img1));
-        list.add(new ImageBean(R.drawable.img2));
-        list.add(new ImageBean(R.drawable.img3));
-        list.add(new ImageBean(R.drawable.img4));
-        list.add(new ImageBean(R.drawable.img5));
-        list.add(new ImageBean(R.drawable.img6));
-        list.add(new ImageBean(R.drawable.img7));
-        list.add(new ImageBean(R.drawable.img8));
-        list.add(new ImageBean(R.drawable.img9));
-        list.add(new ImageBean(R.drawable.img10));
-        list.add(new ImageBean(R.drawable.img11));
-        list.add(new ImageBean(R.drawable.img12));
-        list.add(new ImageBean(R.drawable.img13));
-        list.add(new ImageBean(R.drawable.img14));
-        list.add(new ImageBean(R.drawable.img15));
-        list.add(new ImageBean(R.drawable.img16));
-        list.add(new ImageBean(R.drawable.img17));
-        list.add(new ImageBean(R.drawable.img18));
-        list.add(new ImageBean(R.drawable.img19));
-        list.add(new ImageBean(R.drawable.img20));
-        list.add(new ImageBean(R.drawable.img21));
-        list.add(new ImageBean(R.drawable.img22));
-        list.add(new ImageBean(R.drawable.img23));
-        list.add(new ImageBean(R.drawable.img24));
-        list.add(new ImageBean(R.drawable.img25));
-        list.add(new ImageBean(R.drawable.img26));
-        list.add(new ImageBean(R.drawable.img27));
-        list.add(new ImageBean(R.drawable.img28));
-        list.add(new ImageBean(R.drawable.img29));
-        list.add(new ImageBean(R.drawable.img30));
-        list.add(new ImageBean(R.drawable.img31));
-        list.add(new ImageBean(R.drawable.img32));
-        list.add(new ImageBean(R.drawable.img33));
-        list.add(new ImageBean(R.drawable.img34));
-
+        for (int i = 0; i < levelList.size(); i++) {
+            if (levelList.get(i).getName().contains("妈妈育儿"))
+                list.add(new ImageBean(R.drawable.img1, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("儿科"))
+                list.add(new ImageBean(R.drawable.img2, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("泌尿科"))
+                list.add(new ImageBean(R.drawable.img3, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("皮肤科"))
+                list.add(new ImageBean(R.drawable.img4, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("男科"))
+                list.add(new ImageBean(R.drawable.img5, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("不孕不育"))
+                list.add(new ImageBean(R.drawable.img6, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("消化科"))
+                list.add(new ImageBean(R.drawable.img7, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("医美"))
+                list.add(new ImageBean(R.drawable.img8, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("用药知识"))
+                list.add(new ImageBean(R.drawable.img9, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("神经系统"))
+                list.add(new ImageBean(R.drawable.img10, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("心理健康"))
+                list.add(new ImageBean(R.drawable.img11, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("中医"))
+                list.add(new ImageBean(R.drawable.img12, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("肿瘤"))
+                list.add(new ImageBean(R.drawable.img13, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("性病"))
+                list.add(new ImageBean(R.drawable.img14, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("风湿免疫科"))
+                list.add(new ImageBean(R.drawable.img15, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("常见感染疾病"))
+                list.add(new ImageBean(R.drawable.img16, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("肝炎"))
+                list.add(new ImageBean(R.drawable.img17, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("血液疾病"))
+                list.add(new ImageBean(R.drawable.img18, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("肛肠科"))
+                list.add(new ImageBean(R.drawable.img19, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("康复科"))
+                list.add(new ImageBean(R.drawable.img20, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("急救"))
+                list.add(new ImageBean(R.drawable.img21, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("骨科"))
+                list.add(new ImageBean(R.drawable.img22, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("呼吸科"))
+                list.add(new ImageBean(R.drawable.img23, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("耳鼻喉科"))
+                list.add(new ImageBean(R.drawable.img24, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("口腔科"))
+                list.add(new ImageBean(R.drawable.img25, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("护理"))
+                list.add(new ImageBean(R.drawable.img26, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("眼科"))
+                list.add(new ImageBean(R.drawable.img27, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("辅助检查"))
+                list.add(new ImageBean(R.drawable.img28, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("麻醉科"))
+                list.add(new ImageBean(R.drawable.img29, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("心脑血管系统"))
+                list.add(new ImageBean(R.drawable.img30, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("糖尿病"))
+                list.add(new ImageBean(R.drawable.img31, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("内分泌疾病"))
+                list.add(new ImageBean(R.drawable.img32, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("罕见病"))
+                list.add(new ImageBean(R.drawable.img33, levelList.get(i).getId()));
+            else if (levelList.get(i).getName().contains("妇科"))
+                list.add(new ImageBean(R.drawable.img34, levelList.get(i).getId()));
+        }
 
         return list;
     }

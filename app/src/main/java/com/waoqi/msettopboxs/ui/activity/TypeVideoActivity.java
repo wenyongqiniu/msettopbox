@@ -18,12 +18,10 @@ import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.presenter.TypeListPresenter;
-import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu1Adpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu2Adpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
-import com.waoqi.msettopboxs.util.DataUtil;
 import com.waoqi.msettopboxs.util.DateUtil;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
@@ -59,9 +57,11 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     private List<VideoBean> mVideoBeans = new ArrayList<>();
 
     private String classificationId;
+    private int typeId;
 
     @Override
     public void initView() {
+        typeId = getIntent().getIntExtra("main_type_id", 0);
         lvVideoMenuId = (ListViewTV) findViewById(R.id.lv_video_menu_id);
         lvVideoMenuId2 = (ListViewTV) findViewById(R.id.lv_video_menu_id_2);
         btnSearch = (Button) findViewById(R.id.btn_search);
@@ -80,7 +80,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         tvTime.setText(DateUtil.getTime());
 
         getP().getSearchLevel();
-        getP().getSearchLevel(5);
+        getP().getSearchLevel(typeId);
         getP().getVideo("158813987059492");
 
     }
@@ -253,6 +253,10 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     public void setSearchLevel(List<SearchLevelBean> searchLevel) {
         mSearchLevel.clear();
         mSearchLevel.addAll(searchLevel);
+        for (int i = 0; i < mSearchLevel.size(); i++) {
+            if (mSearchLevel.get(i).getId() == typeId)
+                lvVideoMenuId.setSelection(i);
+        }
         mTypeListMenuAdpter.notifyDataSetChanged();
     }
 

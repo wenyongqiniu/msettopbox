@@ -2,8 +2,8 @@ package com.waoqi.msettopboxs.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.DevInfoManager;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -15,12 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chinamobile.authclient.AuthClient;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.bean.ImageBean;
+import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.presenter.MainPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
-import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DataUtil;
 import com.waoqi.msettopboxs.util.DateUtil;
@@ -32,7 +32,8 @@ import com.waoqi.tvwidget.bridge.OpenEffectBridge;
 import com.waoqi.tvwidget.view.GridViewTV;
 import com.waoqi.tvwidget.view.MainUpView;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
@@ -58,6 +59,8 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private int point = 0; //gridview 位置
     private DevInfoManager devInfoManager;
 
+    private List<ImageBean> typeList = new ArrayList<>();
+
     @SuppressLint("WrongConstant")
     @Override
     public void initView() {
@@ -81,6 +84,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         btnLogin.setOnClickListener(this);
         btnOpenVip.setOnClickListener(this);
 
+        getP().getSearchLevel();
         initGridView();
 
         tvTime.setText(DateUtil.getTime());
@@ -97,7 +101,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         gridviewtv.setIsSearch(true);
         mOpenEffectBridge.setVisibleWidget(true); // 隐藏
-        mMainAdpter = new MainAdpter(this, R.layout.item_image, DataUtil.getImageBean());
+        mMainAdpter = new MainAdpter(this, R.layout.item_image, typeList);
         gridviewtv.setAdapter(mMainAdpter);
         gridviewtv.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -151,7 +155,10 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArtUtils.startActivity(context, TypeVideoActivity.class);
+//                ArtUtils.startActivity(context, TypeVideoActivity.class);
+                Intent intent = new Intent(context, TypeVideoActivity.class);
+                intent.putExtra("main_type_id", typeList.get(position).getTypeId());
+                startActivity(intent);
             }
         });
     }
@@ -217,8 +224,8 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                         DataHelper.setStringSF(context, "token", token);
 
                         getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
-                                ,token,devInfoManager.getValue(DevInfoManager.PHONE)
-                                ,devInfoManager.getValue(DevInfoManager.STB_MAC));
+                                , token, devInfoManager.getValue(DevInfoManager.PHONE)
+                                , devInfoManager.getValue(DevInfoManager.STB_MAC));
                     }
                 });
 
@@ -228,5 +235,11 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 break;
 
         }
+    }
+
+    public void setSearchLevel(List<SearchLevelBean> searchLevel) {
+        typeList.clear();
+        typeList.addAll(DataUtil.getImageBean(searchLevel));
+        mMainAdpter.notifyDataSetChanged();
     }
 }
