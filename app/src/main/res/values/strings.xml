@@ -9,4 +9,7 @@
     <string name="classification">学科分类</string>
     <string name="free_trial">免费试看</string>
     <string name="purchase">立即购买</string>
+    <string name="mediacontroller_play_pause">暂停</string>
+    <string name="lockscreen_transport_play_description">播放</string>
+    <string name="lockscreen_transport_pause_description">停止</string>
 </resources>

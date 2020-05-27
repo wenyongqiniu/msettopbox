@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -205,15 +206,24 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
-        Glide.with(this)
-//                .load(videoBeanData.getTvPicHead())
-                .load(R.drawable.bitmap)
-                .into(ivVideoCover);
+
+
+        if (TextUtils.isEmpty(videoBeanData.getTvPicHead())) {
+            Glide.with(this)
+                    .load(R.drawable.bitmap2)
+                    .into(ivVideoCover);
+        } else {
+            Glide.with(this)
+                    .load(videoBeanData.getTvPicHead())
+                    .into(ivVideoCover);
+        }
+
 
 
         tvVideoTitle.setText(videoBeanData.getTvName());
-        tvVideoTeacher.setText("我是老师");
-        tvVideoTeacherDesc.setText(videoBeanData.getTvDesc());
+
+//        tvVideoTeacher.setText("我是老师");
+//        tvVideoTeacherDesc.setText(videoBeanData.getTvDesc());
         //相关课程
 
     }

@@ -1,6 +1,7 @@
 package com.waoqi.msettopboxs.ui.adpter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -21,10 +22,14 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
 
         viewHolder.setText(R.id.tv_video_desc, item.getTvName());
 
-
-        Glide.with(mContext)
-//                .load(item.getCover())
-                .load(R.drawable.bitmap2)
-                .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
+        if (TextUtils.isEmpty(item.getTvPicHead())) {
+            Glide.with(mContext)
+                    .load(R.drawable.bitmap2)
+                    .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
+        } else {
+            Glide.with(mContext)
+                    .load(item.getTvPicHead())
+                    .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
+        }
     }
 }

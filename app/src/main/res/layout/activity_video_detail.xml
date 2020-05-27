@@ -27,8 +27,8 @@
                 android:layout_height="28dp"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/system_serchb"
-                android:paddingLeft="10dp"
                 android:nextFocusRight="@+id/btn_free_trial"
+                android:paddingLeft="10dp"
                 android:text="@string/hide_search"
                 android:textColor="@color/font_gray_white"
                 android:textSize="12sp" />
@@ -115,9 +115,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
+                            android:text="高润霖 （院士 ）"
                             android:textColor="#fff0f0f0"
-                            android:textSize="16sp"
-                            tools:text="张智海（教授）" />
+                            android:textSize="16sp" />
 
 
                         <TextView
@@ -125,9 +125,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
+                            android:text="简介：中国医学科学院阜外医院 原院长 博士生导师"
                             android:textColor="#F1F1F1"
-                            android:textSize="15sp"
-                            tools:text="简介：中国医科大学航空总医院骨科主任医师" />
+                            android:textSize="15sp" />
 
                         <View
                             android:layout_width="wrap_content"
@@ -146,10 +146,10 @@
                                 android:layout_width="98dp"
                                 android:layout_height="28dp"
                                 android:background="@drawable/btn_select_bg"
-                                android:text="@string/free_trial"
                                 android:focusable="auto"
-                                android:nextFocusRight="@+id/btn_purchase"
                                 android:nextFocusLeft="@id/btn_search"
+                                android:nextFocusRight="@+id/btn_purchase"
+                                android:text="@string/free_trial"
                                 android:textColor="@color/tv_f1f1f1"
                                 android:textSize="14sp" />
 
@@ -160,8 +160,8 @@
                                 android:layout_marginLeft="28dp"
                                 android:background="@drawable/btn_select_bg"
                                 android:focusable="auto"
-                                android:text="@string/purchase"
                                 android:nextFocusDown="@+id/gridviewtv"
+                                android:text="@string/purchase"
                                 android:textColor="@color/tv_f1f1f1"
                                 android:textSize="14sp" />
                         </LinearLayout>

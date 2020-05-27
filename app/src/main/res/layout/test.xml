@@ -23,20 +23,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="click"
-        android:text="接口3" />
+        android:text="本地视频" />
 
     <Button
         android:id="@+id/btn4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="click"
-        android:text="接口4" />
+        android:text="网络视频" />
 
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="click"
-        android:text="接口5" />
 
 </LinearLayout>

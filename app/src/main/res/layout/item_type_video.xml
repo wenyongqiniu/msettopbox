@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
         android:scaleType="center"
-        android:src="@drawable/bitmap2" />
+        tools:src="@drawable/bitmap2" />
 
 
     <TextView
