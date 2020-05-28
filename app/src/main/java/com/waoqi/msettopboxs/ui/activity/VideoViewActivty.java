@@ -50,7 +50,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 //        videoView.setVideoPath(localVideoPath);
         //读取放在raw目录下的文件
 //        videoView.setVideoURI(Uri.parse("android.resource://com.jay.videoviewdemo/" + R.raw.lesson));
-        videoView.setMediaController(new MyMediaController(this));
+        videoView.setMediaController(new MyMediaController(this, "视频标题"));
 //        videoView.setMediaController(new MediaController(this));
 
         videoView.start();

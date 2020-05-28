@@ -103,7 +103,7 @@
             android:orientation="horizontal">
 
 
-            <ImageView
+            \<ImageView
                 android:id="@+id/iv_main_1"
                 android:layout_width="283dp"
                 android:layout_height="match_parent"
@@ -149,7 +149,7 @@
                     android:id="@+id/iv_main_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/bitmap" />
+                    android:src="@drawable/bitmap4" />
 
 
                 <TextView

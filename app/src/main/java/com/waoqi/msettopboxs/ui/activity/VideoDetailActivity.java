@@ -86,11 +86,13 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         btnFreeTrial.setOnClickListener(this);
         btnPurchase.setOnClickListener(this);
         initGridView();
+
         videoId = getIntent().getIntExtra("videoId", 0);
         classificationId = getIntent().getStringExtra("classificationId");
 
         getP().getVideoDetail(videoId);
         getP().getVideo(classificationId);
+
 
         tvTime.setText(DateUtil.getTime());
 
@@ -168,6 +170,17 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+
+        videoId = intent.getIntExtra("videoId", 0);
+        classificationId = intent.getStringExtra("classificationId");
+        KLog.e("wlx", "onNewIntent  videoId:" + videoId + "   classificationId:" + classificationId);
+        getP().getVideoDetail(videoId);
+        getP().getVideo(classificationId);
+    }
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -193,8 +206,12 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
                 break;
             case R.id.btn_free_trial:
-                Toast.makeText(context, "免费", Toast.LENGTH_SHORT).show();
-                getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+                String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");
+                if (TextUtils.isEmpty(ottUserToken)) {
+                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                } else {
+                    getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+                }
                 break;
             case R.id.btn_purchase:
                 Toast.makeText(context, "购买", Toast.LENGTH_SHORT).show();
@@ -217,7 +234,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                     .load(videoBeanData.getTvPicHead())
                     .into(ivVideoCover);
         }
-
 
 
         tvVideoTitle.setText(videoBeanData.getTvName());

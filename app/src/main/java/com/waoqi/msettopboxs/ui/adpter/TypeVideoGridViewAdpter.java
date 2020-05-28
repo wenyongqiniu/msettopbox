@@ -24,7 +24,7 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
 
         if (TextUtils.isEmpty(item.getTvPicHead())) {
             Glide.with(mContext)
-                    .load(R.drawable.bitmap2)
+                    .load(R.drawable.bitmap3)
                     .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
         } else {
             Glide.with(mContext)

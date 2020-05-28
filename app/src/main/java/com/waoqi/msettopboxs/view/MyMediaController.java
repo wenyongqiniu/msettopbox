@@ -10,15 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.util.DateUtil;
 
+import java.lang.reflect.Field;
 import java.util.Formatter;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MyMediaController extends MediaController {
 
@@ -26,6 +32,8 @@ public class MyMediaController extends MediaController {
     private Context mContext;
     private View mRoot;
 
+    private TextView title;
+    private TextView tv_time;
     private ProgressBar mProgress;
     private TextView mEndTime, mCurrentTime;
 
@@ -34,8 +42,9 @@ public class MyMediaController extends MediaController {
 
     StringBuilder mFormatBuilder;
     Formatter mFormatter;
-    private ImageButton mPauseButton;
+    private ImageView mPauseButton;
 
+    private String mTitle;
     private CharSequence mPlayDescription;
     private CharSequence mPauseDescription;
 
@@ -51,9 +60,10 @@ public class MyMediaController extends MediaController {
 
     }
 
-    public MyMediaController(Context context) {
+    public MyMediaController(Context context, String title) {
         super(context, true);
         this.mContext = context;
+        this.mTitle = title;
     }
 
 
@@ -88,16 +98,16 @@ public class MyMediaController extends MediaController {
         mPlayDescription = res.getText(R.string.lockscreen_transport_play_description);
         mPauseDescription = res.getText(R.string.lockscreen_transport_pause_description);
         mPauseButton = v.findViewById(R.id.pause);
-        if (mPauseButton != null) {
-            mPauseButton.requestFocus();
-            mPauseButton.setOnClickListener(mPauseListener);
-        }
 
+
+        title = v.findViewById(R.id.title);
+        tv_time = v.findViewById(R.id.tv_time);
         mProgress = v.findViewById(R.id.mediacontroller_progress);
         if (mProgress != null) {
             if (mProgress instanceof SeekBar) {
                 SeekBar seeker = (SeekBar) mProgress;
-                mProgress.setOnClickListener(mPauseListener);
+                seeker.requestFocus();
+                seeker.setOnClickListener(mPauseListener);
                 seeker.setOnSeekBarChangeListener(mSeekListener);
 
             }
@@ -109,6 +119,8 @@ public class MyMediaController extends MediaController {
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
+        tv_time.setText(DateUtil.getTime());
+        title.setText(mTitle);
     }
 
     @Override
@@ -150,9 +162,10 @@ public class MyMediaController extends MediaController {
     private final View.OnClickListener mPauseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            cancelProgressTimer();
+            startProgressTimer();
             doPauseResume();
             setProgress();
-            show(sDefaultTimeout);
         }
     };
 
@@ -160,8 +173,10 @@ public class MyMediaController extends MediaController {
     private void doPauseResume() {
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
+            show(0);
         } else {
             mPlayer.start();
+            show(sDefaultTimeout);
         }
         updatePausePlay();
     }
@@ -211,13 +226,43 @@ public class MyMediaController extends MediaController {
             return;
 
         if (mPlayer.isPlaying()) {
-            mPauseButton.setImageResource(R.drawable.ic_media_pause);
+            mPauseButton.setImageResource(R.drawable.jz_pause_normal);
             mPauseButton.setContentDescription(mPauseDescription);
         } else {
-            mPauseButton.setImageResource(R.drawable.ic_media_play);
+            mPauseButton.setImageResource(R.drawable.jz_play_normal);
             mPauseButton.setContentDescription(mPlayDescription);
         }
     }
 
+
+    protected Timer UPDATE_PROGRESS_TIMER;
+    protected ProgressTimerTask mProgressTimerTask;
+
+    private void startProgressTimer() {
+        cancelProgressTimer();
+        UPDATE_PROGRESS_TIMER = new Timer();
+        mProgressTimerTask = new ProgressTimerTask();
+        UPDATE_PROGRESS_TIMER.schedule(mProgressTimerTask, 0, 300);
+    }
+
+    private void cancelProgressTimer() {
+        if (UPDATE_PROGRESS_TIMER != null) {
+            UPDATE_PROGRESS_TIMER.cancel();
+        }
+        if (mProgressTimerTask != null) {
+            mProgressTimerTask.cancel();
+        }
+    }
+
+    private class ProgressTimerTask extends TimerTask {
+        @Override
+        public void run() {
+            post(() -> {
+                setProgress();
+                tv_time.setText(DateUtil.getTime());
+            });
+
+        }
+    }
 
 }
