@@ -227,7 +227,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
         if (TextUtils.isEmpty(videoBeanData.getTvPicHead())) {
             Glide.with(this)
-                    .load(R.drawable.bitmap2)
+                    .load(R.drawable.bitmap3)
                     .into(ivVideoCover);
         } else {
             Glide.with(this)

@@ -87,7 +87,7 @@
                             android:layout_width="469dp"
                             android:layout_height="match_parent"
                             android:scaleType="fitXY"
-                            tools:src="@drawable/bitmap3" />
+                            android:src="@drawable/bitmap3" />
 
                     </FrameLayout>
 

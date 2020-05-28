@@ -39,7 +39,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="19dp"
-            android:layout_toLeftOf="@+id/tv_app_name"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"
