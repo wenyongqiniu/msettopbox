@@ -27,6 +27,9 @@ public interface MyAppService {
     @GET("api/home/searchAllVideoUploadTvlistByCpAlbumId")
     Flowable<VideoBean> getVideo(@Query("cpAlbumId") String cpAlbumId);
 
+    //关键字查询
+    @GET("api/home/searchVideoByCondition")
+    Flowable<VideoBean> search(@Query("condition") String condition);
 
     //视频详情
     @GET("api/home/searchVideoUploadTvlistById")

@@ -245,7 +245,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_search:
-                Toast.makeText(context, "搜索", Toast.LENGTH_SHORT).show();
+                ArtUtils.startActivity(this, SearchActivity.class);
                 break;
         }
     }

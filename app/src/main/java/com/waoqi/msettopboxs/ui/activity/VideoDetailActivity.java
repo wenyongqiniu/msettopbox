@@ -202,8 +202,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_search:
-                Toast.makeText(context, "搜索", Toast.LENGTH_SHORT).show();
-
+                ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_free_trial:
                 String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");

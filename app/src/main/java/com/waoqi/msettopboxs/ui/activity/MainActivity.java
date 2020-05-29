@@ -21,6 +21,7 @@ import com.waoqi.msettopboxs.bean.ImageBean;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.presenter.MainPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
+import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DataUtil;
 import com.waoqi.msettopboxs.util.DateUtil;
@@ -213,7 +214,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_search:
-                Toast.makeText(context, "搜索", Toast.LENGTH_SHORT).show();
+                ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_login:
                 Toast.makeText(context, "登录", Toast.LENGTH_SHORT).show();
