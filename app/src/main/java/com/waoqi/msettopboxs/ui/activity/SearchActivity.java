@@ -58,7 +58,6 @@ public class SearchActivity extends XActivity<SearchPresenter> {
                 getP().getVideo(str);
             }
         });
-        getP().getVideo("妇科");
         searchET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
