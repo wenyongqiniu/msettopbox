@@ -81,7 +81,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
         getP().getSearchLevel();
         getP().getSearchLevel(typeId);
-        getP().getVideo("158813987059492");
+//        getP().getVideo("158813987059492");
 
     }
 
@@ -112,7 +112,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
                 if (hasFocus) {
                     lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
                 } else {
-
+                    lvVideoMenuId2.setSelector(new ColorDrawable(Color.TRANSPARENT));
                 }
             }
         });
@@ -135,10 +135,10 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.select_list));
+                    lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
                 } else {
                     if (!islvVideoMenu1) {
-                        lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.select_list));
+                        lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
                     } else {
                         lvVideoMenuId2.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
@@ -254,8 +254,10 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mSearchLevel.clear();
         mSearchLevel.addAll(searchLevel);
         for (int i = 0; i < mSearchLevel.size(); i++) {
-            if (mSearchLevel.get(i).getId() == typeId)
+            if (mSearchLevel.get(i).getId() == typeId) {
                 lvVideoMenuId.setSelection(i);
+                lvVideoMenuId2.setSelection(0);
+            }
         }
         mTypeListMenuAdpter.notifyDataSetChanged();
     }

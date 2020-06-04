@@ -40,7 +40,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:descendantFocusability="afterDescendants"
-            android:listSelector="@drawable/select_list"
+            android:listSelector="@drawable/lemon_liangguang_03"
             android:nextFocusLeft="@+id/lv_video_menu_id"
             android:nextFocusRight="@+id/gridviewtv"
             android:scrollbars="none" />
