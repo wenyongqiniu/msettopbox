@@ -16,7 +16,7 @@ public class MyApi {
         if (sMyAppService == null) {
             synchronized (MyApi.class) {
                 if (sMyAppService == null) {
-                    sMyAppService = XApi.getInstance().getRetrofit("http://36.156.158.245:8089", true).create(MyAppService.class);
+                    sMyAppService = XApi.getInstance().getRetrofit("http://36.156.158.245:8081", true).create(MyAppService.class);
                 }
             }
         }

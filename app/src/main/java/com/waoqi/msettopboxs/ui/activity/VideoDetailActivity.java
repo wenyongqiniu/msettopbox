@@ -1,33 +1,26 @@
 package com.waoqi.msettopboxs.ui.activity;
 
-import android.annotation.SuppressLint;
-import android.app.DevInfoManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
-import com.waoqi.msettopboxs.bean.VideoAddressBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
 import com.waoqi.msettopboxs.presenter.VideoDetailPresenter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
-import com.waoqi.msettopboxs.util.DataUtil;
 import com.waoqi.msettopboxs.util.DateUtil;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
@@ -36,7 +29,6 @@ import com.waoqi.tvwidget.view.GridViewTV;
 import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class VideoDetailActivity extends XActivity<VideoDetailPresenter> implements View.OnClickListener {
@@ -173,8 +165,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
-
         videoId = intent.getIntExtra("videoId", 0);
         classificationId = intent.getStringExtra("classificationId");
         KLog.e("wlx", "onNewIntent  videoId:" + videoId + "   classificationId:" + classificationId);
@@ -222,8 +212,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
-
-
         if (TextUtils.isEmpty(videoBeanData.getTvPicHead())) {
             Glide.with(this)
                     .load(R.drawable.bitmap3)

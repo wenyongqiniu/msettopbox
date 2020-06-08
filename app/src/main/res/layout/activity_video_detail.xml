@@ -167,35 +167,40 @@
                         </LinearLayout>
                     </LinearLayout>
 
-
                 </RelativeLayout>
 
-
-                <FrameLayout
+                <com.waoqi.tvwidget.view.SmoothHorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/btn_search"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false">
+                    android:fillViewport="true"
+                    android:overScrollMode="always">
 
-
-                    <com.waoqi.tvwidget.view.GridViewTV
-                        android:id="@+id/gridviewtv"
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:clipChildren="false"
-                        android:columnWidth="189dp"
-                        android:gravity="center_vertical"
-                        android:horizontalSpacing="5dp"
-                        android:nextFocusUp="@+id/btn_free_trial"
-                        android:numColumns="auto_fit"
-                        android:scrollbars="none"
-                        android:verticalSpacing="5dp" />
-                </FrameLayout>
+                        android:layout_below="@+id/btn_search"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginBottom="30dp"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false">
+
+
+                        <com.waoqi.tvwidget.view.GridViewTV
+                            android:id="@+id/gridviewtv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipChildren="false"
+                            android:columnWidth="189dp"
+                            android:gravity="center_vertical"
+                            android:horizontalSpacing="5dp"
+                            android:nextFocusUp="@+id/btn_free_trial"
+                            android:numColumns="auto_fit"
+                            android:scrollbars="none"
+                            android:verticalSpacing="5dp" />
+                    </FrameLayout>
+                </com.waoqi.tvwidget.view.SmoothHorizontalScrollView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

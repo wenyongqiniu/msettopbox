@@ -1,10 +1,12 @@
 package com.waoqi.msettopboxs.presenter;
 
 import android.app.DevInfoManager;
+import android.util.Log;
 
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.Bean;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
+import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
@@ -97,6 +99,23 @@ public class MainPresenter extends XPresent<MainActivity> {
                 });
     }
 
+    public void toLogin(String phone) {
+        MyApi.getMyApiService()
+                .login(phone)
+                .compose(XApi.<UserBean>getApiTransformer())
+                .compose(XApi.<UserBean>getScheduler())
+                .subscribe(new ApiSubscriber<UserBean>() {
+                    @Override
+                    public void onNext(UserBean userBean) {
+                        getV().getUserInfo(userBean.getData());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
 
 
 }

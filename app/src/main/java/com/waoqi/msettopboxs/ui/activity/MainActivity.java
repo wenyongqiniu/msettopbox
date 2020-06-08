@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +21,7 @@ import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.ImageBean;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
+import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.presenter.MainPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
@@ -217,8 +220,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_login:
-                Toast.makeText(context, "登录", Toast.LENGTH_SHORT).show();
-
                 DevInfoUtil.getToken(this, new OnResultCall() {
                     @Override
                     public void onResult(String token) {
@@ -229,6 +230,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                                 , devInfoManager.getValue(DevInfoManager.STB_MAC));
                     }
                 });
+                getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE));
 
                 break;
             case R.id.btn_open_vip:
@@ -242,5 +244,12 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         typeList.clear();
         typeList.addAll(DataUtil.getImageBean(searchLevel));
         mMainAdpter.notifyDataSetChanged();
+    }
+
+    public void getUserInfo(UserBean userBean) {
+        Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
+        if (userBean.getIsVip() == 0)
+            btnOpenVip.setText("已开通");
+        btnLogin.setText(TextUtils.isEmpty(userBean.getPhone()) ? "用户" : userBean.getPhone());
     }
 }

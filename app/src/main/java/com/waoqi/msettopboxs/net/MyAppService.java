@@ -1,9 +1,8 @@
 package com.waoqi.msettopboxs.net;
 
-import com.waoqi.msettopboxs.bean.Bean;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
-import com.waoqi.msettopboxs.bean.VerificationBean;
+import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.bean.VideoAddressBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
@@ -13,6 +12,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MyAppService {
+
+    //登录
+    @GET("api/home/loginByPhone")
+    Flowable<UserBean> login(@Query("phone") String phone);
 
     //获取一级分类
     @GET("api/home/searchAllTopLevel")
@@ -38,6 +41,7 @@ public interface MyAppService {
     //视频播放地址
     @GET("api/home/searchVideoByCpAlbumIdAndCpTvId")
     Flowable<VideoAddressBean> getVideoAddress(@Query("cpAlbumId") String cpAlbumId, @Query("cpTvId") int cpTvId);
+
 
 
 }
