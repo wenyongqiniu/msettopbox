@@ -21,6 +21,7 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
     protected void convert(ViewHolder viewHolder, VideoBean item, int position) {
 
         viewHolder.setText(R.id.tv_video_desc, item.getTvName());
+        viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 1 ? true : false);
 
         if (TextUtils.isEmpty(item.getTvPicHead())) {
             Glide.with(mContext)

@@ -29,7 +29,7 @@ public class VideoBean  extends BasePresponce<List<VideoBean>>{
     private String tvName;
     private int tvIsEffective;
     private int tvIsOnline;
-    private int isPurchase;
+    private int isPurchase;//是否收费 0免费 1收费
     private int playOrder;
     private String tvUrl;
     private Object tvDuration;
