@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.ImageBean;
@@ -24,6 +27,7 @@ import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.presenter.MainPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
+import com.waoqi.msettopboxs.ui.pop.CustomFullScreenPopup;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DataUtil;
@@ -38,6 +42,8 @@ import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 
 public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
@@ -212,6 +218,14 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         return false;
     }
 
+    private void customPop() {
+        new XPopup.Builder(this)
+                .hasStatusBarShadow(true)
+                .autoOpenSoftInput(true)
+                .asCustom(new CustomFullScreenPopup(this))
+                .show();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -234,7 +248,8 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
                 break;
             case R.id.btn_open_vip:
-                Toast.makeText(context, "开通", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "开通", Toast.LENGTH_SHORT).show();
+                customPop();
                 break;
 
         }
