@@ -2,34 +2,26 @@ package com.waoqi.msettopboxs.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.DevInfoManager;
-import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.AuthBean;
 import com.waoqi.msettopboxs.bean.AuthParam;
-import com.waoqi.msettopboxs.bean.SearchLevelBean;
-import com.waoqi.msettopboxs.bean.TypeListMenuBean;
-import com.waoqi.msettopboxs.bean.VerificationBean;
+import com.waoqi.msettopboxs.bean.BasePresponce;
+import com.waoqi.msettopboxs.bean.DoctorInfoBean;
 import com.waoqi.msettopboxs.bean.VideoAddressBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
-import com.waoqi.msettopboxs.ui.activity.TypeVideoActivity;
 import com.waoqi.msettopboxs.ui.activity.VideoDetailActivity;
-import com.waoqi.msettopboxs.ui.activity.VideoViewActivty;
-import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.mvp.mvp.XPresent;
 import com.waoqi.mvp.net.ApiSubscriber;
 import com.waoqi.mvp.net.NetError;
 import com.waoqi.mvp.net.XApi;
 
-import java.util.List;
-
 import okhttp3.RequestBody;
-import retrofit2.http.Query;
 
 public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
 
@@ -42,7 +34,26 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 .subscribe(new ApiSubscriber<VideoDetailBean>() {
                     @Override
                     public void onNext(VideoDetailBean videoBean) {
-                        getV().setVideoDetail(videoBean.getData());
+                        if (videoBean.getData() != null)
+                            getV().setVideoDetail(videoBean.getData());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+    public void getDoctorInfo(String doctorId) {
+        MyApi.getMyApiService()
+                .getDoctorInfo(doctorId)
+                .compose(XApi.<DoctorInfoBean>getApiTransformer())
+                .compose(XApi.<DoctorInfoBean>getScheduler())
+                .subscribe(new ApiSubscriber<DoctorInfoBean>() {
+                    @Override
+                    public void onNext(DoctorInfoBean bean) {
+                        getV().setDoctorInfo(bean.getData());
                     }
 
                     @Override
@@ -115,7 +126,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
             authParam.setContentID(temp.getSeriesId());
 
             getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId());
-        } else if (cdn_type.endsWith("ZX")) {
+        } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
                 if (videoAddressBean.getType() == 0) {
@@ -134,7 +145,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
         String obj = gson.toJson(authParam);
         KLog.e("wlx", "请求AuthCode参数：  " + obj);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), obj);
-        Api.getVerService(epg_address+"/").auth(body)
+        Api.getVerService(epg_address + "/").auth(body)
                 .compose(XApi.<AuthBean>getApiTransformer())
                 .compose(XApi.<AuthBean>getApiTransformer())
                 .compose(XApi.<AuthBean>getScheduler())
@@ -166,7 +177,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), "OTTUserToken"))
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
 
-        } else if (cdn_type.contains("ZX")) {
+        } else if (cdn_type.contains("ZTE")) {
             stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS))
                     .append("/tianhongyxwszx")
                     .append("/vod")
@@ -175,6 +186,25 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), "OTTUserToken"))
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
+        KLog.d("wlx", "播放地址：  " + stringBuffer.toString());
         getV().startActivity(stringBuffer.toString());
+    }
+
+    public void toBuy(String userId, String userToken) {
+        MyApi.getMyApiService()
+                .toBuy("", userId, userToken)
+                .compose(XApi.<BasePresponce>getApiTransformer())
+                .compose(XApi.<BasePresponce>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce>() {
+                    @Override
+                    public void onNext(BasePresponce bean) {
+                        getV().getH5Url(bean.getData().toString());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
     }
 }

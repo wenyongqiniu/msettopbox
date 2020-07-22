@@ -1,24 +1,18 @@
 package com.waoqi.msettopboxs.presenter;
 
-import android.app.DevInfoManager;
-import android.util.Log;
-
 import com.socks.library.KLog;
-import com.waoqi.msettopboxs.bean.Bean;
+import com.waoqi.msettopboxs.bean.BasePresponce;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
-import com.waoqi.msettopboxs.net.VerificationService;
 import com.waoqi.msettopboxs.ui.activity.MainActivity;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.mvp.mvp.XPresent;
 import com.waoqi.mvp.net.ApiSubscriber;
 import com.waoqi.mvp.net.NetError;
 import com.waoqi.mvp.net.XApi;
-
-import static android.app.DevInfoManager.EPG_ADDRESS;
 
 public class MainPresenter extends XPresent<MainActivity> {
 
@@ -117,5 +111,21 @@ public class MainPresenter extends XPresent<MainActivity> {
                 });
     }
 
+    public void toBuy(String userId, String userToken){
+        MyApi.getMyApiService()
+                .toBuy("", userId, userToken)
+                .compose(XApi.<BasePresponce>getApiTransformer())
+                .compose(XApi.<BasePresponce>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce>() {
+                    @Override
+                    public void onNext(BasePresponce bean) {
+                        getV().getH5Url(bean.getData().toString());
+                    }
 
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
 }

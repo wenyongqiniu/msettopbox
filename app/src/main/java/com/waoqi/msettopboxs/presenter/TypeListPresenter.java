@@ -1,11 +1,9 @@
 package com.waoqi.msettopboxs.presenter;
 
-import com.socks.library.KLog;
+import com.waoqi.msettopboxs.bean.BasePresponce;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
-import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
-import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
 import com.waoqi.msettopboxs.ui.activity.TypeVideoActivity;
 import com.waoqi.mvp.mvp.XPresent;
@@ -70,5 +68,23 @@ public class TypeListPresenter extends XPresent<TypeVideoActivity> {
                     }
                 });
 
+    }
+
+    public void isVip(String userId) {
+        MyApi.getMyApiService()
+                .isVip(userId)
+                .compose(XApi.<BasePresponce>getApiTransformer())
+                .compose(XApi.<BasePresponce>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce>() {
+
+                    @Override
+                    public void onNext(BasePresponce vipStateBean) {
+                        getV().isVip(vipStateBean.getData().toString());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+                    }
+                });
     }
 }

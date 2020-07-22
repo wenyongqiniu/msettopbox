@@ -1,5 +1,7 @@
 package com.waoqi.msettopboxs.net;
 
+import com.waoqi.msettopboxs.bean.BasePresponce;
+import com.waoqi.msettopboxs.bean.DoctorInfoBean;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
 import com.waoqi.msettopboxs.bean.UserBean;
@@ -9,6 +11,7 @@ import com.waoqi.msettopboxs.bean.VideoDetailBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 public interface MyAppService {
@@ -16,6 +19,10 @@ public interface MyAppService {
     //登录
     @GET("api/home/loginByPhone")
     Flowable<UserBean> login(@Query("phone") String phone);
+
+    //购买
+    @GET("api/pay/h52To1Pay")
+    Flowable<BasePresponce> toBuy(@Header("application/json") String header, @Query("userId") String userId, @Query("userToken") String userToken);
 
     //获取一级分类
     @GET("api/home/searchAllTopLevel")
@@ -30,6 +37,9 @@ public interface MyAppService {
     @GET("api/home/searchAllVideoUploadTvlistByCpAlbumId")
     Flowable<VideoBean> getVideo(@Query("cpAlbumId") String cpAlbumId);
 
+    @GET("api/home/getVipState")
+    Flowable<BasePresponce> isVip(@Query("userId") String userId);
+
     //关键字查询
     @GET("api/home/searchVideoByCondition")
     Flowable<VideoBean> search(@Query("condition") String condition);
@@ -38,10 +48,13 @@ public interface MyAppService {
     @GET("api/home/searchVideoUploadTvlistById")
     Flowable<VideoDetailBean> getVideoDetail(@Query("id") int id);
 
+    //医生详情
+    @GET("api/home/searchVideoByDoctorId")
+    Flowable<DoctorInfoBean> getDoctorInfo(@Query("doctorId") String doctorId);
+
     //视频播放地址
     @GET("api/home/searchVideoByCpAlbumIdAndCpTvId")
     Flowable<VideoAddressBean> getVideoAddress(@Query("cpAlbumId") String cpAlbumId, @Query("cpTvId") int cpTvId);
-
 
 
 }

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.zhy.adapter.abslistview.CommonAdapter;
@@ -23,14 +24,19 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
         viewHolder.setText(R.id.tv_video_desc, item.getTvName());
         viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 1 ? true : false);
 
-        if (TextUtils.isEmpty(item.getTvPicHead())) {
-            Glide.with(mContext)
-                    .load(R.drawable.bitmap3)
-                    .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
-        } else {
+//        if (TextUtils.isEmpty(item.getTvPicHead())) {
+//            Glide.with(mContext)
+//                    .load(R.drawable.bitmap3)
+//                    .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
+//        } else {
+            RequestOptions options = new RequestOptions()
+                    .dontAnimate()
+                    .centerInside()
+                    .placeholder(R.drawable.bitmap3);
             Glide.with(mContext)
                     .load(item.getTvPicHead())
+                    .apply(options)
                     .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
-        }
+//        }
     }
 }

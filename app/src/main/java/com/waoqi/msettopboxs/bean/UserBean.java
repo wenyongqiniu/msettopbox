@@ -1,6 +1,10 @@
 package com.waoqi.msettopboxs.bean;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * author : Zzy

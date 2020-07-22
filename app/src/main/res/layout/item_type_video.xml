@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:scaleType="center"
-            tools:src="@drawable/bitmap2" />
+            android:scaleType="centerCrop"
+            tools:src="@drawable/bitmap3" />
 
         <ImageView
             android:id="@+id/iv_video_is_purchase"

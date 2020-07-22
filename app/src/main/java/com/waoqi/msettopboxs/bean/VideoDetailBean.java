@@ -38,7 +38,17 @@ public class VideoDetailBean extends BasePresponce<VideoDetailBean>{
     private String viceoFormat;
     private String tvDesc;
     private Object tvPriority;
-    private Object doctorId;
+    private String doctorId;
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    private String introduction;
 
     public int getId() {
         return id;
@@ -160,11 +170,11 @@ public class VideoDetailBean extends BasePresponce<VideoDetailBean>{
         this.tvPriority = tvPriority;
     }
 
-    public Object getDoctorId() {
+    public String getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(Object doctorId) {
+    public void setDoctorId(String doctorId) {
         this.doctorId = doctorId;
     }
 }

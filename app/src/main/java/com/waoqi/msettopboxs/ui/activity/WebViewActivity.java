@@ -18,11 +18,12 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
-
+        String payUrl = getIntent().getStringExtra("PayH5Url");
         webView = (WebView) findViewById(R.id.webview_detail);
 
 
-        webView.loadUrl("file:///android_asset/home.html");
+//        webView.loadUrl("file:///android_asset/home.html");
+        webView.loadUrl(payUrl);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setDatabaseEnabled(true);

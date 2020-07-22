@@ -5,7 +5,9 @@ import android.app.DevInfoManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,6 +44,7 @@ import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.security.AccessController.getContext;
 
@@ -167,6 +170,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                ArtUtils.startActivity(context, TypeVideoActivity.class);
                 Intent intent = new Intent(context, TypeVideoActivity.class);
+                intent.putExtra("user_phone", devInfoManager.getValue(DevInfoManager.PHONE));
                 intent.putExtra("main_type_id", typeList.get(position).getTypeId());
                 startActivity(intent);
             }
@@ -184,6 +188,11 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 //                getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS), token, devInfoManager.getValue(DevInfoManager.PHONE), devInfoManager.getValue(DevInfoManager.STB_MAC));
 //            }
 //        });
+
+        String userInfo = DataHelper.getStringSF(getApplication(), "UserInfo");
+        if (userInfo != null) {
+            getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE));
+        }
 
     }
 
@@ -210,10 +219,10 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             return super.onKeyDown(keyCode, event);
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            if (gridviewtv.isFocusable()) {
-                KLog.i(TAG, "右键");
-                gridviewtv.requestFocus();
-            }
+//            if (gridviewtv.isFocusable()) {
+//                KLog.i(TAG, "右键");
+//                gridviewtv.requestFocus();
+//            }
         }
         return false;
     }
@@ -249,7 +258,14 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 break;
             case R.id.btn_open_vip:
 //                Toast.makeText(context, "开通", Toast.LENGTH_SHORT).show();
-                customPop();
+//                customPop();
+                if (DataHelper.getStringSF(getApplication(), "UserInfo") == null) {
+                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String userId = DataHelper.getStringSF(this, "UserID");
+                String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");
+                getP().toBuy(userId, ottUserToken);
                 break;
 
         }
@@ -262,9 +278,23 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     }
 
     public void getUserInfo(UserBean userBean) {
+        DataHelper.setStringSF(getApplication(), "UserInfo", userBean.toString());
         Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
-        if (userBean.getIsVip() == 0)
+        if (userBean.getIsVip() == 0) {
             btnOpenVip.setText("已开通");
+            btnOpenVip.setEnabled(false);
+        } else
+            btnOpenVip.setEnabled(true);
         btnLogin.setText(TextUtils.isEmpty(userBean.getPhone()) ? "用户" : userBean.getPhone());
+    }
+
+    public void getH5Url(String data) {
+        if (TextUtils.isEmpty(data) || data.equals("null"))
+            return;
+        KLog.d(data);
+        Intent intent = new Intent();
+        intent.setClass(this, WebViewActivity.class);
+        intent.putExtra("PayH5Url", data);
+        startActivity(intent);
     }
 }

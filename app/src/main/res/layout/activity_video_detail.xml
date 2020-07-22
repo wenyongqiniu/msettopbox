@@ -86,7 +86,7 @@
                             android:id="@+id/iv_video_cover"
                             android:layout_width="469dp"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/bitmap3" />
 
                     </FrameLayout>
@@ -115,7 +115,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
-                            android:text="高润霖 （院士 ）"
+                            android:text=""
+                            android:visibility="gone"
                             android:textColor="#fff0f0f0"
                             android:textSize="16sp" />
 
@@ -126,12 +127,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:text="简介：中国医学科学院阜外医院 原院长 博士生导师"
+                            android:maxLines="3"
+                            android:ellipsize="end"
                             android:textColor="#F1F1F1"
                             android:textSize="15sp" />
 
                         <View
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
+                            android:visibility="visible"
                             android:layout_weight="1" />
 
 
@@ -151,7 +155,9 @@
                                 android:nextFocusRight="@+id/btn_purchase"
                                 android:text="@string/free_trial"
                                 android:textColor="@color/tv_f1f1f1"
-                                android:textSize="14sp" />
+                                android:textSize="14sp" >
+                                <requestFocus></requestFocus>
+                            </Button>
 
                             <Button
                                 android:id="@+id/btn_purchase"

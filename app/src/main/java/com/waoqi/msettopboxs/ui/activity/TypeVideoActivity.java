@@ -22,6 +22,7 @@ import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu1Adpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu2Adpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
+import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DateUtil;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
@@ -58,9 +59,12 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
     private String classificationId;
     private int typeId;
+    private String userPhone;
+    private VideoBean videoBean;
 
     @Override
     public void initView() {
+        userPhone = getIntent().getStringExtra("user_phone");
         typeId = getIntent().getIntExtra("main_type_id", 0);
         lvVideoMenuId = (ListViewTV) findViewById(R.id.lv_video_menu_id);
         lvVideoMenuId2 = (ListViewTV) findViewById(R.id.lv_video_menu_id_2);
@@ -86,6 +90,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     }
 
     private boolean islvVideoMenu1 = false;//lvVideoMenuId是否获取焦点
+    private int menu2SelectPosition;
 
     private void initListView() {
         mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type_menu_1, mSearchLevel);
@@ -95,9 +100,9 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         lvVideoMenuId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lvVideoMenuId.setPoint(position);
                 SearchLevelBean searchLevelBean = mSearchLevel.get(position);
                 getP().getSearchLevel(searchLevelBean.getId());
-                lvVideoMenuId.setPoint(position);
             }
 
             @Override
@@ -121,6 +126,9 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lvVideoMenuId2.setPoint(position);
+                //应客户需求默认改为第一个
+//                lvVideoMenuId2.setPoint(0);
+                menu2SelectPosition = position;
                 TypeListMenuBean typeListMenuBean = mSearchLevel2.get(position);
                 classificationId = typeListMenuBean.getCpAlbumId();
                 getP().getVideo(typeListMenuBean.getCpAlbumId());
@@ -214,11 +222,17 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VideoBean videoBean = mVideoBeans.get(position);
-                Intent intent = new Intent(context, VideoDetailActivity.class);
-                intent.putExtra("videoId", videoBean.getId());
-                intent.putExtra("classificationId", classificationId);
-                ArtUtils.startActivity(context, intent);
+
+                videoBean = mVideoBeans.get(position);
+                if (DataHelper.getStringSF(getApplication(), "UserInfo") == null) {
+                    Toast.makeText(TypeVideoActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+//                if (videoBean.getIsPurchase() == 1) {
+//                    getP().isVip(userPhone);
+//                } else {
+                toDetail();
+//                }
             }
         });
     }
@@ -267,11 +281,32 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mSearchLevel2.clear();
         mSearchLevel2.addAll(searchLevelBeanData);
         mTypeListMenu2Adpter.notifyDataSetChanged();
+        if (mSearchLevel2 != null && mSearchLevel2.size() > 0) {
+//            getP().getVideo(mSearchLevel2.get(menu2SelectPosition).getCpAlbumId());
+            //应客户需求默认改为第一个
+            getP().getVideo(mSearchLevel2.get(0).getCpAlbumId());
+            lvVideoMenuId2.setSelection(0);
+        }
     }
 
     public void setVideoGridData(List<VideoBean> videoBeanData) {
         mVideoBeans.clear();
         mVideoBeans.addAll(videoBeanData);
         mVideoGridViewAdpter.notifyDataSetChanged();
+    }
+
+    public void isVip(String isVip) {
+        if (isVip.contains("true")) {
+            toDetail();
+        } else {
+            Toast.makeText(this, "此视频会员才能观看的呢", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void toDetail() {
+        Intent intent = new Intent(context, VideoDetailActivity.class);
+        intent.putExtra("videoId", videoBean.getId());
+        intent.putExtra("classificationId", classificationId);
+        ArtUtils.startActivity(context, intent);
     }
 }

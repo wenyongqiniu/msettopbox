@@ -13,8 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.bean.DoctorInfoBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
 import com.waoqi.msettopboxs.presenter.VideoDetailPresenter;
@@ -190,12 +192,13 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     @Override
     public void onClick(View v) {
+        String userId = DataHelper.getStringSF(this, "UserID");
+        String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");
         switch (v.getId()) {
             case R.id.btn_search:
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_free_trial:
-                String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");
                 if (TextUtils.isEmpty(ottUserToken)) {
                     Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
                 } else {
@@ -203,7 +206,11 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                 }
                 break;
             case R.id.btn_purchase:
-                Toast.makeText(context, "购买", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(ottUserToken)) {
+                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                getP().toBuy(userId, ottUserToken);
                 break;
         }
     }
@@ -212,23 +219,32 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
-        if (TextUtils.isEmpty(videoBeanData.getTvPicHead())) {
-            Glide.with(this)
-                    .load(R.drawable.bitmap3)
-                    .into(ivVideoCover);
-        } else {
-            Glide.with(this)
-                    .load(videoBeanData.getTvPicHead())
-                    .into(ivVideoCover);
-        }
+//        if (TextUtils.isEmpty(videoBeanData.getTvPicHead())) {
+//            Glide.with(this)
+//                    .load(R.drawable.bitmap3)
+//                    .into(ivVideoCover);
+//        } else {
+        RequestOptions options = new RequestOptions()
+                .dontAnimate()
+                .centerInside()
+                .placeholder(R.drawable.bitmap3);
+        Glide.with(this)
+                .load(videoBeanData.getTvPicHead())
+                .apply(options)
+                .into(ivVideoCover);
+//        }
 
 
         tvVideoTitle.setText(videoBeanData.getTvName());
-
+        getP().getDoctorInfo(videoBeanData.getDoctorId());
 //        tvVideoTeacher.setText("我是老师");
-//        tvVideoTeacherDesc.setText(videoBeanData.getTvDesc());
+
         //相关课程
 
+    }
+
+    public void setDoctorInfo(DoctorInfoBean bean) {
+        tvVideoTeacherDesc.setText(bean.introduction);
     }
 
     public void setVideoGridData(List<VideoBean> videoBeans) {
@@ -242,5 +258,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         intent.putExtra("video", videoAddress);
         intent.putExtra("local", false);
         startActivity(intent);
+    }
+
+    public void getH5Url(String data) {
+        KLog.d(data);
     }
 }
