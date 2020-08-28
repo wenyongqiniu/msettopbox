@@ -52,9 +52,9 @@ import java.util.TimerTask;
  */
 public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
     private String TAG = MainActivity.class.getName();
-    private Button btnSearch, btnLogin, btnOpenVip, btn_history;
+    private Button btnSearch, btnLogin, btnOpenVip;
 
-    private TextView tvTime;
+
 
     private ImageView ivMain1;
     private LinearLayout lineDesc;
@@ -83,7 +83,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
-        tvTime = (TextView) findViewById(R.id.tv_time);
 
         ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
         lineDesc = (LinearLayout) findViewById(R.id.line_desc);
@@ -92,19 +91,17 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
-        btn_history = (Button) findViewById(R.id.btn_history);
+//        btn_history = (Button) findViewById(R.id.btn_history);
 
 
         btnSearch.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnOpenVip.setOnClickListener(this);
-        btn_history.setOnClickListener(this);
+//        btn_history.setOnClickListener(this);
 
         getP().getSearchLevel();
         initGridView();
 
-        startShowViewTimer();
-        tvTime.setText(DateUtil.getTime());
     }
 
 
@@ -229,9 +226,9 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 String ottUserToken = DataHelper.getStringSF(this, Constant.OTTUSERTOKEN);
                 getP().toBuy(userId, ottUserToken);
                 break;
-            case R.id.btn_history:
-                ArtUtils.startActivity(this, HistoryAcitvity.class);
-                break;
+//            case R.id.btn_history:
+//                ArtUtils.startActivity(this, HistoryAcitvity.class);
+//                break;
         }
     }
 
@@ -262,35 +259,5 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         startActivity(intent);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cancelShowViewTimer();
-    }
 
-    private Timer mTimer;
-    private ShowViewTimerTask mShowViewTimerTask;
-
-    public void startShowViewTimer() {
-        cancelShowViewTimer();
-        mTimer = new Timer();
-        mShowViewTimerTask = new ShowViewTimerTask();
-        mTimer.schedule(mShowViewTimerTask, 0,1000);
-    }
-
-    public void cancelShowViewTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-        }
-    }
-
-    public class ShowViewTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            tvTime.post(()->{
-                tvTime.setText(DateUtil.getTime());
-            });
-        }
-    }
 }

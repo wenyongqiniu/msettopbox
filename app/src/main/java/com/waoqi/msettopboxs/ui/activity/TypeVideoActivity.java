@@ -48,7 +48,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     private ListViewTV lvVideoMenuId2;
     private Button btnSearch;
     private TextView tvAppName;
-    private TextView tvTime;
+
 
     private MainUpView mainUpView2;
     private GridViewTV gridviewtv;
@@ -78,7 +78,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         lvVideoMenuId2 = (ListViewTV) findViewById(R.id.lv_video_menu_id_2);
         btnSearch = (Button) findViewById(R.id.btn_search);
         tvAppName = (TextView) findViewById(R.id.tv_app_name);
-        tvTime = (TextView) findViewById(R.id.tv_time);
+
 
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
@@ -89,8 +89,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         initListView();
         initGridView();
 
-        tvTime.setText(DateUtil.getTime());
-        startShowViewTimer();
+
         getP().getSearchLevel();
         getP().getSearchLevel(typeId);
 
@@ -307,36 +306,4 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         ArtUtils.startActivity(context, intent);
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cancelShowViewTimer();
-    }
-
-    private Timer mTimer;
-    private ShowViewTimerTask mShowViewTimerTask;
-
-    public void startShowViewTimer() {
-        cancelShowViewTimer();
-        mTimer = new Timer();
-        mShowViewTimerTask = new ShowViewTimerTask();
-        mTimer.schedule(mShowViewTimerTask, 0, 1000);
-    }
-
-    public void cancelShowViewTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-        }
-    }
-
-    public class ShowViewTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            tvTime.post(() -> {
-                tvTime.setText(DateUtil.getTime());
-            });
-        }
-    }
 }

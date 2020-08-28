@@ -46,7 +46,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     private static final String TAG = VideoDetailActivity.class.getName();
     private Button btnSearch;
     private ImageView ivVideoCover, ivVideoIsPurchase;
-    private TextView tvTime, tvVideoTitle, tvVideoTeacher, tvVideoTeacherDesc;
+    private TextView   tvVideoTitle, tvVideoTeacher, tvVideoTeacherDesc;
 
     private Button btnFreeTrial, btnPurchase;
     private GridViewTV gridviewtv;
@@ -67,7 +67,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     public void initView() {
 
         btnSearch = (Button) findViewById(R.id.btn_search);
-        tvTime = (TextView) findViewById(R.id.tv_time);
         ivVideoCover = (ImageView) findViewById(R.id.iv_video_cover);
         ivVideoIsPurchase = (ImageView) findViewById(R.id.iv_video_is_purchase);
 
@@ -91,10 +90,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
         getP().getVideoDetail(videoId);
         getP().getVideo(classificationId);
-
-
-        tvTime.setText(DateUtil.getTime());
-        startShowViewTimer();
     }
 
     private void initGridView() {
@@ -275,35 +270,5 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cancelShowViewTimer();
-    }
 
-    private Timer mTimer;
-    private ShowViewTimerTask mShowViewTimerTask;
-
-    public void startShowViewTimer() {
-        cancelShowViewTimer();
-        mTimer = new Timer();
-        mShowViewTimerTask = new ShowViewTimerTask();
-        mTimer.schedule(mShowViewTimerTask, 0, 1000);
-    }
-
-    public void cancelShowViewTimer() {
-        if (mTimer != null) {
-            mTimer.cancel();
-        }
-    }
-
-    public class ShowViewTimerTask extends TimerTask {
-
-        @Override
-        public void run() {
-            tvTime.post(() -> {
-                tvTime.setText(DateUtil.getTime());
-            });
-        }
-    }
 }

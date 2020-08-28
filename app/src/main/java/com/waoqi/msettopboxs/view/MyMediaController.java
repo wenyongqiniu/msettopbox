@@ -33,7 +33,6 @@ public class MyMediaController extends MediaController {
     private View mRoot;
 
     private TextView title;
-    private TextView tv_time;
     private ProgressBar mProgress;
     private TextView mEndTime, mCurrentTime;
 
@@ -101,7 +100,6 @@ public class MyMediaController extends MediaController {
 
 
         title = v.findViewById(R.id.title);
-        tv_time = v.findViewById(R.id.tv_time);
         mProgress = v.findViewById(R.id.mediacontroller_progress);
         if (mProgress != null) {
             if (mProgress instanceof SeekBar) {
@@ -119,7 +117,6 @@ public class MyMediaController extends MediaController {
         mFormatBuilder = new StringBuilder();
         mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
-        tv_time.setText(DateUtil.getTime());
         title.setText(mTitle);
     }
 
@@ -259,7 +256,7 @@ public class MyMediaController extends MediaController {
         public void run() {
             post(() -> {
                 setProgress();
-                tv_time.setText(DateUtil.getTime());
+
             });
 
         }

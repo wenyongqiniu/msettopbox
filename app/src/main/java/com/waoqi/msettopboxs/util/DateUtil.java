@@ -435,13 +435,4 @@ public class DateUtil {
     }
 
 
-    /**
-
-     * @return 样例：  17:11
-     */
-    public static String getTime() {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-        String format = df.format(new Date());
-        return format;
-    }
 }

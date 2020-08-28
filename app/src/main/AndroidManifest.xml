@@ -36,7 +36,6 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -63,7 +62,7 @@
 
         </activity>
         <activity android:name=".ui.activity.WebViewActivity" />
-        <activity android:name=".ui.activity.HistoryAcitvity" />
+<!--        <activity android:name=".ui.activity.HistoryAcitvity" />-->
     </application>
 
 </manifest>

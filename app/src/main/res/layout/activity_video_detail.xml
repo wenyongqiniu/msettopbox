@@ -46,12 +46,14 @@
 
 
             <TextView
-                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="19dp"
                 android:layout_toLeftOf="@+id/tv_app_name"
-                android:text="15:42"
+                tools:text="15:42"
+                android:format12Hour="hh:mm"
+                android:format24Hour="HH:mm"
+                android:textStyle="bold"
                 android:textColor="@color/tv_f1f1f1"
                 android:textSize="18sp" />
 
