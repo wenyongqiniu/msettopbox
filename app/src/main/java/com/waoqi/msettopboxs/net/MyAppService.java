@@ -21,6 +21,7 @@ public interface MyAppService {
     Flowable<UserBean> login(@Query("phone") String phone);
 
     //购买
+
     @GET("api/pay/h52To1Pay")
     Flowable<BasePresponce> toBuy(@Header("application/json") String header, @Query("userId") String userId, @Query("userToken") String userToken);
 
@@ -33,16 +34,17 @@ public interface MyAppService {
     Flowable<TypeListMenuBean> getSearchLevel(@Query("parentId") int parentId);
 
 
-    //获取分类下的视频
+    //获取该视频的相关 的视频
     @GET("api/home/searchAllVideoUploadTvlistByCpAlbumId")
     Flowable<VideoBean> getVideo(@Query("cpAlbumId") String cpAlbumId);
 
     @GET("api/home/getVipState")
-    Flowable<BasePresponce> isVip(@Query("userId") String userId);
+    Flowable<BasePresponce<String>> isVip(@Query("userId") String userId);
 
     //关键字查询
     @GET("api/home/searchVideoByCondition")
     Flowable<VideoBean> search(@Query("condition") String condition);
+
 
     //视频详情
     @GET("api/home/searchVideoUploadTvlistById")
@@ -56,5 +58,15 @@ public interface MyAppService {
     @GET("api/home/searchVideoByCpAlbumIdAndCpTvId")
     Flowable<VideoAddressBean> getVideoAddress(@Query("cpAlbumId") String cpAlbumId, @Query("cpTvId") int cpTvId);
 
+
+
+
+    // TODO 获取播放历史
+    @GET("api/home/searchVideoByCondition")
+    Flowable<VideoBean> getHistoryVideo(@Query("condition") String condition/*@Query("userId") String userId*/);
+
+    //TODO 保存播放历史
+    @GET("api/home/searchVideoByCondition")
+    Flowable<BasePresponce> saveHistoty(@Query("condition") String condition);
 
 }

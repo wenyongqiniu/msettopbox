@@ -70,21 +70,5 @@ public class TypeListPresenter extends XPresent<TypeVideoActivity> {
 
     }
 
-    public void isVip(String userId) {
-        MyApi.getMyApiService()
-                .isVip(userId)
-                .compose(XApi.<BasePresponce>getApiTransformer())
-                .compose(XApi.<BasePresponce>getScheduler())
-                .subscribe(new ApiSubscriber<BasePresponce>() {
 
-                    @Override
-                    public void onNext(BasePresponce vipStateBean) {
-                        getV().isVip(vipStateBean.getData().toString());
-                    }
-
-                    @Override
-                    protected void onFail(NetError error) {
-                    }
-                });
-    }
 }

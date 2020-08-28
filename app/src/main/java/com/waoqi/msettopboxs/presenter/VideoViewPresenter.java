@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.AuthBean;
 import com.waoqi.msettopboxs.bean.AuthParam;
+import com.waoqi.msettopboxs.bean.BasePresponce;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.bean.VideoAddressBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
@@ -43,6 +44,26 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
+
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+
+    }
+
+
+    public void saveHistoty(String userId) {
+        MyApi.getMyApiService()
+                .saveHistoty("4")
+                .compose(XApi.<BasePresponce>getApiTransformer())
+                .compose(XApi.<BasePresponce>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce>() {
+                    @Override
+                    public void onNext(BasePresponce videoBean) {
 
                     }
 

@@ -4,20 +4,20 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.VideoBean;
-import com.waoqi.msettopboxs.presenter.SearchPresenter;
+import com.waoqi.msettopboxs.config.Constant;
+import com.waoqi.msettopboxs.presenter.HistoryPresenter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
+import com.waoqi.msettopboxs.util.DataHelper;
+import com.waoqi.msettopboxs.util.DateUtil;
 import com.waoqi.mvp.mvp.XActivity;
 import com.waoqi.tvwidget.bridge.EffectNoDrawBridge;
 import com.waoqi.tvwidget.bridge.OpenEffectBridge;
@@ -26,70 +26,48 @@ import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
- * author : Zzy
- * date   : 2020/5/29
+ * author: luxi
+ * email : mwangluxi@163.com
+ * create by 2020/8/28 13:47
+ * desc : 播放记录
  */
-public class SearchActivity extends XActivity<SearchPresenter> {
-    private static final String TAG = TypeVideoActivity.class.getName();
-    private MainUpView mainUpView2;
+public class HistoryAcitvity extends XActivity<HistoryPresenter> {
+    private static final String TAG = HistoryAcitvity.class.getName();
+
+
+    private TextView tvTime;
     private GridViewTV gridviewtv;
-    private OpenEffectBridge mOpenEffectBridge;
+    private MainUpView mainUpView2;
+
+
+    private List<VideoBean> mVideoBeans = new ArrayList<>();
+
+
     private View mOldGridView;
     private int point = 0; //gridview 位置
-    private List<VideoBean> mVideoBeans = new ArrayList<>();
     private TypeVideoGridViewAdpter mVideoGridViewAdpter;
-    private String classificationId;
-    private EditText searchET;
-    private TextView searchTV;
-    private VideoBean videoBean;
-
+    private OpenEffectBridge mOpenEffectBridge;
     @Override
     public void initView() {
-        searchET = (EditText) findViewById(R.id.et_search);
-        searchTV = (TextView) findViewById(R.id.tv_search);
-        mainUpView2 = (MainUpView)findViewById(R.id.mainUpView2);
-        gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
-        searchTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String str = searchET.getText().toString().trim();
-                getP().getVideo(str);
-            }
-        });
-        searchET.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                getP().getVideo(s.toString().trim());
-            }
-        });
-        initGridView();
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_search;
-    }
-
-    @Override
-    public SearchPresenter newP() {
-        return new SearchPresenter();
+        tvTime = (TextView) findViewById(R.id.tv_time);
+        gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
+        mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
+        String userId = DataHelper.getStringSF(this, Constant.USERID);
+//        if (!TextUtils.isEmpty(userId)){
+//            getP().getHistoryVideo(userId);
+//        }
+        getP().getHistoryVideo("");
+        initGridView();
+        startShowViewTimer();
     }
 
     private void initGridView() {
@@ -165,9 +143,56 @@ public class SearchActivity extends XActivity<SearchPresenter> {
         });
     }
 
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_histoty;
+    }
+
+    @Override
+    public HistoryPresenter newP() {
+        return new HistoryPresenter();
+    }
+
+
+
     public void setVideoGridData(List<VideoBean> videoBeanData) {
         mVideoBeans.clear();
         mVideoBeans.addAll(videoBeanData);
         mVideoGridViewAdpter.notifyDataSetChanged();
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelShowViewTimer();
+    }
+
+    private Timer mTimer;
+    private ShowViewTimerTask mShowViewTimerTask;
+
+    public void startShowViewTimer() {
+        cancelShowViewTimer();
+        mTimer = new Timer();
+        mShowViewTimerTask = new  ShowViewTimerTask();
+        mTimer.schedule(mShowViewTimerTask, 0,1000);
+    }
+
+    public void cancelShowViewTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
+    }
+
+    public class ShowViewTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            tvTime.post(()->{
+                tvTime.setText(DateUtil.getTime());
+            });
+        }
+    }
+
 }

@@ -3,7 +3,10 @@ package com.waoqi.mvp.net;
 import android.util.Log;
 
 
+import com.socks.library.KLog;
+
 import java.io.IOException;
+
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -18,7 +21,7 @@ import okio.Buffer;
  */
 
 public class LogInterceptor implements Interceptor {
-    public static final String TAG = "wlxnet";
+    private final String TAG = "LogInterceptor";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -34,19 +37,19 @@ public class LogInterceptor implements Interceptor {
             String url = request.url().toString();
             Headers headers = request.headers();
 
-            Log.d(TAG, "url : " + url);
-            Log.d(TAG, "method : " + request.method());
+            KLog.d(TAG, "url : " + url);
+            KLog.d(TAG, "method : " + request.method());
             if (headers != null && headers.size() > 0) {
-                Log.e(TAG, "headers : " + headers.toString());
+                KLog.e(TAG, "headers : " + headers.toString());
             }
             RequestBody requestBody = request.body();
             if (requestBody != null) {
                 MediaType mediaType = requestBody.contentType();
                 if (mediaType != null) {
                     if (isText(mediaType)) {
-                        Log.d(TAG, "params : " + bodyToString(request));
+                        KLog.d(TAG, "params : " + bodyToString(request));
                     } else {
-                        Log.d(TAG, "params : " + " maybe [file part] , too large too print , ignored!");
+                        KLog.d(TAG, "params : " + " maybe [file part] , too large too print , ignored!");
                     }
                 }
             }
@@ -65,12 +68,12 @@ public class LogInterceptor implements Interceptor {
                 if (mediaType != null) {
                     if (isText(mediaType)) {
                         String resp = body.string();
-                        Log.d( TAG, resp);
+                        KLog.d(TAG, resp);
 
                         body = ResponseBody.create(mediaType, resp);
                         return response.newBuilder().body(body).build();
                     } else {
-                        Log.d(TAG, "data : " + " maybe [file part] , too large too print , ignored!");
+                        KLog.d(TAG, "data : " + " maybe [file part] , too large too print , ignored!");
                     }
                 }
             }

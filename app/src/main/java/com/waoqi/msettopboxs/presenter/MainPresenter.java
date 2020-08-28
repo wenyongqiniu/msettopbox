@@ -5,6 +5,7 @@ import com.waoqi.msettopboxs.bean.BasePresponce;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
 import com.waoqi.msettopboxs.ui.activity.MainActivity;
@@ -32,8 +33,8 @@ public class MainPresenter extends XPresent<MainActivity> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
-                        DataHelper.setStringSF(getV().getApplication(), "UserID", verificationBean.getUserID());
-                        DataHelper.setStringSF(getV().getApplication(), "OTTUserToken", verificationBean.getOTTUserToken());
+                        DataHelper.setStringSF(getV().getApplication(), Constant.USERID, verificationBean.getUserID());
+                        DataHelper.setStringSF(getV().getApplication(), Constant.OTTUSERTOKEN, verificationBean.getOTTUserToken());
 
                         KLog.a("wlx", verificationBean.getOTTUserToken());
                         KLog.a("wlx", verificationBean.getUserID());

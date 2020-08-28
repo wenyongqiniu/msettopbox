@@ -74,7 +74,25 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/open_vip"
+                tools:visibility="gone"
                 android:textColor="#ecce9a"
+                android:textSize="12sp" />
+
+
+         <Button
+                android:id="@+id/btn_history"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@+id/btn_open_vip"
+                android:background="@drawable/tv_bug_search_bg"
+                android:nextFocusLeft="@id/btn_login"
+                android:nextFocusRight="@id/gridviewtv"
+                android:nextFocusDown="@id/gridviewtv"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/history"
+                android:textColor="#FFF"
                 android:textSize="12sp" />
 
 

@@ -2,6 +2,7 @@ package com.waoqi.msettopboxs;
 
 import android.app.Application;
 
+import com.socks.library.KLog;
 import com.waoqi.mvp.net.NetError;
 import com.waoqi.mvp.net.NetProvider;
 import com.waoqi.mvp.net.RequestHandler;
@@ -15,6 +16,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        KLog.init(BuildConfig.DEBUG);
         XApi.registerProvider(new NetProvider() {
             @Override
             public Interceptor[] configInterceptors() {

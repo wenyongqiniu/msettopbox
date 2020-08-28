@@ -14,6 +14,12 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
+/**
+ * author: luxi
+ * email : mwangluxi@163.com
+ * create by 2020/8/28 11:55
+ * desc : 牌照方接口
+ */
 public interface VerificationService {
 
     @GET("Ott/jsp/verifyuser.jsp")

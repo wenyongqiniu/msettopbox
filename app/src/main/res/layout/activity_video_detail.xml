@@ -75,8 +75,8 @@
                     android:layout_marginTop="27dp"
                     android:layout_marginRight="30dp">
 
-                    <FrameLayout
-                        android:id="@+id/frame"
+                    <RelativeLayout
+                        android:id="@+id/rl_video_img"
                         android:layout_width="469dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_video_cover"
@@ -89,14 +89,24 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/bitmap3" />
 
-                    </FrameLayout>
+                        <ImageView
+                            android:id="@+id/iv_video_is_purchase"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/vip_icon"
+                            android:visibility="gone"
+                            tools:visibility="visible"/>
+                    </RelativeLayout>
 
 
                     <LinearLayout
                         android:id="@+id/line_video_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/frame"
+                        android:layout_toRightOf="@+id/rl_video_img"
                         android:orientation="vertical"
                         android:paddingLeft="15dp">
 
@@ -153,7 +163,7 @@
                                 android:focusable="auto"
                                 android:nextFocusLeft="@id/btn_search"
                                 android:nextFocusRight="@+id/btn_purchase"
-                                android:text="@string/free_trial"
+                                android:text="@string/watch_now"
                                 android:textColor="@color/tv_f1f1f1"
                                 android:textSize="14sp" >
                                 <requestFocus></requestFocus>

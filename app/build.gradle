@@ -50,25 +50,23 @@ dependencies {
     implementation files('libs/AuthClient_v1.0.3.jar')
     implementation files('libs/jsmcc_sso.jar')
     implementation files('libs/DevinfoManager-2.0.1.jar')
+    implementation files('libs/XiriFeedback.jar')
+    implementation files('libs/XiriScene.jar')
+
     implementation project(path: ':core')
 //    implementation project(path: ':jiaozivideo')
     implementation project(path: ':tvwidget')
 //    implementation project(path: ':LibEasyWebview')
-    implementation 'com.github.zhaokaiqiang.klog:library:1.6.0'
+
     implementation 'me.jessyan:autosize:1.1.2'
-
     implementation 'com.android.support:design:28.0.0'
-
-
     implementation 'com.zhy:base-adapter:3.0.3'
-
-
-//    implementation files('libs/pldroid-player-2.1.9.jar')
     implementation ('com.android.support:appcompat-v7:28.0.0'){
         exclude module:'support-annotations'
         exclude module:'support-compat'
     }
     implementation 'com.lxj:xpopup:1.8.9' //就是androidx版本
+
 
 }
 preBuild {

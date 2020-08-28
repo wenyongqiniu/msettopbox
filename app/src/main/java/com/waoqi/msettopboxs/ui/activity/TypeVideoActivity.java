@@ -17,6 +17,7 @@ import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.TypeListMenuBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.presenter.TypeListPresenter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoMenu1Adpter;
@@ -33,7 +34,14 @@ import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Timer;
+import java.util.TimerTask;
+/**
+ * author: luxi
+ * email : mwangluxi@163.com
+ * create by 2020/8/28 15:27
+ * desc : 视频一二级分类界面
+ */
 public class TypeVideoActivity extends XActivity<TypeListPresenter> implements View.OnClickListener {
     private static final String TAG = TypeVideoActivity.class.getName();
     private ListViewTV lvVideoMenuId;
@@ -82,9 +90,10 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         initGridView();
 
         tvTime.setText(DateUtil.getTime());
-
+        startShowViewTimer();
         getP().getSearchLevel();
         getP().getSearchLevel(typeId);
+
 //        getP().getVideo("158813987059492");
 
     }
@@ -207,7 +216,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
                     mOpenEffectBridge.setVisibleWidget(false);
                     mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-                        //TODO
+
                     } else {
                         KLog.i(TAG, "非空");
                         mainUpView2.setFocusView(mOldGridView, 1.1f);
@@ -222,17 +231,12 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 videoBean = mVideoBeans.get(position);
-                if (DataHelper.getStringSF(getApplication(), "UserInfo") == null) {
+                if (DataHelper.getStringSF(getApplication(), Constant.USERINFO) == null) {
                     Toast.makeText(TypeVideoActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                if (videoBean.getIsPurchase() == 1) {
-//                    getP().isVip(userPhone);
-//                } else {
-                toDetail();
-//                }
+                toVideoDetail();
             }
         });
     }
@@ -295,18 +299,44 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mVideoGridViewAdpter.notifyDataSetChanged();
     }
 
-    public void isVip(String isVip) {
-        if (isVip.contains("true")) {
-            toDetail();
-        } else {
-            Toast.makeText(this, "此视频会员才能观看的呢", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void toDetail() {
+    private void toVideoDetail() {
         Intent intent = new Intent(context, VideoDetailActivity.class);
         intent.putExtra("videoId", videoBean.getId());
         intent.putExtra("classificationId", classificationId);
         ArtUtils.startActivity(context, intent);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelShowViewTimer();
+    }
+
+    private Timer mTimer;
+    private ShowViewTimerTask mShowViewTimerTask;
+
+    public void startShowViewTimer() {
+        cancelShowViewTimer();
+        mTimer = new Timer();
+        mShowViewTimerTask = new ShowViewTimerTask();
+        mTimer.schedule(mShowViewTimerTask, 0, 1000);
+    }
+
+    public void cancelShowViewTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
+    }
+
+    public class ShowViewTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            tvTime.post(() -> {
+                tvTime.setText(DateUtil.getTime());
+            });
+        }
     }
 }

@@ -1,17 +1,15 @@
 package com.waoqi.msettopboxs.presenter;
 
 import com.socks.library.KLog;
-import com.waoqi.msettopboxs.bean.Bean;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
-import com.waoqi.msettopboxs.ui.activity.MainActivity;
-import com.waoqi.msettopboxs.ui.activity.Test;
+import com.waoqi.msettopboxs.ui.activity.TestActivity;
 import com.waoqi.mvp.mvp.XPresent;
 import com.waoqi.mvp.net.ApiSubscriber;
 import com.waoqi.mvp.net.NetError;
 import com.waoqi.mvp.net.XApi;
 
-public class TestPresenter extends XPresent<Test> {
+public class TestPresenter extends XPresent<TestActivity> {
 
     /**
      * 认证SSO

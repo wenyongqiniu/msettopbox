@@ -19,6 +19,7 @@ import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.DoctorInfoBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.presenter.VideoDetailPresenter;
 import com.waoqi.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.waoqi.msettopboxs.util.ArtUtils;
@@ -32,21 +33,22 @@ import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+/**
+ * author: luxi
+ * email : mwangluxi@163.com
+ * create by 2020/8/28 11:50
+ * desc : 视频详情页
+ */
 public class VideoDetailActivity extends XActivity<VideoDetailPresenter> implements View.OnClickListener {
-
-
     private static final String TAG = VideoDetailActivity.class.getName();
-
     private Button btnSearch;
-    private TextView tvAppName;
-    private TextView tvTime;
-    private ImageView ivVideoCover;
-    private TextView tvVideoTitle;
-    private TextView tvVideoTeacher;
-    private TextView tvVideoTeacherDesc;
-    private Button btnFreeTrial;
-    private Button btnPurchase;
+    private ImageView ivVideoCover, ivVideoIsPurchase;
+    private TextView tvTime, tvVideoTitle, tvVideoTeacher, tvVideoTeacherDesc;
+
+    private Button btnFreeTrial, btnPurchase;
     private GridViewTV gridviewtv;
     private MainUpView mainUpView2;
 
@@ -65,12 +67,15 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     public void initView() {
 
         btnSearch = (Button) findViewById(R.id.btn_search);
-        tvAppName = (TextView) findViewById(R.id.tv_app_name);
         tvTime = (TextView) findViewById(R.id.tv_time);
         ivVideoCover = (ImageView) findViewById(R.id.iv_video_cover);
+        ivVideoIsPurchase = (ImageView) findViewById(R.id.iv_video_is_purchase);
+
         tvVideoTitle = (TextView) findViewById(R.id.tv_video_title);
         tvVideoTeacher = (TextView) findViewById(R.id.tv_video_teacher);
         tvVideoTeacherDesc = (TextView) findViewById(R.id.tv_video_teacher_desc);
+        //TODO 显示的文字"免费试看" 有问题 逻辑 视频不是免费的，判断是会员可观看，不是会员需要购买才能观看。 免费试看的意思是看几分钟后不能再看了，需要购买才能看
+        // TODO 建议修改 ： 立即观看
         btnFreeTrial = (Button) findViewById(R.id.btn_free_trial);
         btnPurchase = (Button) findViewById(R.id.btn_purchase);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
@@ -89,7 +94,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
 
         tvTime.setText(DateUtil.getTime());
-
+        startShowViewTimer();
     }
 
     private void initGridView() {
@@ -140,7 +145,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                     mOpenEffectBridge.setVisibleWidget(false);
                     mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-                        //TODO
+
                     } else {
                         KLog.i(TAG, "非空");
                         mainUpView2.setFocusView(mOldGridView, 1.1f);
@@ -192,8 +197,8 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     @Override
     public void onClick(View v) {
-        String userId = DataHelper.getStringSF(this, "UserID");
-        String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");
+        String userId = DataHelper.getStringSF(this, Constant.USERID);
+        String ottUserToken = DataHelper.getStringSF(this, Constant.OTTUSERTOKEN);
         switch (v.getId()) {
             case R.id.btn_search:
                 ArtUtils.startActivity(this, SearchActivity.class);
@@ -201,8 +206,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
             case R.id.btn_free_trial:
                 if (TextUtils.isEmpty(ottUserToken)) {
                     Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+                    getP().isVip(userId);
                 }
                 break;
             case R.id.btn_purchase:
@@ -219,11 +225,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
-//        if (TextUtils.isEmpty(videoBeanData.getTvPicHead())) {
-//            Glide.with(this)
-//                    .load(R.drawable.bitmap3)
-//                    .into(ivVideoCover);
-//        } else {
         RequestOptions options = new RequestOptions()
                 .dontAnimate()
                 .centerInside()
@@ -232,15 +233,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                 .load(videoBeanData.getTvPicHead())
                 .apply(options)
                 .into(ivVideoCover);
-//        }
-
-
         tvVideoTitle.setText(videoBeanData.getTvName());
+        ivVideoIsPurchase.setVisibility(videoBeanData.getIsPurchase() == 1 ? View.VISIBLE : View.GONE);
         getP().getDoctorInfo(videoBeanData.getDoctorId());
-//        tvVideoTeacher.setText("我是老师");
-
-        //相关课程
-
     }
 
     public void setDoctorInfo(DoctorInfoBean bean) {
@@ -253,14 +248,62 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         mVideoGridViewAdpter.notifyDataSetChanged();
     }
 
-    public void startActivity(String videoAddress) {
+    public void startActivity(String videoAddress,String title) {
         Intent intent = new Intent(this, VideoViewActivty.class);
         intent.putExtra("video", videoAddress);
+        intent.putExtra("title", title);
         intent.putExtra("local", false);
         startActivity(intent);
     }
 
+
     public void getH5Url(String data) {
+        if (TextUtils.isEmpty(data) || data.equals("null"))
+            return;
         KLog.d(data);
+        Intent intent = new Intent();
+        intent.setClass(this, WebViewActivity.class);
+        intent.putExtra("PayH5Url", data);
+        startActivity(intent);
+    }
+
+    public void isVip(String isVip) {
+        if (isVip.contains("true")) {
+            getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+        } else {
+            Toast.makeText(this, "此视频会员才能观看的呢", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelShowViewTimer();
+    }
+
+    private Timer mTimer;
+    private ShowViewTimerTask mShowViewTimerTask;
+
+    public void startShowViewTimer() {
+        cancelShowViewTimer();
+        mTimer = new Timer();
+        mShowViewTimerTask = new ShowViewTimerTask();
+        mTimer.schedule(mShowViewTimerTask, 0, 1000);
+    }
+
+    public void cancelShowViewTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
+    }
+
+    public class ShowViewTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            tvTime.post(() -> {
+                tvTime.setText(DateUtil.getTime());
+            });
+        }
     }
 }

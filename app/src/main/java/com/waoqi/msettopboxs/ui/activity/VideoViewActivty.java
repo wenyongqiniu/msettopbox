@@ -23,9 +23,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
     @Override
     public void initView() {
-
         videoView = (VideoView) findViewById(R.id.videoView);
-
     }
 
     public String localVideoPath;
@@ -35,6 +33,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         localVideoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/x264.mp4";
 
         String path = getIntent().getStringExtra("video");
+        String title = getIntent().getStringExtra("title");
         boolean local = getIntent().getBooleanExtra("local", false);
 
 
@@ -50,9 +49,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 //        videoView.setVideoPath(localVideoPath);
         //读取放在raw目录下的文件
 //        videoView.setVideoURI(Uri.parse("android.resource://com.jay.videoviewdemo/" + R.raw.lesson));
-        videoView.setMediaController(new MyMediaController(this, "视频标题"));
-//        videoView.setMediaController(new MediaController(this));
-
+        videoView.setMediaController(new MyMediaController(this, title));
         videoView.start();
     }
 

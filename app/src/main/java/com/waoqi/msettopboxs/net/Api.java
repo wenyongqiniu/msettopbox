@@ -4,9 +4,11 @@ package com.waoqi.msettopboxs.net;
 import com.waoqi.mvp.net.XApi;
 
 /**
- * Created by wanglei on 2016/12/31.
+ * author: luxi
+ * email : mwangluxi@163.com
+ * create by 2020/8/28 11:55
+ * desc : 牌照方接口调用
  */
-
 public class Api {
 
     private static VerificationService verService;
@@ -21,10 +23,4 @@ public class Api {
         }
         return verService;
     }
-
-
-
-
-
-
 }

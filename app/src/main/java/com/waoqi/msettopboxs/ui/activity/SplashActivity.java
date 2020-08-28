@@ -11,6 +11,12 @@
 //import com.waoqi.mvp.imageloader.ILFactory;
 //import com.waoqi.mvp.mvp.XActivity;
 //
+///**
+// * author: luxi
+// * email : mwangluxi@163.com
+// * create by 2020/8/28 11:59
+// * desc : 引导页
+// */
 //public class SplashActivity extends XActivity<SplashPresenter> {
 //
 //

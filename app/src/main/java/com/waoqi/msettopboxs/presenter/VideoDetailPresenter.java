@@ -12,6 +12,7 @@ import com.waoqi.msettopboxs.bean.DoctorInfoBean;
 import com.waoqi.msettopboxs.bean.VideoAddressBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
 import com.waoqi.msettopboxs.ui.activity.VideoDetailActivity;
@@ -108,8 +109,8 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
 
         AuthParam authParam = new AuthParam();
 
-        authParam.setOTTUserToken(DataHelper.getStringSF(getV().getApplicationContext(), "OTTUserToken"));
-        authParam.setUserID(DataHelper.getStringSF(getV().getApplicationContext(), "UserID"));
+        authParam.setOTTUserToken(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN));
+        authParam.setUserID(DataHelper.getStringSF(getV().getApplicationContext(), Constant.USERID));
         authParam.setMAC(systemService.getValue(DevInfoManager.STB_MAC));
 
         String epg_addresss = systemService.getValue(DevInfoManager.EPG_ADDRESS);
@@ -125,7 +126,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
             }
             authParam.setContentID(temp.getSeriesId());
 
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(),temp.getTvName());
         } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
@@ -135,24 +136,25 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 }
             }
             authParam.setContentID(temp.getSeriesId());
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(),temp.getTvName());
         }
     }
 
 
-    public void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId) {
+    public void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId,String title) {
         Gson gson = new Gson();
         String obj = gson.toJson(authParam);
         KLog.e("wlx", "请求AuthCode参数：  " + obj);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), obj);
-        Api.getVerService(epg_address + "/").auth(body)
+        Api.getVerService(epg_address + "/")
+                .auth(body)
                 .compose(XApi.<AuthBean>getApiTransformer())
                 .compose(XApi.<AuthBean>getApiTransformer())
                 .compose(XApi.<AuthBean>getScheduler())
                 .subscribe(new ApiSubscriber<AuthBean>() {
                     @Override
                     public void onNext(AuthBean videoBean) {
-                        startActivity(videoBean, seriesId, movieId);
+                        startActivity(videoBean, seriesId, movieId,title);
                     }
 
                     @Override
@@ -162,7 +164,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 });
     }
 
-    private void startActivity(AuthBean videoBean, String seriesId, String movieId) {
+    private void startActivity(AuthBean videoBean, String seriesId, String movieId,String title) {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
@@ -174,7 +176,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     .append("/vod")
                     .append("/").append(seriesId)
                     .append("/").append(movieId)
-                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), "OTTUserToken"))
+                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
 
         } else if (cdn_type.contains("ZTE")) {
@@ -183,11 +185,11 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     .append("/vod")
                     .append("/").append(seriesId)
                     .append("/").append(movieId)
-                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), "OTTUserToken"))
+                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
         KLog.d("wlx", "播放地址：  " + stringBuffer.toString());
-        getV().startActivity(stringBuffer.toString());
+        getV().startActivity(stringBuffer.toString(),title);
     }
 
     public void toBuy(String userId, String userToken) {
@@ -204,6 +206,27 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     @Override
                     protected void onFail(NetError error) {
 
+                    }
+                });
+    }
+
+
+
+
+    public void isVip(String userId) {
+        MyApi.getMyApiService()
+                .isVip(userId)
+                .compose(XApi.<BasePresponce<String>>getApiTransformer())
+                .compose(XApi.<BasePresponce<String>>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce<String>>() {
+
+                    @Override
+                    public void onNext(BasePresponce<String> vipStateBean) {
+                        getV().isVip(vipStateBean.getData());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
                     }
                 });
     }

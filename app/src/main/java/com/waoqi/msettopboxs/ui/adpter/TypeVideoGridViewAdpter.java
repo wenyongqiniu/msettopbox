@@ -24,11 +24,7 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
         viewHolder.setText(R.id.tv_video_desc, item.getTvName());
         viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 1 ? true : false);
 
-//        if (TextUtils.isEmpty(item.getTvPicHead())) {
-//            Glide.with(mContext)
-//                    .load(R.drawable.bitmap3)
-//                    .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
-//        } else {
+
             RequestOptions options = new RequestOptions()
                     .dontAnimate()
                     .centerInside()
@@ -37,6 +33,6 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
                     .load(item.getTvPicHead())
                     .apply(options)
                     .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
-//        }
+
     }
 }

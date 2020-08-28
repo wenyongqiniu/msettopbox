@@ -1,6 +1,7 @@
 package com.waoqi.msettopboxs.net;
 
 
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.mvp.net.XApi;
 
 /**
@@ -16,7 +17,7 @@ public class MyApi {
         if (sMyAppService == null) {
             synchronized (MyApi.class) {
                 if (sMyAppService == null) {
-                    sMyAppService = XApi.getInstance().getRetrofit("http://36.156.158.245:8081", true).create(MyAppService.class);
+                    sMyAppService = XApi.getInstance().getRetrofit(Constant.BASEURL, true).create(MyAppService.class);
                 }
             }
         }

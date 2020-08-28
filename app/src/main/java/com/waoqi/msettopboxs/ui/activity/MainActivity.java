@@ -2,15 +2,15 @@ package com.waoqi.msettopboxs.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.DevInfoManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,17 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
-import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.ImageBean;
 import com.waoqi.msettopboxs.bean.SearchLevelBean;
 import com.waoqi.msettopboxs.bean.UserBean;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.presenter.MainPresenter;
 import com.waoqi.msettopboxs.ui.adpter.MainAdpter;
-import com.waoqi.msettopboxs.ui.pop.CustomFullScreenPopup;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DataUtil;
@@ -44,16 +41,19 @@ import com.waoqi.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import static java.security.AccessController.getContext;
-
-
+/**
+ * author: luxi
+ * email : mwangluxi@163.com
+ * create by 2020/8/28 11:59
+ * desc : 主页显示界面
+ */
 public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
     private String TAG = MainActivity.class.getName();
-    private Button btnSearch;
-    private Button btnLogin;
-    private Button btnOpenVip;
+    private Button btnSearch, btnLogin, btnOpenVip, btn_history;
+
     private TextView tvTime;
 
     private ImageView ivMain1;
@@ -73,6 +73,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private DevInfoManager devInfoManager;
 
     private List<ImageBean> typeList = new ArrayList<>();
+    private LocalBroadcastManager mLocalBroadcastManager;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -91,18 +92,21 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
+        btn_history = (Button) findViewById(R.id.btn_history);
 
 
         btnSearch.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnOpenVip.setOnClickListener(this);
+        btn_history.setOnClickListener(this);
 
         getP().getSearchLevel();
         initGridView();
 
+        startShowViewTimer();
         tvTime.setText(DateUtil.getTime());
-
     }
+
 
     private void initGridView() {
         mOpenEffectBridge = (OpenEffectBridge) mainUpView2.getEffectBridge();
@@ -153,7 +157,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                     mOpenEffectBridge.setVisibleWidget(false);
                     mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-                        //TODO
+
                     } else {
                         KLog.i(TAG, "非空");
                         mainUpView2.setFocusView(mOldGridView, 1.1f);
@@ -168,7 +172,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         gridviewtv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ArtUtils.startActivity(context, TypeVideoActivity.class);
                 Intent intent = new Intent(context, TypeVideoActivity.class);
                 intent.putExtra("user_phone", devInfoManager.getValue(DevInfoManager.PHONE));
                 intent.putExtra("main_type_id", typeList.get(position).getTypeId());
@@ -180,20 +183,10 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
     @Override
     public void initData(Bundle savedInstanceState) {
-//        DevInfoUtil.getValue(this);
-//        @SuppressLint("WrongConstant") final DevInfoManager devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
-//        DevInfoUtil.getToken(this, new OnResultCall() {
-//            @Override
-//            public void onResult(String token) {
-//                getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS), token, devInfoManager.getValue(DevInfoManager.PHONE), devInfoManager.getValue(DevInfoManager.STB_MAC));
-//            }
-//        });
-
-        String userInfo = DataHelper.getStringSF(getApplication(), "UserInfo");
+        String userInfo = DataHelper.getStringSF(getApplication(), Constant.USERINFO);
         if (userInfo != null) {
             getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE));
         }
-
     }
 
     @Override
@@ -204,35 +197,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     @Override
     public MainPresenter newP() {
         return new MainPresenter();
-    }
-
-    public void click(View view) {
-//        X5WebViewActivity.loadUrl(this, "file:///android_asset/home.html", "");
-//        X5WebViewActivity.loadUrl(this, "https://www.baidu.com", "");
-//        startActivity(new Intent(this, VideoActivty.class));
-
-//        getP().heartBeat();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return super.onKeyDown(keyCode, event);
-        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-//            if (gridviewtv.isFocusable()) {
-//                KLog.i(TAG, "右键");
-//                gridviewtv.requestFocus();
-//            }
-        }
-        return false;
-    }
-
-    private void customPop() {
-        new XPopup.Builder(this)
-                .hasStatusBarShadow(true)
-                .autoOpenSoftInput(true)
-                .asCustom(new CustomFullScreenPopup(this))
-                .show();
     }
 
 
@@ -257,17 +221,17 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
                 break;
             case R.id.btn_open_vip:
-//                Toast.makeText(context, "开通", Toast.LENGTH_SHORT).show();
-//                customPop();
-                if (DataHelper.getStringSF(getApplication(), "UserInfo") == null) {
+                if (DataHelper.getStringSF(getApplication(), Constant.USERINFO) == null) {
                     Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String userId = DataHelper.getStringSF(this, "UserID");
-                String ottUserToken = DataHelper.getStringSF(this, "OTTUserToken");
+                String userId = DataHelper.getStringSF(this, Constant.USERID);
+                String ottUserToken = DataHelper.getStringSF(this, Constant.OTTUSERTOKEN);
                 getP().toBuy(userId, ottUserToken);
                 break;
-
+            case R.id.btn_history:
+                ArtUtils.startActivity(this, HistoryAcitvity.class);
+                break;
         }
     }
 
@@ -278,7 +242,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     }
 
     public void getUserInfo(UserBean userBean) {
-        DataHelper.setStringSF(getApplication(), "UserInfo", userBean.toString());
+        DataHelper.setStringSF(getApplication(), Constant.USERINFO, userBean.toString());
         Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
         if (userBean.getIsVip() == 0) {
             btnOpenVip.setText("已开通");
@@ -296,5 +260,37 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         intent.setClass(this, WebViewActivity.class);
         intent.putExtra("PayH5Url", data);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelShowViewTimer();
+    }
+
+    private Timer mTimer;
+    private ShowViewTimerTask mShowViewTimerTask;
+
+    public void startShowViewTimer() {
+        cancelShowViewTimer();
+        mTimer = new Timer();
+        mShowViewTimerTask = new ShowViewTimerTask();
+        mTimer.schedule(mShowViewTimerTask, 0,1000);
+    }
+
+    public void cancelShowViewTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
+    }
+
+    public class ShowViewTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            tvTime.post(()->{
+                tvTime.setText(DateUtil.getTime());
+            });
+        }
     }
 }
