@@ -1,0 +1,57 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerInParent="true"
+    android:shrinkColumns="0,1,2"
+    android:stretchColumns="0,1,2">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button00" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button01" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button02" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button10" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button11" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button12" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button20" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button21" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button22" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button30" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button31" />
+
+        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button32" />
+    </TableRow>
+
+
+</TableLayout>

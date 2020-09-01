@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard
+    bg_res="@drawable/key_bg_main"
+    key_bg_res="@drawable/key_bg_rectangle"
+    key_height="35dp"
+    key_left_padding="10dp"
+    key_select_res="@drawable/softkey_bg_select2"
+    key_text_color="#b3eaea"
+    key_text_size="18dp"
+    key_top_padding="10dp"
+    key_width="35dp"
+    left_right_move="false"
+    qwerty="true"
+    qwerty_uppercase="false"
+    start_pos_x="1dp"
+    start_pos_y="1dp"
+    top_bottom_move="false">
+
+    <!-- 第一行 -->
+    <row>
+        <keys
+            codes="8|9|10|11|12"
+            labels="1|2|3|4|5"
+            splitter="|" />
+    </row>
+
+    <!-- 第二行 -->
+    <row>
+        <keys
+            codes="13|4|15|16|7"
+            labels="6|7|8|9|0"
+            splitter="|" />
+    </row>
+
+    <!-- 第三行 -->
+    <row>
+
+
+        <key
+            key_code="1234"
+            key_label="ABC"
+            key_text_size="15dp"
+            key_width="80dp"/>
+        <key
+            key_code="28"
+            key_label="清空"
+            key_text_size="15dp" />
+        <key
+            key_code="67"
+            key_label="删除"
+            key_text_size="15dp" />
+
+    </row>
+
+
+
+
+</Keyboard>

@@ -1,27 +1,45 @@
-    用户手机号 :MobilePhoneNumber   19825783259
-    用户手机号服务密码 :ServicePassword   ec6c7be8bea1a72f33830f3241e593cf#####
-    用户业务账号 :Account   
-    用户业务账号密码 :AccountPassword   
-    设备MAC地址 :STBMAC   14:11:5D:F9:11:7C
-    设备唯一序列号 :STBSN   00410418210221E0195114115DF9117C
-    开放平台主地址 :PlatformURL   http://183.207.248.75:8082/EDS/jsp/AuthenticationURL
-    开放平台备地址 :PlatformURLBackup   http://183.207.249.75:8082/EDS/jsp/AuthenticationURL
-    终端管理主地址 :CMSURL   http://183.207.215.46:8081/ACS-server/ACS
-    终端管理备地址 :CMSURLBackup   http://112.4.28.105:7547/ACS-server/ACS
-    家开平台地址 :EPGAddress   http://223.110.245.9:33200/EPG
-    华为平台EPG地址 :BackupCDNAddress   http://183.207.249.71:80
-    华为平台CDN地址 :TVID   
-    华为平台备份CDN地址 :Manufacturer   null
-    华为平台广电序列号 :ModelName   E900V21E
-    CPE设备型号名称 :FirmwareVersion   V.797.02
-    CDN类型 :CDNType   HW
-    中兴开放平台主地址 :PlatformURLZTE   http://223.110.239.37:9330/cmcclogin.jsp
-    中兴开放平台备地址 :CDNDispatchURL   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
-    多CDN调度员系统主地址 :CDNDispatchURL   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
-    多CDN调度员系统备地址 :CDNDispatchURLBackup   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
-{"ResultCode":1000,"ResultDesc":"","Token":"JSHDC-ASPIRE-dc04bae8-e572-4e8f-a962-a213c950ac73"}
+        用户手机号 :MobilePhoneNumber   19825783259
+      用户手机号服务密码 :ServicePassword   ec6c7be8bea1a72f33830f3241e593cf#####
+      用户业务账号 :Account
+      用户业务账号密码 :AccountPassword
+      设备MAC地址 :STBMAC   14:11:5D:F9:11:7C
+      设备唯一序列号 :STBSN   00410418210221E0195114115DF9117C
+      开放平台主地址 :PlatformURL   http://183.207.248.75:8082/EDS/jsp/AuthenticationURL
+      开放平台备地址 :PlatformURLBackup   http://183.207.249.75:8082/EDS/jsp/AuthenticationURL
+      终端管理主地址 :CMSURL   http://183.207.215.46:8081/ACS-server/ACS
+      终端管理备地址 :CMSURLBackup   http://112.4.28.105:7547/ACS-server/ACS
+      家开平台地址 :EPGAddress   http://223.110.239.43:9330/EPG
+      华为平台EPG地址 :BackupCDNAddress   http://223.110.240.40:6060
+      华为平台CDN地址 :TVID
+      华为平台备份CDN地址 :Manufacturer   null
+      华为平台广电序列号 :ModelName   E900V21E
+      CPE设备型号名称 :FirmwareVersion   V.797.03
+      CDN类型 :CDNType   ZTE
+      中兴开放平台主地址 :PlatformURLZTE   http://223.110.239.37:9330/cmcclogin.jsp
+      中兴开放平台备地址 :CDNDispatchURL   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
+      多CDN调度员系统主地址 :CDNDispatchURL   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
+      多CDN调度员系统备地址 :CDNDispatchURLBackup   http://cdndisurl.jsa.bcs.ottcn.com:8080/cdn-sch/api/schedule/getCdn
 
 
+      {
+              "UserID":"19825783259",
+              "Result":"0",
+              "Description":"",
+              "OTTUserToken":"99999999",
+              "expiredTime":"20200831125615",
+              "TimeOut":"3900"
+          }
+
+{"ResultCode":1000,"ResultDesc":"","Token":"JSHDC-ASPIRE-4fac56c7-f0f0-4480-808b-45a5e48f1bb2"}
+
+{
+        "UserID":"19825783259",
+        "Result":"0",
+        "Description":"",
+        "OTTUserToken":"99999999",
+        "expiredTime":"20200831130343",
+        "TimeOut":"3900"
+    }
 
 
 {

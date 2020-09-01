@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard
+    bg_res="@drawable/key_bg_main"
+    key_bg_res="@drawable/key_bg_rectangle"
+    key_height="35dp"
+    key_left_padding="10dp"
+    key_select_res="@drawable/softkey_bg_select2"
+    key_text_color="#b3eaea"
+    key_text_size="18dp"
+    key_top_padding="10dp"
+    key_width="35dp"
+    left_right_move="false"
+    qwerty="true"
+    qwerty_uppercase="false"
+    start_pos_x="1dp"
+    start_pos_y="1dp"
+    top_bottom_move="false">
+
+    <!-- 第一行 -->
+    <row>
+        <keys
+            codes="29|30|31|32|33"
+            labels="A|B|C|D|E"
+            splitter="|" />
+    </row>
+
+    <!-- 第二行 -->
+    <row>
+        <keys
+            codes="34|35|36|37|38"
+            labels="E|G|H|I|J"
+            splitter="|" />
+    </row>
+
+    <!-- 第三行 -->
+    <row>
+        <keys
+            codes="39|40|41|42|43"
+            labels="K|L|M|N|O"
+            splitter="|" />
+    </row>
+
+    <!-- 第四行 -->
+    <row>
+        <keys
+            codes="44|45|46|47|48"
+            labels="P|Q|R|S|T"
+            splitter="|" />
+    </row>
+
+    <!-- 第五行 -->
+    <row>
+        <keys
+            codes="49|50|51|52|53"
+            labels="U|V|W|X|Y"
+            splitter="|" />
+    </row>
+
+    <!-- 第六行 -->
+    <row>
+
+        <key
+            key_code="250"
+            key_label="123"
+            key_text_size="15dp"
+            key_width="80dp"/>
+
+        <key
+            key_code="54"
+            key_label="Z"
+            key_text_size="15dp" />
+        <key
+            key_code="28"
+            key_label="清空"
+            key_text_size="15dp" />
+        <key
+            key_code="67"
+            key_label="删除"
+            key_text_size="15dp" />
+
+    </row>
+
+
+</Keyboard>

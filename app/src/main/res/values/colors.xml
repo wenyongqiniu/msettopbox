@@ -4,10 +4,14 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-
+    <color name="colorGreen">#0a9399</color>
     <color name="tv_color2">#9B9A9A</color>
     <color name="tv_f1f1f1">#fff1f1f1</color>
     <color name="tv_ffffff">#ffffff</color>
     <color name="tv_000000">#000000</color>
     <color name="tv_yellow">#ffecce9a</color>
+    <color name="colorWhite">#ffffff</color>
+
+
+
 </resources>

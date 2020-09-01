@@ -121,15 +121,15 @@ public class SoftKeyboardView extends View {
 	 * 绘制键盘的背景.
 	 */
 	private void drawKeyboardBg(Canvas canvas) {
-		Drawable bg = mSoftKeyboard.getKeyboardBg();
-		Rect rect = new Rect(0, 0, getWidth(), getHeight());
-		if (bg != null) {
-			bg.setBounds(rect);
-			bg.draw(canvas);
-		} else {
-			Paint paint = new Paint();
-			canvas.drawRect(rect, paint);
-		}
+//		Drawable bg = mSoftKeyboard.getKeyboardBg();
+//		Rect rect = new Rect(0, 0, getWidth(), getHeight());
+//		if (bg != null) {
+//			bg.setBounds(rect);
+//			bg.draw(canvas);
+//		} else {
+//			Paint paint = new Paint();
+//			canvas.drawRect(rect, paint);
+//		}
 	}
 
 	/**

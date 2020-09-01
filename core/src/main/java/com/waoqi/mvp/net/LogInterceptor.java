@@ -21,7 +21,7 @@ import okio.Buffer;
  */
 
 public class LogInterceptor implements Interceptor {
-    private final String TAG = "LogInterceptor";
+    private final String TAG = "wlx";
 
     @Override
     public Response intercept(Chain chain) throws IOException {

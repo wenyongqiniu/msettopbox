@@ -12,4 +12,14 @@
     <string name="purchase">立即购买</string>
     <string name="lockscreen_transport_play_description">播放</string>
     <string name="lockscreen_transport_pause_description">停止</string>
+
+
+
+
+    <string name="keycode_space">62</string> <!-- 空格 -->
+    <string name="keycode_center">66</string> <!-- 回车 -->
+    <string name="keycode_back">4</string> <!-- 返回 -->
+    <string name="keycode_left">21</string> <!-- 左边 -->
+    <string name="keycode_right">22</string> <!-- 右边 -->
+    <string name="keycode_del">67</string> <!-- 删除 -->
 </resources>

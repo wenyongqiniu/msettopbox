@@ -73,7 +73,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private DevInfoManager devInfoManager;
 
     private List<ImageBean> typeList = new ArrayList<>();
-    private LocalBroadcastManager mLocalBroadcastManager;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -102,6 +101,8 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         getP().getSearchLevel();
         initGridView();
 
+//
+        DevInfoUtil.getValue(this);
     }
 
 
@@ -207,7 +208,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 DevInfoUtil.getToken(this, new OnResultCall() {
                     @Override
                     public void onResult(String token) {
-                        DataHelper.setStringSF(context, "token", token);
+                        DataHelper.setStringSF(context, Constant.TOKEN, token);
 
                         getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
                                 , token, devInfoManager.getValue(DevInfoManager.PHONE)

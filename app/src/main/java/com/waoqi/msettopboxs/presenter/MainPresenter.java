@@ -36,8 +36,6 @@ public class MainPresenter extends XPresent<MainActivity> {
                         DataHelper.setStringSF(getV().getApplication(), Constant.USERID, verificationBean.getUserID());
                         DataHelper.setStringSF(getV().getApplication(), Constant.OTTUSERTOKEN, verificationBean.getOTTUserToken());
 
-                        KLog.a("wlx", verificationBean.getOTTUserToken());
-                        KLog.a("wlx", verificationBean.getUserID());
                         heartBeat(epg_address,verificationBean.getOTTUserToken(),mobile_phone_number);
                     }
 

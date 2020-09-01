@@ -13,4 +13,5 @@ public class Constant {
     public  static final String USERINFO="UserInfo";
     public  static final String USERID="UserID";
     public  static final String OTTUSERTOKEN="OTTUserToken";
+    public  static final String TOKEN="Token";
 }
