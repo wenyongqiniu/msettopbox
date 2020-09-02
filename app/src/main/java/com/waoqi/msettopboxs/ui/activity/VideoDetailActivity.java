@@ -203,7 +203,8 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                     Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    getP().isVip(userId);
+                    getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+//                    getP().isVip(userId);
                 }
                 break;
             case R.id.btn_purchase:

@@ -18,4 +18,5 @@ public class Util {
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displaymetrics);
         return displaymetrics;
     }
+
 }

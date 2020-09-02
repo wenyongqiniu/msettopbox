@@ -98,6 +98,8 @@ public class MyMediaController extends MediaController {
         mPauseDescription = res.getText(R.string.lockscreen_transport_pause_description);
         mPauseButton = v.findViewById(R.id.pause);
 
+        cancelProgressTimer();
+        startProgressTimer();
 
         title = v.findViewById(R.id.title);
         mProgress = v.findViewById(R.id.mediacontroller_progress);
@@ -131,7 +133,7 @@ public class MyMediaController extends MediaController {
     private final SeekBar.OnSeekBarChangeListener mSeekListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onStartTrackingTouch(SeekBar bar) {
-            Log.e("WLX", "onStartTrackingTouch");
+            KLog.e("WLX", "onStartTrackingTouch");
         }
 
         @Override
@@ -140,7 +142,7 @@ public class MyMediaController extends MediaController {
 
                 return;
             }
-            Log.e("WLX", "progress :  " + progress + "   fromuser  " + fromuser);
+            KLog.e("WLX", "progress :  " + progress + "   fromuser  " + fromuser);
 
             long duration = mPlayer.getDuration();
             long newposition = (duration * progress) / 1000L;
@@ -151,7 +153,7 @@ public class MyMediaController extends MediaController {
 
         @Override
         public void onStopTrackingTouch(SeekBar bar) {
-            Log.e("WLX", "onStopTrackingTouch");
+            KLog.e("WLX", "onStopTrackingTouch");
         }
     };
 

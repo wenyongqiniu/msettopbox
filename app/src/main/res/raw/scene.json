@@ -1,0 +1,27 @@
+{
+  "_commands": {
+    "esc": [
+       "退出"
+    ],
+    "resume": [
+       "恢复"
+    ],
+    "mute": [
+       "静音"
+    ],
+    "volume_up": [
+       "音量大一点"
+    ],
+    "volume_down": [
+       "音量小一点"
+    ],
+    "home": [
+      "主页"
+    ],
+
+    "play": [
+      "$P(_PLAY)"
+    ]
+  },
+  "_scene": " com.waoqi.msettopboxs.ui.activity.VideoViewActivty"
+}
