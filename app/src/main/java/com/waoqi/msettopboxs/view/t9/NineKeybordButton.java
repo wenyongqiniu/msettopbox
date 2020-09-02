@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 
 
@@ -48,6 +49,7 @@ public class NineKeybordButton extends LinearLayout implements OnFocusChangeList
     private final int KEYCODE_LEFT = KeyEvent.KEYCODE_DPAD_LEFT;
     private final int KEYCODE_RIGHT = KeyEvent.KEYCODE_DPAD_RIGHT;
     private final int KEYCODE_ENTER = KeyEvent.KEYCODE_ENTER;
+    private final int KEYCODE_DPAD_CENTER = KeyEvent.KEYCODE_DPAD_CENTER;
     private final int ONLY_ONE_TEXTVIEW = -99;
 
 
@@ -248,40 +250,34 @@ public class NineKeybordButton extends LinearLayout implements OnFocusChangeList
     }
 
     private void onKeyDown(int keyCode) {
+        KLog.e("单键是 " + keyCode);
         switch (keyCode) {
             case KEYCODE_ENTER:
                 if (mOnNineKeyListener != null) {
                     mOnNineKeyListener.onKey(VALUE_ENTER);
                 }
                 break;
-
-            case KEYCODE_LEFT:
+            case KEYCODE_LEFT://左
                 if (mOnNineKeyListener != null) {
                     mOnNineKeyListener.onKey(VALUE_LEFT);
                 }
                 break;
-
-            case KEYCODE_UP:
+            case KEYCODE_UP://上
                 if (mOnNineKeyListener != null) {
                     mOnNineKeyListener.onKey(VALUE_UP);
                 }
-
                 break;
-
-            case KEYCODE_RIGHT:
+            case KEYCODE_RIGHT://右
                 if (mOnNineKeyListener != null) {
                     mOnNineKeyListener.onKey(VALUE_RIGHT);
                 }
-
                 break;
-
-            case KEYCODE_DOWN:
+            case KEYCODE_DOWN://下
                 if (mOnNineKeyListener != null) {
                     mOnNineKeyListener.onKey(VALUE_DOWN);
                 }
-
                 break;
-
+            case KEYCODE_DPAD_CENTER://居中
             case ONLY_ONE_TEXTVIEW:
                 if (mOnNineKeyListener != null) {
                     mOnNineKeyListener.onKey(mTextView1.getText().toString());

@@ -36,7 +36,7 @@ public class MainPresenter extends XPresent<MainActivity> {
                         DataHelper.setStringSF(getV().getApplication(), Constant.USERID, verificationBean.getUserID());
                         DataHelper.setStringSF(getV().getApplication(), Constant.OTTUSERTOKEN, verificationBean.getOTTUserToken());
 
-                        heartBeat(epg_address,verificationBean.getOTTUserToken(),mobile_phone_number);
+                        heartBeat(epg_address, verificationBean.getOTTUserToken(), mobile_phone_number);
                     }
 
                     @Override
@@ -110,9 +110,9 @@ public class MainPresenter extends XPresent<MainActivity> {
                 });
     }
 
-    public void toBuy(String userId, String userToken){
+    public void toBuy(String userId, String userToken) {
         MyApi.getMyApiService()
-                .toBuy("", userId, userToken)
+                .toBuy(userId, userToken)
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {

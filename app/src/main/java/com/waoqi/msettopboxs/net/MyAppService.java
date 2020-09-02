@@ -12,6 +12,7 @@ import com.waoqi.msettopboxs.bean.VideoDetailBean;
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 public interface MyAppService {
@@ -23,7 +24,8 @@ public interface MyAppService {
     //购买
 
     @GET("api/pay/h52To1Pay")
-    Flowable<BasePresponce> toBuy(@Header("application/json") String header, @Query("userId") String userId, @Query("userToken") String userToken);
+    @Headers({"Content-Type:application/json;charset=utf-8"})
+    Flowable<BasePresponce> toBuy(@Query("userId") String userId, @Query("userToken") String userToken);
 
     //获取一级分类
     @GET("api/home/searchAllTopLevel")
@@ -57,8 +59,6 @@ public interface MyAppService {
     //视频播放地址
     @GET("api/home/searchVideoByCpAlbumIdAndCpTvId")
     Flowable<VideoAddressBean> getVideoAddress(@Query("cpAlbumId") String cpAlbumId, @Query("cpTvId") int cpTvId);
-
-
 
 
     // TODO 获取播放历史

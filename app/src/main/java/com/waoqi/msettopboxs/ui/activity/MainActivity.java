@@ -224,7 +224,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                     return;
                 }
                 String userId = DataHelper.getStringSF(this, Constant.USERID);
-                String ottUserToken = DataHelper.getStringSF(this, Constant.OTTUSERTOKEN);
+                String ottUserToken = DataHelper.getStringSF(this, Constant.TOKEN);
                 getP().toBuy(userId, ottUserToken);
                 break;
 //            case R.id.btn_history:

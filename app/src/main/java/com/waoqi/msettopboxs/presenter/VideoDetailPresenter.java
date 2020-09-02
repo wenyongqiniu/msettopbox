@@ -92,7 +92,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 .subscribe(new ApiSubscriber<VideoAddressBean>() {
                     @Override
                     public void onNext(VideoAddressBean videoBean) {
-                        nextApi(videoBean);
+//                        nextApi(videoBean);
                     }
 
                     @Override
@@ -126,7 +126,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
             }
             authParam.setContentID(temp.getSeriesId());
 
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(),temp.getTvName());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName());
         } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
@@ -136,12 +136,12 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 }
             }
             authParam.setContentID(temp.getSeriesId());
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(),temp.getTvName());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName());
         }
     }
 
 
-    public void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId,String title) {
+    public void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId, String title) {
         Gson gson = new Gson();
         String obj = gson.toJson(authParam);
         KLog.e("wlx", "请求AuthCode参数：  " + obj);
@@ -154,7 +154,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 .subscribe(new ApiSubscriber<AuthBean>() {
                     @Override
                     public void onNext(AuthBean videoBean) {
-                        startActivity(videoBean, seriesId, movieId,title);
+                        startActivity(videoBean, seriesId, movieId, title);
                     }
 
                     @Override
@@ -164,7 +164,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 });
     }
 
-    private void startActivity(AuthBean videoBean, String seriesId, String movieId,String title) {
+    private void startActivity(AuthBean videoBean, String seriesId, String movieId, String title) {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
@@ -189,12 +189,12 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
         KLog.d("wlx", "播放地址：  " + stringBuffer.toString());
-        getV().startActivity(stringBuffer.toString(),title);
+        getV().startActivity(stringBuffer.toString(), title);
     }
 
     public void toBuy(String userId, String userToken) {
         MyApi.getMyApiService()
-                .toBuy("", userId, userToken)
+                .toBuy(userId, userToken)
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {
@@ -209,8 +209,6 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     }
                 });
     }
-
-
 
 
     public void isVip(String userId) {
