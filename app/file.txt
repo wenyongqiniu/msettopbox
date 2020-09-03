@@ -55,3 +55,32 @@
             "movieId": "mjsag003230100000000000000000061",
             "type": 1
         }
+
+
+
+
+{
+    "retcode": 0,
+    "msg": "操作成功",
+    "data": {
+        "id": 946,
+        "cpAlbumId": "159064924718699",
+        "cpTvId": 3,
+        "tvName": "【月经不调】3、月经不调会影响生育吗？",
+        "tvIsEffective": 1,
+        "tvIsOnline": 1,
+        "isPurchase": 1,
+        "playOrder": 3,
+        "tvUrl": "ftp://tianhong:6PvfNOD6DOJTKfBk@112.25.63.175:2111/home/video/3.mp4",
+        "tvDuration": null,
+        "tvPicHead": "http://video-head-pic.obs.cidc-rp-12.joint.cmecloud.cn/2020/06/29/566d45f7-e7ee-4027-be6a-4f3cfee0f2a3.jpg",
+        "bitRate": null,
+        "viceoFormat": "",
+        "tvDesc": "",
+        "tvPriority": null,
+        "doctorId": 16,
+        "isTakeEffect": 0,
+        "abbreviation": "yjbdyjbdhyxsym"
+    },
+    "success": true
+}

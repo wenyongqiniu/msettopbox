@@ -39,5 +39,19 @@
         android:onClick="click"
         android:text="支付测试" />
 
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="click"
+        android:text="保存播放历史" />
+
+    <Button
+        android:id="@+id/btn7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="click"
+        android:text="加载中" />
+
 
 </LinearLayout>

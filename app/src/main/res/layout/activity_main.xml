@@ -19,7 +19,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp">
@@ -27,7 +27,7 @@
 
             <Button
                 android:id="@+id/btn_search"
-                android:layout_width="246dp"
+                android:layout_width="200dp"
                 android:layout_height="28dp"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/system_serchb"
@@ -46,14 +46,14 @@
                 android:layout_marginLeft="25dp"
                 android:layout_toRightOf="@+id/btn_search"
                 android:background="@drawable/tv_bug_search_bg"
-                android:nextFocusRight="@id/btn_open_vip"
-                android:nextFocusLeft="@id/btn_search"
-                android:nextFocusDown="@id/gridviewtv"
                 android:drawableStart="@drawable/userinfo"
+                android:gravity="center"
+                android:maxLines="1"
+                android:nextFocusLeft="@id/btn_search"
+                android:nextFocusRight="@id/btn_open_vip"
+                android:nextFocusDown="@id/gridviewtv"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:maxLines="1"
-                android:gravity="center"
                 android:text="@string/login"
                 android:textColor="@color/font_gray_white"
                 android:textSize="12sp"
@@ -67,41 +67,24 @@
                 android:layout_marginLeft="25dp"
                 android:layout_toRightOf="@+id/btn_login"
                 android:background="@drawable/tv_open_vip_bg"
+                android:drawableStart="@drawable/vip"
                 android:nextFocusLeft="@id/btn_login"
                 android:nextFocusRight="@id/gridviewtv"
                 android:nextFocusDown="@id/gridviewtv"
-                android:drawableStart="@drawable/vip"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/open_vip"
-                tools:visibility="gone"
                 android:textColor="#ecce9a"
-                android:textSize="12sp" />
-
-
-<!--         <Button-->
-<!--                android:id="@+id/btn_history"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="28dp"-->
-<!--                android:layout_marginLeft="25dp"-->
-<!--                android:layout_toRightOf="@+id/btn_open_vip"-->
-<!--                android:background="@drawable/tv_bug_search_bg"-->
-<!--                android:nextFocusLeft="@id/btn_login"-->
-<!--                android:nextFocusRight="@id/gridviewtv"-->
-<!--                android:nextFocusDown="@id/gridviewtv"-->
-<!--                android:paddingLeft="15dp"-->
-<!--                android:paddingRight="15dp"-->
-<!--                android:text="@string/history"-->
-<!--                android:textColor="#FFF"-->
-<!--                android:textSize="12sp" />-->
+                android:textSize="12sp"
+                tools:visibility="gone" />
 
 
             <TextView
                 android:id="@+id/tv_app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_marginRight="38dp"
+                android:layout_toLeftOf="@+id/linetext"
                 android:text="@string/app_name"
                 android:textColor="@color/tv_f1f1f1"
                 android:textSize="18sp" />
@@ -116,9 +99,49 @@
                 android:format24Hour="HH:mm"
                 android:textColor="@color/tv_f1f1f1"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
 
+            <LinearLayout
+                android:id="@+id/linetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务电话:"
+                        android:textColor="#FFFFFF" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4001889205"
+                        android:textColor="#FCA938" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="服务时间:周一至周五9:00-18:00"
+                    android:textColor="#FFFFFF" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收视路径：首页-会员超市-医学微视"
+                    android:textColor="#F92F43" />
+            </LinearLayout>
 
         </RelativeLayout>
 

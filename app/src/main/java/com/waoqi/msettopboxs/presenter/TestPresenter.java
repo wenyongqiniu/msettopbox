@@ -1,8 +1,11 @@
 package com.waoqi.msettopboxs.presenter;
 
 import com.socks.library.KLog;
+import com.waoqi.msettopboxs.bean.BasePresponce;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.net.Api;
+import com.waoqi.msettopboxs.net.MyApi;
+import com.waoqi.msettopboxs.net.requestbean.WatchHistoryBean;
 import com.waoqi.msettopboxs.ui.activity.TestActivity;
 import com.waoqi.mvp.mvp.XPresent;
 import com.waoqi.mvp.net.ApiSubscriber;
@@ -68,7 +71,35 @@ public class TestPresenter extends XPresent<TestActivity> {
     }
 
 
+    public void saveHistoty() {
+        WatchHistoryBean historyBean = new WatchHistoryBean();
+        historyBean.setContentName("【月经不调】3、月经不调会影响生育吗？");
+        historyBean.setContentId("159064924718699");
+        historyBean.setExtraContentId(3);
+        historyBean.setContentTotalTime(300);
+        historyBean.setStartWatchTime(300);
+        historyBean.setEndWatchTime(3000);
+        historyBean.setPlayTime(300);
+        historyBean.setLogType("watching");
+        historyBean.setAccount("19825783259");
+        historyBean.setImageUrl("http://video-head-pic.obs.cidc-rp-12.joint.cmecloud.cn/2020/06/29/566d45f7-e7ee-4027-be6a-4f3cfee0f2a3.jpg");
+        MyApi.getMyApiService()
+                .saveHistoty(historyBean)
+                .compose(XApi.<BasePresponce>getApiTransformer())
+                .compose(XApi.<BasePresponce>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce>() {
+                    @Override
+                    public void onNext(BasePresponce videoBean) {
 
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+
+    }
 
 
 }

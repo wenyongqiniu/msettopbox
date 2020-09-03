@@ -1,7 +1,10 @@
 package com.waoqi.msettopboxs.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DevInfoManager;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,9 @@ import com.iflytek.xiri.Feedback;
 import com.iflytek.xiri.scene.ISceneListener;
 import com.iflytek.xiri.scene.Scene;
 import com.iflytek.xiri.scene.ScenePlus;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.impl.LoadingPopupView;
+import com.lxj.xpopup.widget.LoadingView;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.presenter.TestPresenter;
@@ -36,8 +42,6 @@ public class TestActivity extends XActivity<TestPresenter> implements CustomAdap
     public void initData(Bundle savedInstanceState) {
         devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
     }
-
-
 
 
     @Override
@@ -78,9 +82,39 @@ public class TestActivity extends XActivity<TestPresenter> implements CustomAdap
                 break;
             case R.id.btn4:
                 intent.putExtra("video", getStr());
-                intent.putExtra("local", false);
                 intent.putExtra("title", "测试视频");
                 ArtUtils.startActivity(context, intent);
+                break;
+
+            case R.id.btn5:
+                Intent intent1 = new Intent();
+                intent1.setClass(this, WebViewActivity.class);
+                intent1.putExtra("PayH5Url", "http://183.207.215.112:8090/HDC/pay-merger/dist/#/?flag=&validCode=0&sessionId=774ca6706b825456879d8178b6250f7b&appId=00001&origin=null&deskCode=ystyl&userToken=JSHDC-ASPIRE-9f54a939-152e-4d7d-9c85-d77dde2cf6d2&diversionCode=&productCodes=ceshi0001&groupIds=1000002415000002&greenPopGroSwith=1&unSubReplaceSwitch=1");
+                startActivity(intent1);
+                break;
+            case R.id.btn6:
+                getP().saveHistoty();
+                break;
+            case R.id.btn7:
+//
+                final LoadingPopupView loadingPopup = (LoadingPopupView) new XPopup.Builder(this)
+                        .asLoading("加载中")
+                        .bindLayout(R.layout.xpopup_center_impl_loading)
+                        .show();
+                loadingPopup.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        loadingPopup.setTitle("正在加载长度变化了");
+                    }
+                }, 1000);
+//                loadingPopup.smartDismiss();
+//                loadingPopup.dismiss();
+                loadingPopup.delayDismissWith(3000, new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
                 break;
 
         }

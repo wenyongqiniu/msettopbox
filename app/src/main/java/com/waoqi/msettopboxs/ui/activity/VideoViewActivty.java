@@ -1,8 +1,11 @@
 package com.waoqi.msettopboxs.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.DevInfoManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,17 +16,25 @@ import android.widget.VideoView;
 import com.iflytek.xiri.Feedback;
 import com.iflytek.xiri.scene.ISceneListener;
 import com.iflytek.xiri.scene.Scene;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.impl.LoadingPopupView;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.bean.VideoDetailBean;
 import com.waoqi.msettopboxs.presenter.VideoViewPresenter;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.RawFileUtils;
 import com.waoqi.msettopboxs.view.MyMediaController;
 import com.waoqi.mvp.mvp.XActivity;
 
+import java.lang.ref.WeakReference;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class VideoViewActivty extends XActivity<VideoViewPresenter> implements CustomAdapt {
+public class VideoViewActivty extends XActivity<VideoViewPresenter> implements CustomAdapt, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
 
     private VideoView videoView;
@@ -35,25 +46,36 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     }
 
 
-    public String localVideoPath;
     private Scene scenePlus;
-//    private Feedback mFeedback;
+    private Feedback mFeedback;
+    private VideoDetailBean mVideoDetailBean;
 
+    private DevInfoManager devInfoManager;
+    LoadingPopupView loadingPopup;
+    private int contentTotalTime, startWatchTime, endWatchTime, playTime;
+
+    @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
-        localVideoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/x264.mp4";
-
         String path = getIntent().getStringExtra("video");
         String title = getIntent().getStringExtra("title");
-        boolean local = getIntent().getBooleanExtra("local", false);
+        mVideoDetailBean = (VideoDetailBean) getIntent().getSerializableExtra("VideoDetailBean");
 
-        if (local) {
-            videoView.setVideoPath(localVideoPath);
-        } else {
-            videoView.setVideoPath(path);
-        }
+        devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
 
-//        mFeedback = new Feedback(context);
+        videoView.setVideoPath(path);
+        videoView.setMediaController(new MyMediaController(this, title));
+        videoView.start();
+        videoView.setOnPreparedListener(this);
+        videoView.setOnCompletionListener(this);
+        requestAudioFocus();
+
+        loadingPopup = (LoadingPopupView) new XPopup.Builder(this)
+                .asLoading("加载中")
+                .bindLayout(R.layout.xpopup_center_impl_loading)
+                .show();
+
+        mFeedback = new Feedback(context);
         scenePlus = new Scene(VideoViewActivty.this);
         scenePlus.init(new ISceneListener() {
             @Override
@@ -63,6 +85,9 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
             @Override
             public void onExecute(Intent intent) {
+                //TODO mFeedback是什么东西
+                mFeedback.begin(intent);
+                mFeedback.feedback("我是反馈的文本", Feedback.SILENCE);
 //                #Intent;action=com.iflytek.xiri2.scenes.EXECUTE;launchFlags=0x20;package=com.waoqi.msettopboxs;S._scene= com.waoqi.msettopboxs.ui.activity.TestActivity;i._token=38;S._command=landlords;S._rawtext=斗地主;S.package=com.waoqi.msettopboxs;S.pkgname=com.iflytek.xiri;S._objhash=1101723376;S._linkId=fee645c2-7a61-4413-94ed-c920e1341716;end
                 KLog.e(" 语音 " + Uri.decode(intent.toURI()));
                 String _command = intent.getStringExtra("_command");
@@ -77,7 +102,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                         requestAudioFocus();
                     } else if (_command.equals("mute")) {// 使用系统的 静音
                         KLog.e(" 静音 ");
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,0, AudioManager.FLAG_SHOW_UI);
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_SHOW_UI);
                     } else if (_command.equals("volume_up")) {// 使用系统的 音量大一点
                         KLog.e(" 音量大一点 ");
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
@@ -130,14 +155,15 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                     }
                     requestAudioFocus();
                 }
-//                 TODO mFeedback是什么东西
-//                mFeedback.begin(intent);
             }
         });
-//        mFeedback.feedback("我是反馈的文本", Feedback.SILENCE);
-        videoView.setMediaController(new MyMediaController(this, title));
-        videoView.start();
-        requestAudioFocus();
+
+        startWatchTime = (int) System.currentTimeMillis() / 1000;
+        endWatchTime = (int) System.currentTimeMillis() / 1000;
+        playTime = endWatchTime - startWatchTime;
+
+//        TODO 开始保存历史任务
+        startTimer();
     }
 
     @Override
@@ -146,6 +172,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         if (scenePlus != null) {
             scenePlus.release();
         }
+        cancelTimerTask();
         abandonAudioFocus();
     }
 
@@ -199,4 +226,77 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         }
     };
 
+
+    protected SaveHistotyTimerTask mPrePratationTimerTask;
+    protected Timer UPDATE_PROGRESS_TIMER;
+
+
+    private void startTimer() {
+        UPDATE_PROGRESS_TIMER = new Timer();
+        mPrePratationTimerTask = new SaveHistotyTimerTask(this);
+        UPDATE_PROGRESS_TIMER.schedule(mPrePratationTimerTask, 0, 1000);
+    }
+
+    private void cancelTimerTask() {
+        if (UPDATE_PROGRESS_TIMER != null) {
+            UPDATE_PROGRESS_TIMER.cancel();
+        }
+        if (mPrePratationTimerTask != null) {
+            mPrePratationTimerTask.cancel();
+        }
+    }
+
+    public class SaveHistotyTimerTask extends TimerTask {
+        private WeakReference<VideoViewActivty> mWeakReference;
+
+        public SaveHistotyTimerTask(VideoViewActivty videoViewActivty) {
+            mWeakReference = new WeakReference<>(videoViewActivty);
+        }
+
+        @Override
+        public void run() {
+            mWeakReference.get().videoView.post(() -> {
+
+                endWatchTime = (int) System.currentTimeMillis() / 1000;
+                playTime = endWatchTime - startWatchTime;
+
+                mWeakReference.get().getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                        contentTotalTime, startWatchTime, endWatchTime, playTime,
+                        "watching"
+                        , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+            });
+        }
+    }
+
+
+    //播放结束
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        endWatchTime = (int) System.currentTimeMillis() / 1000;
+        playTime = endWatchTime - startWatchTime;
+        if (mp != null && mVideoDetailBean != null) {
+            contentTotalTime = mp.getDuration() / 1000;
+            getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                    contentTotalTime, startWatchTime, endWatchTime, playTime,
+                    "end"
+                    , devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+        }
+    }
+
+    //视频准备完成
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        endWatchTime = (int) System.currentTimeMillis() / 1000;
+        playTime = endWatchTime - startWatchTime;
+
+        loadingPopup.dismiss();
+
+        if (mp != null && mVideoDetailBean != null) {
+            contentTotalTime = mp.getDuration() / 1000;
+            getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                    contentTotalTime, startWatchTime, endWatchTime, playTime,
+                    "begin"
+                    , devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+        }
+    }
 }

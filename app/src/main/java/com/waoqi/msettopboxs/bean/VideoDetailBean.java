@@ -1,8 +1,9 @@
 package com.waoqi.msettopboxs.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class VideoDetailBean extends BasePresponce<VideoDetailBean>{
+public class VideoDetailBean extends BasePresponce<VideoDetailBean> implements Serializable {
 
     /**
      * id : 17

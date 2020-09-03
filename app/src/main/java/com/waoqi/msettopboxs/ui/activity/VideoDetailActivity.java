@@ -203,7 +203,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                     Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+                    getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),mVideoDetailBean);
 //                    getP().isVip(userId);
                 }
                 break;
@@ -244,11 +244,11 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         mVideoGridViewAdpter.notifyDataSetChanged();
     }
 
-    public void startActivity(String videoAddress,String title) {
+    public void startActivity(String videoAddress,String title,VideoDetailBean mVideoDetailBean) {
         Intent intent = new Intent(this, VideoViewActivty.class);
         intent.putExtra("video", videoAddress);
         intent.putExtra("title", title);
-        intent.putExtra("local", false);
+        intent.putExtra("VideoDetailBean", mVideoDetailBean);
         startActivity(intent);
     }
 
@@ -265,7 +265,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void isVip(String isVip) {
         if (isVip.contains("true")) {
-            getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId());
+            getP().getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),mVideoDetailBean);
         } else {
             Toast.makeText(this, "此视频会员才能观看的呢", Toast.LENGTH_SHORT).show();
         }

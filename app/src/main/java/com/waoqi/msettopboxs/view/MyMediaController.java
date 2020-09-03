@@ -60,7 +60,7 @@ public class MyMediaController extends MediaController {
     }
 
     public MyMediaController(Context context, String title) {
-        super(context, true);
+        super(context, false);
         this.mContext = context;
         this.mTitle = title;
     }
@@ -129,6 +129,62 @@ public class MyMediaController extends MediaController {
         updatePausePlay();
     }
 
+    @Override
+    public void show(int timeout) {
+        super.show(timeout);
+        updatePausePlay();
+    }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        final boolean uniqueDown = event.getRepeatCount() == 0
+                && event.getAction() == KeyEvent.ACTION_DOWN;
+        if (keyCode ==  KeyEvent.KEYCODE_HEADSETHOOK
+                || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                || keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (uniqueDown) {
+                doPauseResume();
+                show(sDefaultTimeout);
+                if (mPauseButton != null) {
+                    mPauseButton.requestFocus();
+                }
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+            if (uniqueDown && !mPlayer.isPlaying()) {
+                mPlayer.start();
+                updatePausePlay();
+                show(sDefaultTimeout);
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
+                || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
+            if (uniqueDown && mPlayer.isPlaying()) {
+                mPlayer.pause();
+                updatePausePlay();
+                show(sDefaultTimeout);
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+                || keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE
+                || keyCode == KeyEvent.KEYCODE_CAMERA) {
+            // don't show the controls for volume adjustment
+            return super.dispatchKeyEvent(event);
+        } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
+            if (uniqueDown) {
+                hide();
+            }
+            return true;
+        }
+
+        show(sDefaultTimeout);
+        return super.dispatchKeyEvent(event);
+    }
+
+
 
     private final SeekBar.OnSeekBarChangeListener mSeekListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
@@ -154,6 +210,7 @@ public class MyMediaController extends MediaController {
         @Override
         public void onStopTrackingTouch(SeekBar bar) {
             KLog.e("WLX", "onStopTrackingTouch");
+            updatePausePlay();
         }
     };
 

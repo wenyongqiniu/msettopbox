@@ -15,6 +15,7 @@ import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
+import com.waoqi.msettopboxs.net.requestbean.WatchHistoryBean;
 import com.waoqi.msettopboxs.ui.activity.VideoDetailActivity;
 import com.waoqi.msettopboxs.ui.activity.VideoViewActivty;
 import com.waoqi.msettopboxs.util.DataHelper;
@@ -56,9 +57,34 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
     }
 
 
-    public void saveHistoty(String userId) {
+    /**
+     * @param contentName      视频名称
+     * @param contentId        cp_album_id这个ID
+     * @param extraContentId   cp_tv_id这个ID
+     * @param contentTotalTime 节目总时长：秒（s）
+     * @param startWatchTime   用户开始看的时间
+     * @param endWatchTime     用户结束看时间
+     * @param playTime         用户看了多少时长
+     * @param logType          同步数据时，用户当前播放状态
+     * @param account          用户登录账号,机顶盒登陆账号
+     * @param imageUrl         海报URL
+     */
+    public void saveHistoty(String contentName, String contentId, int extraContentId, int contentTotalTime,
+                            int startWatchTime, int endWatchTime, int playTime, String logType,
+                            String account, String imageUrl) {
+        WatchHistoryBean historyBean = new WatchHistoryBean();
+        historyBean.setContentName(contentName);
+        historyBean.setContentId(contentId);
+        historyBean.setExtraContentId(extraContentId);
+        historyBean.setContentTotalTime(contentTotalTime);
+        historyBean.setStartWatchTime(startWatchTime);
+        historyBean.setEndWatchTime(endWatchTime);
+        historyBean.setPlayTime(playTime);
+        historyBean.setLogType(logType);
+        historyBean.setAccount(account);
+        historyBean.setImageUrl(imageUrl);
         MyApi.getMyApiService()
-                .saveHistoty("4")
+                .saveHistoty(historyBean)
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {

@@ -84,7 +84,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
     }
 
 
-    public void getVideoAddress(String cpAlbumId, int cpTvId) {
+    public void getVideoAddress(String cpAlbumId, int cpTvId,VideoDetailBean mVideoDetailBean) {
         MyApi.getMyApiService()
                 .getVideoAddress(cpAlbumId, cpTvId)
                 .compose(XApi.<VideoAddressBean>getApiTransformer())
@@ -92,7 +92,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 .subscribe(new ApiSubscriber<VideoAddressBean>() {
                     @Override
                     public void onNext(VideoAddressBean videoBean) {
-//                        nextApi(videoBean);
+                        nextApi(videoBean,mVideoDetailBean);
                     }
 
                     @Override
@@ -103,7 +103,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
     }
 
 
-    private void nextApi(VideoAddressBean videoBean) {
+    private void nextApi(VideoAddressBean videoBean,VideoDetailBean mVideoDetailBean) {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
 
@@ -126,7 +126,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
             }
             authParam.setContentID(temp.getSeriesId());
 
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(),mVideoDetailBean);
         } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
@@ -136,12 +136,12 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 }
             }
             authParam.setContentID(temp.getSeriesId());
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(),mVideoDetailBean);
         }
     }
 
 
-    public void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId, String title) {
+    public void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId, String title,VideoDetailBean mVideoDetailBean) {
         Gson gson = new Gson();
         String obj = gson.toJson(authParam);
         KLog.e("wlx", "请求AuthCode参数：  " + obj);
@@ -154,7 +154,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 .subscribe(new ApiSubscriber<AuthBean>() {
                     @Override
                     public void onNext(AuthBean videoBean) {
-                        startActivity(videoBean, seriesId, movieId, title);
+                        startActivity(videoBean, seriesId, movieId, title,mVideoDetailBean);
                     }
 
                     @Override
@@ -164,7 +164,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 });
     }
 
-    private void startActivity(AuthBean videoBean, String seriesId, String movieId, String title) {
+    private void startActivity(AuthBean videoBean, String seriesId, String movieId, String title,VideoDetailBean mVideoDetailBean) {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
@@ -189,7 +189,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
         KLog.d("wlx", "播放地址：  " + stringBuffer.toString());
-        getV().startActivity(stringBuffer.toString(), title);
+        getV().startActivity(stringBuffer.toString(), title,mVideoDetailBean);
     }
 
     public void toBuy(String userId, String userToken) {

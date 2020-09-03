@@ -2,6 +2,8 @@ package com.waoqi.mvp.net;
 
 import android.text.TextUtils;
 
+import com.waoqi.mvp.net.log.DefaultFormatPrinter;
+import com.waoqi.mvp.net.log.RequestInterceptor;
 import com.waoqi.mvp.net.progress.ProgressHelper;
 
 import org.reactivestreams.Publisher;
@@ -141,7 +143,9 @@ public class XApi {
         }
 
         if (provider.configLogEnable()) {
-            LogInterceptor logInterceptor = new LogInterceptor();
+            RequestInterceptor logInterceptor = new RequestInterceptor();
+            logInterceptor.setPrintLevel(RequestInterceptor.Level.ALL);
+            logInterceptor.setPrinter(new DefaultFormatPrinter());
             builder.addInterceptor(logInterceptor);
         }
 

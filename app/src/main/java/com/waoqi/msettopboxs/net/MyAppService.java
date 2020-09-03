@@ -8,11 +8,13 @@ import com.waoqi.msettopboxs.bean.UserBean;
 import com.waoqi.msettopboxs.bean.VideoAddressBean;
 import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
+import com.waoqi.msettopboxs.net.requestbean.WatchHistoryBean;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface MyAppService {
@@ -65,8 +67,7 @@ public interface MyAppService {
     @GET("api/home/searchVideoByCondition")
     Flowable<VideoBean> getHistoryVideo(@Query("condition") String condition/*@Query("userId") String userId*/);
 
-    //TODO 保存播放历史
-    @GET("api/home/searchVideoByCondition")
-    Flowable<BasePresponce> saveHistoty(@Query("condition") String condition);
+    @POST("api/home/watchHistoryUpLoad")
+    Flowable<BasePresponce> saveHistoty(@Body WatchHistoryBean watchHistoryBean);
 
 }
