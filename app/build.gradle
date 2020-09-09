@@ -16,24 +16,31 @@ android {
 
     signingConfigs {
         releaseConfig {
-            keyAlias = '123456'
-            keyPassword = '123456'
-            storeFile = file('../keystore.jks')
-            storePassword = '123456'
+            keyAlias = '1fMn21'
+            keyPassword = '1fMn21'
+            storeFile = file('../key.jks')
+            storePassword = '1fMn21'
             v1SigningEnabled true
             v2SigningEnabled true
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             signingConfig signingConfigs.releaseConfig
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
+//            minifyEnabled false
+//            shrinkResources false
+//            zipAlignEnabled false
+
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+
             signingConfig signingConfigs.releaseConfig
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 

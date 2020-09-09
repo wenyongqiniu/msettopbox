@@ -1,16 +1,23 @@
 package com.waoqi.mvp.net;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.socks.library.KLog;
 import com.waoqi.mvp.net.log.DefaultFormatPrinter;
 import com.waoqi.mvp.net.log.RequestInterceptor;
 import com.waoqi.mvp.net.progress.ProgressHelper;
 
 import org.reactivestreams.Publisher;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
@@ -35,6 +42,7 @@ public class XApi {
     private Map<String, Retrofit> retrofitMap = new HashMap<>();
     private Map<String, OkHttpClient> clientMap = new HashMap<>();
 
+    private Context mContext;
     public static final long connectTimeoutMills = 10 * 1000l;
     public static final long readTimeoutMills = 10 * 1000l;
 
@@ -118,6 +126,22 @@ public class XApi {
                 : connectTimeoutMills, TimeUnit.MILLISECONDS);
         builder.readTimeout(provider.configReadTimeoutMills() != 0
                 ? provider.configReadTimeoutMills() : readTimeoutMills, TimeUnit.MILLISECONDS);
+//        try {
+//            if (mContext != null) {
+//                //https的全局自签名证书
+//                InputStream certificates = mContext.getAssets().open("server.cer");
+//                HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, new InputStream[]{certificates});
+//                //https双向认证证书
+//                //HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(bksFile, password, certificates);
+//                builder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
+        //https的全局访问规则
+//        builder.hostnameVerifier(new UnSafeHostnameVerifier(baseUrl));
 
         CookieJar cookieJar = provider.configCookie();
         if (cookieJar != null) {
@@ -157,6 +181,10 @@ public class XApi {
     }
 
 
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
     private void checkProvider(NetProvider provider) {
         if (provider == null) {
             throw new IllegalStateException("must register provider first");
@@ -193,6 +221,23 @@ public class XApi {
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
+    }
+
+    public class UnSafeHostnameVerifier implements HostnameVerifier {
+        private String host;
+
+        public UnSafeHostnameVerifier(String host) {
+            this.host = host;
+            KLog.i("###############　UnSafeHostnameVerifier " + host);
+        }
+
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            KLog.i("############### verify " + hostname + " " + this.host);
+            if (this.host == null || "".equals(this.host) || !this.host.contains(hostname))
+                return false;
+            return true;
+        }
     }
 
     /**

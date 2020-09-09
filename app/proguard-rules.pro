@@ -30,3 +30,11 @@
 
 -keep class com.iflytek.**{*;}
 -keepattributes Signature
+
+
+
+-keepclassmembers public class * extends android.widget.MediaController {
+ public *;
+}
+-keep class com.waoqi.msettopboxs.view.t9.*{*;}
+-keep class com.waoqi.msettopboxs.bean.*{*;}

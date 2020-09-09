@@ -17,6 +17,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         KLog.init(BuildConfig.DEBUG);
+        XApi.getInstance().setContext(this);
         XApi.registerProvider(new NetProvider() {
             @Override
             public Interceptor[] configInterceptors() {
