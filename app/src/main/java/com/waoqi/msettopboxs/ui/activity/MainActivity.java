@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chinamobile.SWDevInfoManager;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
 import com.waoqi.msettopboxs.bean.ImageBean;
@@ -77,7 +78,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     @SuppressLint("WrongConstant")
     @Override
     public void initView() {
-        devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
+        devInfoManager = SWDevInfoManager.getDevInfoManager(this);
 
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnLogin = (Button) findViewById(R.id.btn_login);

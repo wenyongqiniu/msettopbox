@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.DevInfoManager;
 import android.util.Log;
 
+import com.chinamobile.SWDevInfoManager;
 import com.chinamobile.authclient.AuthClient;
 import com.chinamobile.authclient.Constants;
 import com.socks.library.KLog;
@@ -19,7 +20,7 @@ public class DevInfoUtil {
 
     @SuppressLint("WrongConstant")
     public static void getValue(Activity activity) {
-        DevInfoManager devInfoManager = (DevInfoManager) activity.getSystemService(DevInfoManager.DATA_SERVER);
+        DevInfoManager devInfoManager =  SWDevInfoManager.getDevInfoManager(activity);
         final StringBuffer stringBuffer = new StringBuffer();
         try {
             stringBuffer.append("用户手机号 :").append(DevInfoManager.PHONE + "   ").append(devInfoManager.getValue(DevInfoManager.PHONE)).append("\n");

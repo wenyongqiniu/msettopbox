@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chinamobile.SWDevInfoManager;
+import com.chinamobile.impl.DevInfoManagerImpl;
 import com.iflytek.xiri.Feedback;
 import com.iflytek.xiri.scene.ISceneListener;
 import com.iflytek.xiri.scene.Scene;
@@ -19,10 +21,12 @@ import com.lxj.xpopup.impl.LoadingPopupView;
 import com.lxj.xpopup.widget.LoadingView;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.R;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.presenter.TestPresenter;
 import com.waoqi.msettopboxs.util.ArtUtils;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.msettopboxs.util.DevInfoUtil;
+import com.waoqi.msettopboxs.util.OnResultCall;
 import com.waoqi.msettopboxs.util.RawFileUtils;
 import com.waoqi.mvp.mvp.XActivity;
 
@@ -34,13 +38,13 @@ public class TestActivity extends XActivity<TestPresenter> implements CustomAdap
 
     }
 
-    private DevInfoManager devInfoManager;
-
-
+    DevInfoManager devInfoManager;
     @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
-        devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
+        devInfoManager = SWDevInfoManager.getDevInfoManager(this);
+//        KLog.e("object " + devInfoManager);
+//        KLog.e(devInfoManager.getValue(DevInfoManager.PHONE));
     }
 
 
@@ -59,15 +63,17 @@ public class TestActivity extends XActivity<TestPresenter> implements CustomAdap
 
         switch (v.getId()) {
             case R.id.btn1:
-//                DevInfoUtil.getToken(this, new OnResultCall() {
-//                    @Override
-//                    public void onResult(String token) {
-//                        DataHelper.setStringSF(context, "token", token);
-//                    }
-//                });
+
+//                KLog.e(devInfoManager.getValue(DevInfoManager.PHONE) +" 手机号");
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        DataHelper.setStringSF(context, "token", token);
+                    }
+                });
 
 
-                DevInfoUtil.getValue(this);
+//                DevInfoUtil.getValue(this);
 
 
                 break;
@@ -116,16 +122,24 @@ public class TestActivity extends XActivity<TestPresenter> implements CustomAdap
                     }
                 });
                 break;
+            case R.id.btn8:
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        KLog.e("用户 " + token);
+                    }
+                });
+                break;
 
         }
     }
 
 
-    private String getStr() {
-        String cdnAddress = devInfoManager.getValue(DevInfoManager.CDN_ADDRESS);
-        String cdnAddressBack = devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK);
+    public String getStr() {
+//        String cdnAddress = devInfoManager.getValue(DevInfoManager.CDN_ADDRESS);
+//        String cdnAddressBack = devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK);
 
-        String s = cdnAddressBack + "/tianhongyxws/vod/sjsag003230100000000000000000061/mjsag003230100000000000000000061?OTTUserToken=19825783251-14:11:5D:F9:11:7C&[$accountinfo=U8SAskBajorj3AH2liD2c6b0scW44T003Qj%2Bs4QGONyYZlkWG8NVxqij3M%2BHZKY6Mjh9ZBCtU9LQFi6TPzPxIhzrYUy3gIB%2BkIrH49PbrQn69CisB3AWhegQfAu1WxLLZWbQLM4Pa1fvAHtvFe9eJQ%3D%3D%3A20200526113315%2C19825783251%2C223.70.244.11%2C20200526113315%2Cpjsag003230100000000000000000061%2C2DBC495BC72DE757777024C2EF5D9860%2C%2C1%2C0%2C-1%2C%2C1%2C%2C-1%2C-3%2C1%2CEND&GuardEncType=2]";
+//        String s = cdnAddressBack + "/tianhongyxws/vod/sjsag003230100000000000000000061/mjsag003230100000000000000000061?OTTUserToken=19825783251-14:11:5D:F9:11:7C&[$accountinfo=U8SAskBajorj3AH2liD2c6b0scW44T003Qj%2Bs4QGONyYZlkWG8NVxqij3M%2BHZKY6Mjh9ZBCtU9LQFi6TPzPxIhzrYUy3gIB%2BkIrH49PbrQn69CisB3AWhegQfAu1WxLLZWbQLM4Pa1fvAHtvFe9eJQ%3D%3D%3A20200526113315%2C19825783251%2C223.70.244.11%2C20200526113315%2Cpjsag003230100000000000000000061%2C2DBC495BC72DE757777024C2EF5D9860%2C%2C1%2C0%2C-1%2C%2C1%2C%2C-1%2C-3%2C1%2CEND&GuardEncType=2]";
 //                +"&UserName=" + devInfoManager.getValue(DevInfoManager.ACCOUNT);
 
 

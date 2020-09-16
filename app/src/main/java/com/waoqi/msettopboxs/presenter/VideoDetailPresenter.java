@@ -3,6 +3,7 @@ package com.waoqi.msettopboxs.presenter;
 import android.annotation.SuppressLint;
 import android.app.DevInfoManager;
 
+import com.chinamobile.SWDevInfoManager;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.AuthBean;
@@ -105,7 +106,7 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
 
     private void nextApi(VideoAddressBean videoBean,VideoDetailBean mVideoDetailBean) {
         @SuppressLint("WrongConstant")
-        DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
+        DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
 
         AuthParam authParam = new AuthParam();
 

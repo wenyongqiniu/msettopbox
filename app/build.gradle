@@ -29,17 +29,19 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
+
+
             signingConfig signingConfigs.releaseConfig
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-//            minifyEnabled false
-//            shrinkResources false
-//            zipAlignEnabled false
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
 
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
+//            minifyEnabled true
+//            shrinkResources true
+//            zipAlignEnabled true
 
             signingConfig signingConfigs.releaseConfig
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -54,7 +56,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation files('libs/AuthClient_v1.0.3.jar')
+//    implementation files('libs/AuthClient_v1.0.3.jar')
+    implementation files('libs/AuthClient-qwt-v2.0.0.jar')
+
     implementation files('libs/jsmcc_sso.jar')
     implementation files('libs/DevinfoManager-2.0.1.jar')
     implementation files('libs/XiriFeedback.jar')
@@ -72,7 +76,7 @@ dependencies {
         exclude module:'support-annotations'
         exclude module:'support-compat'
     }
-    implementation 'com.lxj:xpopup:1.8.9' //就是androidx版本
+    implementation 'com.lxj:xpopup:1.8.9'//就是androidx版本
 
 
 }
