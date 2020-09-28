@@ -1,3 +1,4 @@
+rootProject.name='机顶盒'
 include ':app'
 include ':core'
 //include ':jiaozivideo'
