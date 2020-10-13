@@ -178,4 +178,27 @@ public class VideoDetailBean extends BasePresponce<VideoDetailBean> implements S
     public void setDoctorId(String doctorId) {
         this.doctorId = doctorId;
     }
+
+    @Override
+    public String toString() {
+        return "VideoDetailBean{" +
+                "id=" + id +
+                ", cpAlbumId='" + cpAlbumId + '\'' +
+                ", cpTvId=" + cpTvId +
+                ", tvName='" + tvName + '\'' +
+                ", tvIsEffective=" + tvIsEffective +
+                ", tvIsOnline=" + tvIsOnline +
+                ", isPurchase=" + isPurchase +
+                ", playOrder=" + playOrder +
+                ", tvUrl='" + tvUrl + '\'' +
+                ", tvDuration='" + tvDuration + '\'' +
+                ", tvPicHead='" + tvPicHead + '\'' +
+                ", bitRate=" + bitRate +
+                ", viceoFormat='" + viceoFormat + '\'' +
+                ", tvDesc='" + tvDesc + '\'' +
+                ", tvPriority=" + tvPriority +
+                ", doctorId='" + doctorId + '\'' +
+                ", introduction='" + introduction + '\'' +
+                '}';
+    }
 }

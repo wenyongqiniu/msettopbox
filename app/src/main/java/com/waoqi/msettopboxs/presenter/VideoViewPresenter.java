@@ -2,8 +2,8 @@ package com.waoqi.msettopboxs.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.DevInfoManager;
-import android.content.Intent;
 
+import com.chinamobile.SWDevInfoManager;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
 import com.waoqi.msettopboxs.bean.AuthBean;
@@ -11,12 +11,11 @@ import com.waoqi.msettopboxs.bean.AuthParam;
 import com.waoqi.msettopboxs.bean.BasePresponce;
 import com.waoqi.msettopboxs.bean.VerificationBean;
 import com.waoqi.msettopboxs.bean.VideoAddressBean;
-import com.waoqi.msettopboxs.bean.VideoBean;
 import com.waoqi.msettopboxs.bean.VideoDetailBean;
+import com.waoqi.msettopboxs.config.Constant;
 import com.waoqi.msettopboxs.net.Api;
 import com.waoqi.msettopboxs.net.MyApi;
 import com.waoqi.msettopboxs.net.requestbean.WatchHistoryBean;
-import com.waoqi.msettopboxs.ui.activity.VideoDetailActivity;
 import com.waoqi.msettopboxs.ui.activity.VideoViewActivty;
 import com.waoqi.msettopboxs.util.DataHelper;
 import com.waoqi.mvp.mvp.XPresent;
@@ -99,6 +98,145 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     }
                 });
 
+    }
+
+    public void getVideoDetail(int videoId) {
+
+
+
+
+        MyApi.getMyApiService()
+                .getVideoDetail(videoId)
+                .compose(XApi.<VideoDetailBean>getApiTransformer())
+                .compose(XApi.<VideoDetailBean>getScheduler())
+                .subscribe(new ApiSubscriber<VideoDetailBean>() {
+                    @Override
+                    public void onNext(VideoDetailBean videoBean) {
+                        getVideoAddress(videoBean.getData());
+                        KLog.e(" VideoDetailBean  " + videoBean.toString());
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+
+
+    /**
+     * 视频播放地址
+     */
+    private void getVideoAddress(VideoDetailBean mVideoDetailBean) {
+        KLog.e(mVideoDetailBean.getCpAlbumId() + "     " + mVideoDetailBean.getCpTvId());
+        MyApi.getMyApiService()
+                .getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId())
+                .compose(XApi.<VideoAddressBean>getApiTransformer())
+                .compose(XApi.<VideoAddressBean>getScheduler())
+                .subscribe(new ApiSubscriber<VideoAddressBean>() {
+                    @Override
+                    public void onNext(VideoAddressBean videoBean) {
+                        nextApi(videoBean, mVideoDetailBean);
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+
+    private void nextApi(VideoAddressBean videoBean, VideoDetailBean mVideoDetailBean) {
+        @SuppressLint("WrongConstant")
+        DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
+
+        AuthParam authParam = new AuthParam();
+
+        authParam.setOTTUserToken(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN));
+        authParam.setUserID(DataHelper.getStringSF(getV().getApplicationContext(), Constant.USERID));
+        authParam.setMAC(systemService.getValue(DevInfoManager.STB_MAC));
+
+        String epg_addresss = systemService.getValue(DevInfoManager.EPG_ADDRESS);
+        String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
+
+        if (cdn_type.endsWith("HW")) {
+            VideoAddressBean temp = null;
+            for (VideoAddressBean videoAddressBean : videoBean.getData()) {
+                if (videoAddressBean.getType() == 1) {
+                    temp = videoAddressBean;
+                    break;
+                }
+            }
+            authParam.setContentID(temp.getSeriesId());
+
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+        } else if (cdn_type.endsWith("ZTE")) {
+            VideoAddressBean temp = null;
+            for (VideoAddressBean videoAddressBean : videoBean.getData()) {
+                if (videoAddressBean.getType() == 0) {
+                    temp = videoAddressBean;
+                    break;
+                }
+            }
+            authParam.setContentID(temp.getSeriesId());
+            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+        }
+    }
+
+    /**
+     * 视频播放地址
+     */
+    private void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
+        Gson gson = new Gson();
+        String obj = gson.toJson(authParam);
+        KLog.e("wlx", "请求AuthCode参数：  " + obj);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), obj);
+        Api.getVerService(epg_address + "/")
+                .auth(body)
+                .compose(XApi.<AuthBean>getApiTransformer())
+                .compose(XApi.<AuthBean>getApiTransformer())
+                .compose(XApi.<AuthBean>getScheduler())
+                .subscribe(new ApiSubscriber<AuthBean>() {
+                    @Override
+                    public void onNext(AuthBean videoBean) {
+                        startActivity(videoBean, seriesId, movieId, title, mVideoDetailBean);
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+    private void startActivity(AuthBean videoBean, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
+        @SuppressLint("WrongConstant")
+        DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
+        String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
+        StringBuffer stringBuffer = new StringBuffer();
+
+        if (cdn_type.endsWith("HW")) {
+            stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS_BACK))
+                    .append("/tianhongyxws")
+                    .append("/vod")
+                    .append("/").append(seriesId)
+                    .append("/").append(movieId)
+                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
+                    .append("&[$").append(videoBean.getAuthCode()).append("]");
+
+        } else if (cdn_type.contains("ZTE")) {
+            stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS))
+                    .append("/tianhongyxwszx")
+                    .append("/vod")
+                    .append("/").append(seriesId)
+                    .append("/").append(movieId)
+                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
+                    .append("&[$").append(videoBean.getAuthCode()).append("]");
+        }
+        KLog.d("wlx", "播放地址：  " + stringBuffer.toString());
+        getV().setVideoDetail(stringBuffer.toString(), title, mVideoDetailBean);
     }
 
 }

@@ -84,3 +84,46 @@
     },
     "success": true
 }
+​	{
+
+            "action": "com.waoqi.msettopboxs.VideoViewActivty",
+            "package":"com.waoqi.msettopboxs",
+            "component": {
+			        "pkg": "com.waoqi.msettopboxs",
+			        "cls": "com.waoqi.msettopboxs.ui.activity.VideoDetailActivity"
+			      },
+            "extras": {
+              "url": "cpAlbumId=4646&cpTvId=123"
+            }
+          }
+
+
+{"ChnCode":"1000020","ChnName":"健康养生","actors":"阮祥燕","content":"2、卵巢组织移植成功后，多久可以备孕？怀孕后会对胎儿有影响吗？","contentTime":"2020-06-29 17:08:55","contentYear":"2020-06-29","cpPrvCode":41000135,"cpPrvType":1001,"cpPrvdName":"医学微视","directors":"阮祥燕","extraContentID":"630","formatType":"标准","intent":"{\"component\": {\"pkg\": \"com.waoqi.msettopboxs\",\"cls\": \"com.waoqi.msettopboxs.ui.activity.VideoDetailActivity\"},\"extras\":{\"url\": \"id=630\"}}","isEffective":1,"isPaid":1,"pic":"http://video-head-pic.obs.cidc-rp-12.joint.cmecloud.cn/2020/07/01/b5724a38-6ff5-436b-b4f8-a3d510b80d94.jpg","tags":"医学微视,健康,妈妈育儿,妈妈育儿"}
+
+
+{\"action\":\"com.waoqi.msettopboxs.VideoViewActivty\",\"package\":\"com.waoqi.msettopboxs\",\"component\": {\"pkg\": \"com.waoqi.msettopboxs\",\"cls\": \"com.waoqi.msettopboxs.ui.activity.VideoDetailActivity\"},\"extras\":{\"url\": \"id=630\"}}
+
+{\"component\":
+{\"pkg\": \"com.waoqi.msettopboxs\",\"cls\": \"com.waoqi.msettopboxs.ui.activity.VideoDetailActivity\"},
+\"extras\":{\"url\": \"id=644\"}}
+
+{
+  "cpPrvdName": "彩虹音乐",
+  "cpPrvCode": 41000010,
+  "ChnName": "音乐",
+  "ChnCode": "1000005",
+  "cpPrvType": 1002,
+  "contentId": "121631",
+  "extraContentID": "ctgt00019",
+  "content": "完美力士演唱会",
+  "actors": "蔡依林",
+  "tags": "2012",
+  "intent": "{\"component\":{\"pkg\":\"com.rainbowex\",\"cls\":\"com.rainbowex.MainActivity\"},\"extras\":{\"url\":\"do=1&exit=1&ctype=1&eid=121631&mtype=1&sid=0&stype=0\"}}",
+  "isEffective": 1,
+  "pic": "http://112.25.11.8/images/ott5/sp/jsyd/search_pic.png",
+  "contentTime": "2017-01-09 00:00:00",
+  "directors": "",
+  "contentYear": "",
+  "isPaid": "0",
+  "formatType": "标准"
+}

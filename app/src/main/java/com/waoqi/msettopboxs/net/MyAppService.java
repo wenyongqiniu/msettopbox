@@ -54,6 +54,10 @@ public interface MyAppService {
     @GET("api/home/searchVideoUploadTvlistById")
     Flowable<VideoDetailBean> getVideoDetail(@Query("id") int id);
 
+    //视频详情
+    @GET("api/home/searchVideoUploadTvlistById")
+    Flowable<VideoDetailBean> getVideoDetail(@Query("id") String id);
+
     //医生详情
     @GET("api/home/searchVideoByDoctorId")
     Flowable<DoctorInfoBean> getDoctorInfo(@Query("doctorId") String doctorId);
@@ -63,7 +67,6 @@ public interface MyAppService {
     Flowable<VideoAddressBean> getVideoAddress(@Query("cpAlbumId") String cpAlbumId, @Query("cpTvId") int cpTvId);
 
 
-    // TODO 获取播放历史
     @GET("api/home/searchVideoByCondition")
     Flowable<VideoBean> getHistoryVideo(@Query("condition") String condition/*@Query("userId") String userId*/);
 

@@ -8,7 +8,7 @@ package com.waoqi.msettopboxs.config;
  */
 public class Constant {
 
-    public  static final String BASEURL="https://36.156.158.245:8081";
+    public  static final String BASEURL="http://36.156.158.245:8081";
 
     public  static final String USERINFO="UserInfo";
     public  static final String USERID="UserID";

@@ -48,27 +48,25 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
     private Scene scenePlus;
     private Feedback mFeedback;
-    private VideoDetailBean mVideoDetailBean;
 
     private DevInfoManager devInfoManager;
     LoadingPopupView loadingPopup;
     private int contentTotalTime, startWatchTime, endWatchTime, playTime;
+    private int videoId,cpAlbumId,cpTvId;
+    private VideoDetailBean mVideoDetailBean;
 
     @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
-        String path = getIntent().getStringExtra("video");
-        String title = getIntent().getStringExtra("title");
-        mVideoDetailBean = (VideoDetailBean) getIntent().getSerializableExtra("VideoDetailBean");
+        videoId = getIntent().getIntExtra("id", 0);
+//        cpAlbumId = getIntent().getIntExtra("cpAlbumId", 0);
+//        cpTvId = getIntent().getIntExtra("cpTvId", 0);
+        getP().getVideoDetail(videoId);
 
         devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
 
-        videoView.setVideoPath(path);
-        videoView.setMediaController(new MyMediaController(this, title));
-        videoView.start();
         videoView.setOnPreparedListener(this);
         videoView.setOnCompletionListener(this);
-        requestAudioFocus();
 
         loadingPopup = (LoadingPopupView) new XPopup.Builder(this)
                 .asLoading("加载中")
@@ -97,66 +95,67 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                     if (_command.equals("esc")) {//退出
                         ArtUtils.appExit();
                     } else if (_command.equals("resume")) {//恢复播放
-                        KLog.e(" 恢复播放 ");
+                        KLog.e("wlx", " 恢复播放 ");
                         videoView.start();
                         requestAudioFocus();
                     } else if (_command.equals("mute")) {// 使用系统的 静音
-                        KLog.e(" 静音 ");
+                        KLog.e("wlx", " 静音 ");
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_SHOW_UI);
                     } else if (_command.equals("volume_up")) {// 使用系统的 音量大一点
-                        KLog.e(" 音量大一点 ");
+                        KLog.e("wlx", " 音量大一点 ");
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
                     } else if (_command.equals("volume_down")) {// 使用系统的 音量小一点
-                        KLog.e(" 音量小一点 ");
+                        KLog.e("wlx", " 音量小一点 ");
                         int max = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
                         int currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                         currentVolume -= 2;
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume < 0 ? 0 : currentVolume, AudioManager.FLAG_SHOW_UI);
                     } else if (_command.equals("home")) {//主页
-                        KLog.e(" 主页 ");
+                        KLog.e("wlx", " 主页 ");
                         ArtUtils.startActivity(VideoViewActivty.this, MainActivity.class);
                     }
                 }
                 if (!TextUtils.isEmpty(_action)) {
                     if (_action.equals("PLAY")) {//播放
-                        KLog.e(" 播放 ");
+                        KLog.e("wlx", " 播放 ");
                         videoView.start();
                     } else if (_action.equals("PAUSE")) {//暂停
-                        KLog.e(" 暂停 ");
+                        KLog.e("wlx", " 暂停 ");
                         videoView.pause();
                     } else if (_action.equals("RESUME")) {//继续播放
-                        KLog.e(" 继续播放 ");
+                        KLog.e("wlx", " 继续播放 ");
                         videoView.start();
                     } else if (_action.equals("RESTART")) {//重头播放
-                        KLog.e(" 重头播放 ");
+                        KLog.e("wlx", " 重头播放 ");
                         videoView.seekTo(0);
                         videoView.start();
                     } else if (_action.equals("SEEK")) {//跳到指定位置
                         int position = intent.getIntExtra("position", 0);
-                        KLog.e(" 跳到指定位置 " + position);
+                        KLog.e("wlx", " 跳到指定位置 " + position);
                         videoView.seekTo(position * 1000);
                         videoView.start();
                     } else if (_action.equals("FORWARD")) {//快进指定时间
                         int offset = intent.getIntExtra("offset", 0);
-                        KLog.e(" 快进指定时间 " + offset);
+                        KLog.e("wlx", " 快进指定时间 " + offset);
                         int currentPostion = videoView.getCurrentPosition();
                         videoView.seekTo(currentPostion + offset * 1000);
                         videoView.start();
 
                     } else if (_action.equals("BACKWARD")) {//后退指定时间
                         int offset = intent.getIntExtra("offset", 0);
-                        KLog.e(" 后退指定时间 " + offset);
+                        KLog.e("wlx", " 后退指定时间 " + offset);
                         int currentPostion = videoView.getCurrentPosition();
                         videoView.seekTo(currentPostion - offset * 1000);
                         videoView.start();
                     } else if (_action.equals("EXIT")) {//退出
-                        KLog.e(" 退出 ");
+                        KLog.e("wlx", " 退出 ");
                         finish();
                     }
-                    requestAudioFocus();
+
                 }
             }
         });
+
 
         startWatchTime = (int) System.currentTimeMillis() / 1000;
         endWatchTime = (int) System.currentTimeMillis() / 1000;
@@ -234,7 +233,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     private void startTimer() {
         UPDATE_PROGRESS_TIMER = new Timer();
         mPrePratationTimerTask = new SaveHistotyTimerTask(this);
-        UPDATE_PROGRESS_TIMER.schedule(mPrePratationTimerTask, 0, 1000);
+        UPDATE_PROGRESS_TIMER.schedule(mPrePratationTimerTask, 0, 10000);
     }
 
     private void cancelTimerTask() {
@@ -244,6 +243,20 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         if (mPrePratationTimerTask != null) {
             mPrePratationTimerTask.cancel();
         }
+    }
+
+    /**
+     * 设置播放详情
+     *
+     * @param videoPathUrl     视频播放地址
+     * @param title
+     * @param mVideoDetailBean
+     */
+    public void setVideoDetail(String videoPathUrl, String title, VideoDetailBean mVideoDetailBean) {
+        this.mVideoDetailBean = mVideoDetailBean;
+        videoView.setVideoPath(videoPathUrl);
+        videoView.setMediaController(new MyMediaController(this, title));
+        videoView.start();
     }
 
     public class SaveHistotyTimerTask extends TimerTask {
@@ -259,11 +272,12 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
                 endWatchTime = (int) System.currentTimeMillis() / 1000;
                 playTime = endWatchTime - startWatchTime;
-
-                mWeakReference.get().getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
-                        contentTotalTime, startWatchTime, endWatchTime, playTime,
-                        "watching"
-                        , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+                if (mVideoDetailBean != null) {
+                    mWeakReference.get().getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                            contentTotalTime, startWatchTime, endWatchTime, playTime,
+                            "watching"
+                            , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+                }
             });
         }
     }
@@ -276,10 +290,12 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         playTime = endWatchTime - startWatchTime;
         if (mp != null && mVideoDetailBean != null) {
             contentTotalTime = mp.getDuration() / 1000;
-            getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
-                    contentTotalTime, startWatchTime, endWatchTime, playTime,
-                    "end"
-                    , devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+            if (mVideoDetailBean != null) {
+                getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                        contentTotalTime, startWatchTime, endWatchTime, playTime,
+                        "end"
+                        , devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+            }
         }
     }
 

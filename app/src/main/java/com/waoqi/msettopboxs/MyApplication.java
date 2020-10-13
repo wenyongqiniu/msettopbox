@@ -3,6 +3,7 @@ package com.waoqi.msettopboxs;
 import android.app.Application;
 
 import com.socks.library.KLog;
+import com.waoqi.msettopboxs.net.interceptor.UserAgent;
 import com.waoqi.mvp.net.NetError;
 import com.waoqi.mvp.net.NetProvider;
 import com.waoqi.mvp.net.RequestHandler;
@@ -21,12 +22,11 @@ public class MyApplication extends Application {
         XApi.registerProvider(new NetProvider() {
             @Override
             public Interceptor[] configInterceptors() {
-                return new Interceptor[0];
+                return new Interceptor[]{new UserAgent(MyApplication.this)};
             }
 
             @Override
             public void configHttps(OkHttpClient.Builder builder) {
-
             }
 
             @Override

@@ -65,13 +65,15 @@ public class TestActivity extends XActivity<TestPresenter> implements CustomAdap
             case R.id.btn1:
 
 //                KLog.e(devInfoManager.getValue(DevInfoManager.PHONE) +" 手机号");
-                DevInfoUtil.getToken(this, new OnResultCall() {
-                    @Override
-                    public void onResult(String token) {
-                        DataHelper.setStringSF(context, "token", token);
-                    }
-                });
+//                DevInfoUtil.getToken(this, new OnResultCall() {
+//                    @Override
+//                    public void onResult(String token) {
+//                        DataHelper.setStringSF(context, "token", token);
+//                    }
+//                });
 
+                intent.putExtra("id", 946);
+                ArtUtils.startActivity(context, intent);
 
 //                DevInfoUtil.getValue(this);
 

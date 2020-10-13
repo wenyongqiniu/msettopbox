@@ -112,7 +112,7 @@ public class MainPresenter extends XPresent<MainActivity> {
 
     public void toBuy(String userId, String userToken) {
         MyApi.getMyApiService()
-                .toBuy(userId, userToken)
+                .toBuy(userId, "JSHDC-ASPIRE-3103b351-0baf-4e33-bde4-fe71fe8c227")
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {
