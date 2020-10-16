@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
     
     <!-- 需要绘制的键盘布局 -->
-	<com.waoqi.tvwidget.keyboard.SoftKeyboardView
+	<com.yxws.tvwidget.keyboard.SoftKeyboardView
 	    android:id="@+id/softKeyboardView"
 	    android:layout_height="match_parent"
 	    android:layout_width="match_parent"/>

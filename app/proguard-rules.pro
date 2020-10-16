@@ -28,7 +28,7 @@
 -keepclassmembers class * extends android.app.Activity {
    public void *(android.view.View);
 }
--keep public class * extends com.waoqi.mvp.mvp.XActivity {
+-keep public class * extends com.yxws.mvp.mvp.XActivity {
    public void *(android.view.View);
    <fields>;
    <methods>;
@@ -133,5 +133,5 @@
 -keepclassmembers public class * extends android.widget.MediaController {
  public *;
 }
--keep class com.waoqi.msettopboxs.view.t9.*{*;}
--keep class com.waoqi.msettopboxs.bean.*{*;}
+-keep class com.yxws.msettopboxs.view.t9.*{*;}
+-keep class com.yxws.msettopboxs.bean.*{*;}

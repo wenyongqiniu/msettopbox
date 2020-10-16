@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
 
-        <com.waoqi.tvwidget.view.ListViewTV
+        <com.yxws.tvwidget.view.ListViewTV
             android:id="@+id/lv_video_menu_id"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -32,7 +32,7 @@
             android:nextFocusRight="@+id/lv_video_menu_id_2"
             android:scrollbars="none" />
 
-        <com.waoqi.tvwidget.view.ListViewTV
+        <com.yxws.tvwidget.view.ListViewTV
             android:id="@+id/lv_video_menu_id_2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -106,7 +106,7 @@
                 android:focusableInTouchMode="false">
 
 
-                <com.waoqi.tvwidget.view.GridViewTV
+                <com.yxws.tvwidget.view.GridViewTV
                     android:id="@+id/gridviewtv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -124,7 +124,7 @@
 
     </LinearLayout>
 
-    <com.waoqi.tvwidget.view.MainUpView
+    <com.yxws.tvwidget.view.MainUpView
         android:id="@+id/mainUpView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

@@ -187,7 +187,7 @@
 
                 </RelativeLayout>
 
-                <com.waoqi.tvwidget.view.SmoothHorizontalScrollView
+                <com.yxws.tvwidget.view.SmoothHorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fillViewport="true"
@@ -205,7 +205,7 @@
                         android:focusableInTouchMode="false">
 
 
-                        <com.waoqi.tvwidget.view.GridViewTV
+                        <com.yxws.tvwidget.view.GridViewTV
                             android:id="@+id/gridviewtv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -218,13 +218,13 @@
                             android:scrollbars="none"
                             android:verticalSpacing="5dp" />
                     </FrameLayout>
-                </com.waoqi.tvwidget.view.SmoothHorizontalScrollView>
+                </com.yxws.tvwidget.view.SmoothHorizontalScrollView>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
 
-    <com.waoqi.tvwidget.view.MainUpView
+    <com.yxws.tvwidget.view.MainUpView
         android:id="@+id/mainUpView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

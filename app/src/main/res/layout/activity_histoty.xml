@@ -62,7 +62,7 @@
             android:focusableInTouchMode="false">
 
 
-            <com.waoqi.tvwidget.view.GridViewTV
+            <com.yxws.tvwidget.view.GridViewTV
                 android:id="@+id/gridviewtv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,7 +77,7 @@
         </FrameLayout>
     </LinearLayout>
 
-    <com.waoqi.tvwidget.view.MainUpView
+    <com.yxws.tvwidget.view.MainUpView
         android:id="@+id/mainUpView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

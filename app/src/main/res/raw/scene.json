@@ -23,5 +23,5 @@
       "$P(_PLAY)"
     ]
   },
-  "_scene": " com.waoqi.msettopboxs.ui.activity.VideoViewActivty"
+  "_scene": " com.yxws.msettopboxs.ui.activity.VideoViewActivty"
 }

@@ -10,11 +10,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button00" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button00" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button01" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button01" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button02" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button02" />
     </TableRow>
 
     <TableRow
@@ -22,11 +22,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button10" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button10" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button11" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button11" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button12" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button12" />
     </TableRow>
 
     <TableRow
@@ -34,11 +34,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button20" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button20" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button21" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button21" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button22" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button22" />
     </TableRow>
 
     <TableRow
@@ -46,11 +46,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button30" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button30" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button31" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button31" />
 
-        <com.waoqi.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button32" />
+        <com.yxws.msettopboxs.view.t9.NineKeybordButton android:id="@+id/button32" />
     </TableRow>
 
 

@@ -86,11 +86,11 @@
 }
 ​	{
 
-            "action": "com.waoqi.msettopboxs.VideoViewActivty",
-            "package":"com.waoqi.msettopboxs",
+            "action": "com.yxws.msettopboxs.VideoViewActivty",
+            "package":"com.yxws.msettopboxs",
             "component": {
-			        "pkg": "com.waoqi.msettopboxs",
-			        "cls": "com.waoqi.msettopboxs.ui.activity.VideoDetailActivity"
+			        "pkg": "com.yxws.msettopboxs",
+			        "cls": "com.yxws.msettopboxs.ui.activity.VideoDetailActivity"
 			      },
             "extras": {
               "url": "cpAlbumId=4646&cpTvId=123"
@@ -98,13 +98,13 @@
           }
 
 
-{"ChnCode":"1000020","ChnName":"健康养生","actors":"阮祥燕","content":"2、卵巢组织移植成功后，多久可以备孕？怀孕后会对胎儿有影响吗？","contentTime":"2020-06-29 17:08:55","contentYear":"2020-06-29","cpPrvCode":41000135,"cpPrvType":1001,"cpPrvdName":"医学微视","directors":"阮祥燕","extraContentID":"630","formatType":"标准","intent":"{\"component\": {\"pkg\": \"com.waoqi.msettopboxs\",\"cls\": \"com.waoqi.msettopboxs.ui.activity.VideoDetailActivity\"},\"extras\":{\"url\": \"id=630\"}}","isEffective":1,"isPaid":1,"pic":"http://video-head-pic.obs.cidc-rp-12.joint.cmecloud.cn/2020/07/01/b5724a38-6ff5-436b-b4f8-a3d510b80d94.jpg","tags":"医学微视,健康,妈妈育儿,妈妈育儿"}
+{"ChnCode":"1000020","ChnName":"健康养生","actors":"阮祥燕","content":"2、卵巢组织移植成功后，多久可以备孕？怀孕后会对胎儿有影响吗？","contentTime":"2020-06-29 17:08:55","contentYear":"2020-06-29","cpPrvCode":41000135,"cpPrvType":1001,"cpPrvdName":"医学微视","directors":"阮祥燕","extraContentID":"630","formatType":"标准","intent":"{\"component\": {\"pkg\": \"com.yxws.msettopboxs\",\"cls\": \"com.yxws.msettopboxs.ui.activity.VideoDetailActivity\"},\"extras\":{\"url\": \"id=630\"}}","isEffective":1,"isPaid":1,"pic":"http://video-head-pic.obs.cidc-rp-12.joint.cmecloud.cn/2020/07/01/b5724a38-6ff5-436b-b4f8-a3d510b80d94.jpg","tags":"医学微视,健康,妈妈育儿,妈妈育儿"}
 
 
-{\"action\":\"com.waoqi.msettopboxs.VideoViewActivty\",\"package\":\"com.waoqi.msettopboxs\",\"component\": {\"pkg\": \"com.waoqi.msettopboxs\",\"cls\": \"com.waoqi.msettopboxs.ui.activity.VideoDetailActivity\"},\"extras\":{\"url\": \"id=630\"}}
+{\"action\":\"com.yxws.msettopboxs.VideoViewActivty\",\"package\":\"com.yxws.msettopboxs\",\"component\": {\"pkg\": \"com.yxws.msettopboxs\",\"cls\": \"com.yxws.msettopboxs.ui.activity.VideoDetailActivity\"},\"extras\":{\"url\": \"id=630\"}}
 
 {\"component\":
-{\"pkg\": \"com.waoqi.msettopboxs\",\"cls\": \"com.waoqi.msettopboxs.ui.activity.VideoDetailActivity\"},
+{\"pkg\": \"com.yxws.msettopboxs\",\"cls\": \"com.yxws.msettopboxs.ui.activity.VideoDetailActivity\"},
 \"extras\":{\"url\": \"id=644\"}}
 
 {
