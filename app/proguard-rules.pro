@@ -21,7 +21,8 @@
 #-renamesourcefileattribute SourceFile
 
 
-
+#（Basic）输出混淆日志
+-verbose
 #混淆注意事项第一条，保留四大组件及Android的其它组件
 -keep public class * extends android.app.Activity
 #（Basic）
@@ -30,8 +31,11 @@
 }
 -keep public class * extends com.yxws.mvp.mvp.XActivity {
    public void *(android.view.View);
-   <fields>;
-   <methods>;
+   public <methods>;#保持该类下所有的共有方法不被混淆
+   public *;#保持该类下所有的共有内容不被混淆
+   private <methods>;#保持该类下所有的私有方法不被混淆
+   private *;#保持该类下所有的私有内容不被混淆
+   public <init>(java.lang.String);#保持该类的String类型的构造方法
 }
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -108,6 +112,8 @@
 -keep class com.lxj.xpopup.widget.**{*;}
 
 
+#只保留类中的成员，防止被混淆或移除
+-keepclassmembers class com.yxws.tvwidget.*{*;}
 
 
 

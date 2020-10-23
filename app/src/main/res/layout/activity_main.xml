@@ -68,9 +68,8 @@
                 android:layout_toRightOf="@+id/btn_login"
                 android:background="@drawable/tv_open_vip_bg"
                 android:drawableStart="@drawable/vip"
-                android:nextFocusLeft="@id/btn_login"
-                android:nextFocusRight="@id/gridviewtv"
-                android:nextFocusDown="@id/gridviewtv"
+                android:nextFocusUp="@id/btn_login"
+                android:nextFocusDown="@id/rl_hot_video"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/open_vip"
@@ -148,10 +147,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="117dp"
-            android:layout_marginLeft="30dp"
+            android:layout_height="122dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="20dp"
             android:focusable="false"
             android:orientation="horizontal">
 
@@ -159,7 +158,6 @@
             <ImageView
                 android:id="@+id/iv_main_1"
                 android:layout_width="283dp"
-
                 android:layout_height="match_parent"
                 android:src="@drawable/bitmap3" />
 
@@ -173,7 +171,6 @@
                 android:orientation="vertical"
                 android:paddingLeft="13dp"
                 android:paddingRight="13dp"
-
                 >
 
                 <TextView
@@ -195,31 +192,47 @@
             </LinearLayout>
 
 
-            <RelativeLayout
-                android:layout_width="283dp"
+            <com.yxws.tvwidget.view.ReflectItemView
+                android:id="@+id/rl_hot_video"
+                android:layout_width="288dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="30dp">
+                android:layout_marginLeft="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:nextFocusUp="@+id/btn_open_vip"
+                android:nextFocusDown="@+id/gridviewtv"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                app:isShape="false">
 
-                <ImageView
-                    android:id="@+id/iv_main_2"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/bitmap4" />
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_main_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bitmap4" />
 
 
-                <TextView
-                    android:id="@+id/tv_main_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:paddingBottom="5dp"
-                    android:text="医生直言：食管癌是“吃”出来的，做好4点！食管癌不敢靠近你"
-                    android:textColor="@color/tv_ffffff"
-                    android:textSize="11sp" />
+                    <TextView
+                        android:id="@+id/tv_main_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/bg_hot_video"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="5dp"
+                        android:textColor="@color/tv_ffffff"
+                        android:textSize="11sp"
+                        tools:text="医生直言：食管癌是“吃”出来的，做好4点！食管癌不敢靠近你" />
+                </FrameLayout>
+            </com.yxws.tvwidget.view.ReflectItemView>
 
-            </RelativeLayout>
 
         </LinearLayout>
 

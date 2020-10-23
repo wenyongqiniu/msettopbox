@@ -1,6 +1,8 @@
 package com.yxws.msettopboxs;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.net.interceptor.UserAgent;
@@ -14,6 +16,12 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

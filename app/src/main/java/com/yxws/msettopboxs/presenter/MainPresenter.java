@@ -1,6 +1,7 @@
 package com.yxws.msettopboxs.presenter;
 
 import com.yxws.msettopboxs.bean.BasePresponce;
+import com.yxws.msettopboxs.bean.HotVideoBean;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
 import com.yxws.msettopboxs.bean.UserBean;
 import com.yxws.msettopboxs.bean.VerificationBean;
@@ -13,6 +14,8 @@ import com.yxws.mvp.mvp.XPresent;
 import com.yxws.mvp.net.ApiSubscriber;
 import com.yxws.mvp.net.NetError;
 import com.yxws.mvp.net.XApi;
+
+import java.util.List;
 
 public class MainPresenter extends XPresent<MainActivity> {
 
@@ -91,9 +94,30 @@ public class MainPresenter extends XPresent<MainActivity> {
                 });
     }
 
-    public void toLogin(String phone) {
+    public void getHotVideo() {
         MyApi.getMyApiService()
-                .login(phone)
+                .getHotVideo()
+                .compose(XApi.<HotVideoBean>getApiTransformer())
+                .compose(XApi.<HotVideoBean>getScheduler())
+                .subscribe(new ApiSubscriber<HotVideoBean>() {
+                    @Override
+                    public void onNext(HotVideoBean hotVideoBean) {
+                        List<HotVideoBean> hotVideoBeans = hotVideoBean.getData();
+                        if (hotVideoBeans!=null &&!hotVideoBeans.isEmpty()) {
+                            getV().setHotVideo(hotVideoBeans.get(0));
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+    public void toLogin(String phone, String token) {
+        MyApi.getMyApiService()
+                .login(phone, token)
                 .compose(XApi.<UserBean>getApiTransformer())
                 .compose(XApi.<UserBean>getScheduler())
                 .subscribe(new ApiSubscriber<UserBean>() {

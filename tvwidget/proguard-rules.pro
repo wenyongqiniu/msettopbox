@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+#只保留类中的成员，防止被混淆或移除
+-keepclassmembers class com.yxws.tvwidget.bridge.*{*;}
+

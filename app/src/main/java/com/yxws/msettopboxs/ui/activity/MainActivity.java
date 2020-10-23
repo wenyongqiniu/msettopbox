@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,9 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.chinamobile.SWDevInfoManager;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
+import com.yxws.msettopboxs.bean.HotVideoBean;
 import com.yxws.msettopboxs.bean.ImageBean;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
 import com.yxws.msettopboxs.bean.UserBean;
@@ -34,6 +37,7 @@ import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
 import com.yxws.tvwidget.view.GridViewTV;
 import com.yxws.tvwidget.view.MainUpView;
+import com.yxws.tvwidget.view.ReflectItemView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +53,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private Button btnSearch, btnLogin, btnOpenVip;
 
 
-
     private ImageView ivMain1;
     private LinearLayout lineDesc;
     private ImageView ivMain2;
@@ -59,7 +62,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
 
     private MainAdpter mMainAdpter;
-
+    private ReflectItemView mRlHotVideo;
 
     private OpenEffectBridge mOpenEffectBridge;
     private View mOldGridView;
@@ -84,18 +87,40 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
+        mRlHotVideo = (ReflectItemView) findViewById(R.id.rl_hot_video);
 //        btn_history = (Button) findViewById(R.id.btn_history);
 
 
         btnSearch.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnOpenVip.setOnClickListener(this);
+        mRlHotVideo.setOnClickListener(this);
 //        btn_history.setOnClickListener(this);
 
         getP().getSearchLevel();
-        initGridView();
+        ///api/home/searchHotVideo
+        getP().getHotVideo();
 
-//
+        initGridView();
+        mRlHotVideo.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+                mOpenEffectBridge = (OpenEffectBridge) mainUpView2.getEffectBridge();
+                if (!(newFocus instanceof ReflectItemView)) {
+                    mainUpView2.setUnFocusView(mOldGridView);
+                    mOpenEffectBridge.setVisibleWidget(true);// 隐藏
+                    mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
+                } else {
+                    newFocus.bringToFront();
+                    mOpenEffectBridge.setVisibleWidget(false);
+                    mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
+                    mainUpView2.setFocusView(newFocus, mOldGridView, 1.1f);
+                }
+                point = 0;
+                mOldGridView = newFocus;
+            }
+        });
+
         DevInfoUtil.getValue(this);
     }
 
@@ -177,7 +202,13 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     public void initData(Bundle savedInstanceState) {
         String userInfo = DataHelper.getStringSF(getApplication(), Constant.USERINFO);
         if (userInfo != null) {
-            getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE));
+            DevInfoUtil.getToken(this, new OnResultCall() {
+                @Override
+                public void onResult(String token) {
+                    DataHelper.setStringSF(context, Constant.TOKEN, token);
+                    getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                }
+            });
         }
     }
 
@@ -207,9 +238,10 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                         getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
                                 , token, devInfoManager.getValue(DevInfoManager.PHONE)
                                 , devInfoManager.getValue(DevInfoManager.STB_MAC));
+                        getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
                     }
                 });
-                getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE));
+
 
                 break;
             case R.id.btn_open_vip:
@@ -220,10 +252,17 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 String userId = DataHelper.getStringSF(this, Constant.USERID);
                 String ottUserToken = DataHelper.getStringSF(this, Constant.TOKEN);
                 getP().toBuy(userId, ottUserToken);
+
+
                 break;
 //            case R.id.btn_history:
 //                ArtUtils.startActivity(this, HistoryAcitvity.class);
 //                break;
+            case R.id.rl_hot_video:
+                Intent intent = new Intent(context, VideoDetailActivity.class);
+                intent.putExtra("videoId", mHotVideoBean.getVideoId());
+                ArtUtils.startActivity(context, intent);
+                break;
         }
     }
 
@@ -254,5 +293,13 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         startActivity(intent);
     }
 
+    private HotVideoBean mHotVideoBean;
 
+    public void setHotVideo(HotVideoBean hotVideoBean) {
+        this.mHotVideoBean = hotVideoBean;
+        Glide.with(this)
+                .load(hotVideoBean.getPic())
+                .into(ivMain2);
+        tvMainDesc.setText(hotVideoBean.getInfo());
+    }
 }

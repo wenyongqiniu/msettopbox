@@ -2,6 +2,7 @@ package com.yxws.msettopboxs.net;
 
 import com.yxws.msettopboxs.bean.BasePresponce;
 import com.yxws.msettopboxs.bean.DoctorInfoBean;
+import com.yxws.msettopboxs.bean.HotVideoBean;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
 import com.yxws.msettopboxs.bean.TypeListMenuBean;
 import com.yxws.msettopboxs.bean.UserBean;
@@ -21,7 +22,7 @@ public interface MyAppService {
 
     //登录
     @GET("api/home/loginByPhone")
-    Flowable<UserBean> login(@Query("phone") String phone);
+    Flowable<UserBean> login(@Query("phone") String phone,@Query("token") String token);
 
     //购买
 
@@ -32,6 +33,10 @@ public interface MyAppService {
     //获取一级分类
     @GET("api/home/searchAllTopLevel")
     Flowable<SearchLevelBean> getSearchLevel();
+
+    //获取首页热门信息
+    @GET("api/home/searchHotVideo")
+    Flowable<HotVideoBean> getHotVideo();
 
     //获取二级分类
     @GET("api/home/searchAllLevel2ById")

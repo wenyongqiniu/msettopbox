@@ -43,7 +43,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     private static final String TAG = VideoDetailActivity.class.getName();
     private Button btnSearch;
     private ImageView ivVideoCover, ivVideoIsPurchase;
-    private TextView   tvVideoTitle, tvVideoTeacher, tvVideoTeacherDesc;
+    private TextView tvVideoTitle, tvVideoTeacher, tvVideoTeacherDesc;
 
     private Button btnFreeTrial, btnPurchase;
     private GridViewTV gridviewtv;
@@ -86,7 +86,10 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         classificationId = getIntent().getStringExtra("classificationId");
 
         getP().getVideoDetail(videoId);
-        getP().getVideo(classificationId);
+        if (classificationId != null) {
+            getP().getVideo(classificationId);
+        }
+
     }
 
     private void initGridView() {
@@ -168,7 +171,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         classificationId = intent.getStringExtra("classificationId");
         KLog.e("wlx", "onNewIntent  videoId:" + videoId + "   classificationId:" + classificationId);
         getP().getVideoDetail(videoId);
-        getP().getVideo(classificationId);
+        if (classificationId != null) {
+            getP().getVideo(classificationId);
+        }
     }
 
     @Override
@@ -201,8 +206,8 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                     return;
                 } else {
 //                    TODO 放开
-//                    getP().isVip(userId);
-                    startActivity(mVideoDetailBean);
+                    getP().isVip(userId);
+//                    startActivity(mVideoDetailBean);
                 }
                 break;
             case R.id.btn_purchase:
@@ -230,6 +235,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         tvVideoTitle.setText(videoBeanData.getTvName());
         ivVideoIsPurchase.setVisibility(videoBeanData.getIsPurchase() == 1 ? View.VISIBLE : View.GONE);
         getP().getDoctorInfo(videoBeanData.getDoctorId());
+        if (classificationId == null) {
+            getP().getVideo(videoBeanData.getCpAlbumId());
+        }
     }
 
     public void setDoctorInfo(DoctorInfoBean bean) {

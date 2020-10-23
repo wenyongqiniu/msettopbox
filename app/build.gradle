@@ -11,7 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -26,8 +26,13 @@ android {
     }
     buildTypes {
         release {
+            // 如果没有提供混淆规则文件，则设置默认的混淆规则文件（SDK/tools/proguard/proguard-android.txt）
+            pseudoLocalesEnabled true
+            //混淆
             minifyEnabled true
-            shrinkResources true
+            // 移除无用的resource文件
+//            shrinkResources true
+            //Zipalign优化
             zipAlignEnabled true
 
 
@@ -35,16 +40,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false
-            shrinkResources false
-            zipAlignEnabled false
-
-//            minifyEnabled true
+//            minifyEnabled false
+//            shrinkResources false
+//            zipAlignEnabled false
+            // 如果没有提供混淆规则文件，则设置默认的混淆规则文件（SDK/tools/proguard/proguard-android.txt）
+            pseudoLocalesEnabled true
+            minifyEnabled true
 //            shrinkResources true
-//            zipAlignEnabled true
+            zipAlignEnabled true
 
             signingConfig signingConfigs.releaseConfig
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
 
         }
     }
@@ -77,6 +84,7 @@ dependencies {
         exclude module:'support-compat'
     }
     implementation 'com.lxj:xpopup:1.8.9'//就是androidx版本
+    implementation 'com.android.support:multidex:1.0.3'
 
 
 }
