@@ -4,10 +4,13 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 
 public class WebViewActivity extends AppCompatActivity     {
@@ -21,7 +24,7 @@ public class WebViewActivity extends AppCompatActivity     {
         String payUrl = getIntent().getStringExtra("PayH5Url");
         webView = (WebView) findViewById(R.id.webview_detail);
 
-        webView.loadUrl(payUrl);
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setDatabaseEnabled(true);
@@ -53,9 +56,16 @@ public class WebViewActivity extends AppCompatActivity     {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+            }
 
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                KLog.e(request);
+                KLog.e(error);
             }
         });
+        webView.loadUrl(payUrl);
     }
 
 

@@ -27,31 +27,28 @@ android {
     buildTypes {
         release {
             // 如果没有提供混淆规则文件，则设置默认的混淆规则文件（SDK/tools/proguard/proguard-android.txt）
-            pseudoLocalesEnabled true
+//            pseudoLocalesEnabled true
             //混淆
             minifyEnabled true
             // 移除无用的resource文件
-//            shrinkResources true
+            shrinkResources true
             //Zipalign优化
             zipAlignEnabled true
 
 
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-//            minifyEnabled false
-//            shrinkResources false
-//            zipAlignEnabled false
-            // 如果没有提供混淆规则文件，则设置默认的混淆规则文件（SDK/tools/proguard/proguard-android.txt）
-            pseudoLocalesEnabled true
-            minifyEnabled true
-//            shrinkResources true
-            zipAlignEnabled true
+            //混淆
+            minifyEnabled false
+            // 移除无用的resource文件
+            shrinkResources false
+            //Zipalign优化
+            zipAlignEnabled false
 
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
 
         }
     }

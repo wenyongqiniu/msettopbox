@@ -19,4 +19,5 @@
 
 #只保留类中的成员，防止被混淆或移除
 -keepclassmembers class com.yxws.tvwidget.bridge.*{*;}
-
+#只保留类中的成员，防止被混淆或移除
+-keep class com.yxws.tvwidget.bridge.*{*;}

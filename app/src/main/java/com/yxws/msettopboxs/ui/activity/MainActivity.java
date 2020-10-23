@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chinamobile.SWDevInfoManager;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
@@ -105,23 +106,24 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         mRlHotVideo.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                mOpenEffectBridge = (OpenEffectBridge) mainUpView2.getEffectBridge();
+//                mOpenEffectBridge = (OpenEffectBridge) mainUpView2.getEffectBridge();
                 if (!(newFocus instanceof ReflectItemView)) {
                     mainUpView2.setUnFocusView(mOldGridView);
                     mOpenEffectBridge.setVisibleWidget(true);// 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
+                    mOldGridView = null;
                 } else {
                     newFocus.bringToFront();
                     mOpenEffectBridge.setVisibleWidget(false);
                     mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
                     mainUpView2.setFocusView(newFocus, mOldGridView, 1.1f);
+                    mOldGridView = newFocus;
                 }
                 point = 0;
-                mOldGridView = newFocus;
             }
         });
 
-        DevInfoUtil.getValue(this);
+//        DevInfoUtil.getValue(this);
     }
 
 
@@ -138,6 +140,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         mMainAdpter = new MainAdpter(this, R.layout.item_image, typeList);
         gridviewtv.setAdapter(mMainAdpter);
         gridviewtv.setSelector(new ColorDrawable(Color.TRANSPARENT));
+
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -166,6 +169,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
         gridviewtv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -253,11 +257,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 String ottUserToken = DataHelper.getStringSF(this, Constant.TOKEN);
                 getP().toBuy(userId, ottUserToken);
 
-
                 break;
-//            case R.id.btn_history:
-//                ArtUtils.startActivity(this, HistoryAcitvity.class);
-//                break;
             case R.id.rl_hot_video:
                 Intent intent = new Intent(context, VideoDetailActivity.class);
                 intent.putExtra("videoId", mHotVideoBean.getVideoId());
@@ -297,8 +297,14 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
     public void setHotVideo(HotVideoBean hotVideoBean) {
         this.mHotVideoBean = hotVideoBean;
+        KLog.e("首页图片显示 " + hotVideoBean.getPic());
+        RequestOptions options = new RequestOptions()
+                .dontAnimate()
+                .centerInside()
+                .placeholder(R.drawable.bitmap4);
         Glide.with(this)
                 .load(hotVideoBean.getPic())
+                .apply(options)
                 .into(ivMain2);
         tvMainDesc.setText(hotVideoBean.getInfo());
     }
