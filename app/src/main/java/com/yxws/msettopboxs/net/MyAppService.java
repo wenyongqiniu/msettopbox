@@ -13,6 +13,8 @@ import com.yxws.msettopboxs.net.requestbean.WatchHistoryBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -21,11 +23,11 @@ import retrofit2.http.Query;
 public interface MyAppService {
 
     //登录
-    @GET("api/home/loginByPhone")
-    Flowable<UserBean> login(@Query("phone") String phone,@Query("token") String token);
+    @FormUrlEncoded
+    @POST("api/home/loginByPhone")
+    Flowable<UserBean> login(@Field("phone") String phone, @Field("token") String token);
 
     //购买
-
     @GET("api/pay/h52To1Pay")
     @Headers({"Content-Type:application/json;charset=utf-8"})
     Flowable<BasePresponce> toBuy(@Query("userId") String userId, @Query("userToken") String userToken);

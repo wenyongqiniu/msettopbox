@@ -122,8 +122,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 point = 0;
             }
         });
-
-//        DevInfoUtil.getValue(this);
     }
 
 

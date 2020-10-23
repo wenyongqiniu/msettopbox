@@ -82,7 +82,9 @@ dependencies {
     }
     implementation 'com.lxj:xpopup:1.8.9'//就是androidx版本
     implementation 'com.android.support:multidex:1.0.3'
-
+    implementation("com.github.bumptech.glide:okhttp3-integration:4.8.0" ) {
+        exclude group: "com.android.support"
+    }
 
 }
 preBuild {
