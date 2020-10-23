@@ -35,9 +35,7 @@ public class MainPresenter extends XPresent<MainActivity> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
-                        DataHelper.setStringSF(getV().getApplication(), Constant.USERID, verificationBean.getUserID());
                         DataHelper.setStringSF(getV().getApplication(), Constant.OTTUSERTOKEN, verificationBean.getOTTUserToken());
-
                         heartBeat(epg_address, verificationBean.getOTTUserToken(), mobile_phone_number);
                     }
 
@@ -103,7 +101,7 @@ public class MainPresenter extends XPresent<MainActivity> {
                     @Override
                     public void onNext(HotVideoBean hotVideoBean) {
                         List<HotVideoBean> hotVideoBeans = hotVideoBean.getData();
-                        if (hotVideoBeans!=null &&!hotVideoBeans.isEmpty()) {
+                        if (hotVideoBeans != null && !hotVideoBeans.isEmpty()) {
                             getV().setHotVideo(hotVideoBeans.get(0));
                         }
                     }

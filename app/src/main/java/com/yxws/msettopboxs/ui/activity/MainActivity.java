@@ -51,11 +51,9 @@ import java.util.List;
  */
 public class MainActivity extends XActivity<MainPresenter> implements View.OnClickListener {
     private String TAG = MainActivity.class.getName();
-    private Button btnSearch, btnLogin, btnOpenVip;
+    private Button btnSearch, btnOpenVip;
 
 
-    private ImageView ivMain1;
-    private LinearLayout lineDesc;
     private ImageView ivMain2;
     private TextView tvMainDesc;
     private MainUpView mainUpView2;
@@ -78,35 +76,28 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         devInfoManager = SWDevInfoManager.getDevInfoManager(this);
 
         btnSearch = (Button) findViewById(R.id.btn_search);
-        btnLogin = (Button) findViewById(R.id.btn_login);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
-
-        ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
-        lineDesc = (LinearLayout) findViewById(R.id.line_desc);
         ivMain2 = (ImageView) findViewById(R.id.iv_main_2);
         tvMainDesc = (TextView) findViewById(R.id.tv_main_desc);
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
         mRlHotVideo = (ReflectItemView) findViewById(R.id.rl_hot_video);
-//        btn_history = (Button) findViewById(R.id.btn_history);
 
-
+        DevInfoUtil.getValue(this);
         btnSearch.setOnClickListener(this);
-        btnLogin.setOnClickListener(this);
+
         btnOpenVip.setOnClickListener(this);
         mRlHotVideo.setOnClickListener(this);
-//        btn_history.setOnClickListener(this);
+
 
         getP().getSearchLevel();
-        ///api/home/searchHotVideo
         getP().getHotVideo();
 
         initGridView();
         mRlHotVideo.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//                mOpenEffectBridge = (OpenEffectBridge) mainUpView2.getEffectBridge();
                 if (!(newFocus instanceof ReflectItemView)) {
                     mainUpView2.setUnFocusView(mOldGridView);
                     mOpenEffectBridge.setVisibleWidget(true);// 隐藏
@@ -202,16 +193,15 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        String userInfo = DataHelper.getStringSF(getApplication(), Constant.USERINFO);
-        if (userInfo != null) {
-            DevInfoUtil.getToken(this, new OnResultCall() {
-                @Override
-                public void onResult(String token) {
-                    DataHelper.setStringSF(context, Constant.TOKEN, token);
-                    getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
-                }
-            });
-        }
+        DevInfoUtil.getToken(this, new OnResultCall() {
+            @Override
+            public void onResult(String token) {
+                getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
+                        , token, devInfoManager.getValue(DevInfoManager.PHONE)
+                        , devInfoManager.getValue(DevInfoManager.STB_MAC));
+                getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
+            }
+        });
     }
 
     @Override
@@ -231,29 +221,16 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             case R.id.btn_search:
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
-            case R.id.btn_login:
+            case R.id.btn_open_vip:
+
                 DevInfoUtil.getToken(this, new OnResultCall() {
                     @Override
                     public void onResult(String token) {
-                        DataHelper.setStringSF(context, Constant.TOKEN, token);
 
-                        getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
-                                , token, devInfoManager.getValue(DevInfoManager.PHONE)
-                                , devInfoManager.getValue(DevInfoManager.STB_MAC));
-                        getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                        getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
+
                     }
                 });
-
-
-                break;
-            case R.id.btn_open_vip:
-                if (DataHelper.getStringSF(getApplication(), Constant.USERINFO) == null) {
-                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String userId = DataHelper.getStringSF(this, Constant.USERID);
-                String ottUserToken = DataHelper.getStringSF(this, Constant.TOKEN);
-                getP().toBuy(userId, ottUserToken);
 
                 break;
             case R.id.rl_hot_video:
@@ -272,13 +249,12 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
     public void getUserInfo(UserBean userBean) {
         DataHelper.setStringSF(getApplication(), Constant.USERINFO, userBean.toString());
-        Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
         if (userBean.getIsVip() == 0) {
             btnOpenVip.setText("已开通");
             btnOpenVip.setEnabled(false);
         } else
             btnOpenVip.setEnabled(true);
-        btnLogin.setText(TextUtils.isEmpty(userBean.getPhone()) ? "用户" : userBean.getPhone());
+//        btnLogin.setText(TextUtils.isEmpty(userBean.getPhone()) ? "用户" : userBean.getPhone());
     }
 
     public void getH5Url(String data) {

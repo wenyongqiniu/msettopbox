@@ -12,6 +12,7 @@ public class Constant {
 
     public  static final String USERINFO="UserInfo";
     public  static final String USERID="UserID";
+    //视频播放时使用
     public  static final String OTTUSERTOKEN="OTTUserToken";
-    public  static final String TOKEN="Token";
+
 }

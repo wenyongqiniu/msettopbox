@@ -155,7 +155,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         AuthParam authParam = new AuthParam();
 
         authParam.setOTTUserToken(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN));
-        authParam.setUserID(DataHelper.getStringSF(getV().getApplicationContext(), Constant.USERID));
+        authParam.setUserID(systemService.getValue(DevInfoManager.PHONE));
         authParam.setMAC(systemService.getValue(DevInfoManager.STB_MAC));
 
         String epg_addresss = systemService.getValue(DevInfoManager.EPG_ADDRESS);

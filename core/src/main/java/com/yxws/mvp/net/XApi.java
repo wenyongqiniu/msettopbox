@@ -129,7 +129,7 @@ public class XApi {
 //        try {
 //            if (mContext != null) {
 //                //https的全局自签名证书
-//                InputStream certificates = mContext.getAssets().open("server.cer");
+//                InputStream certificates = mContext.getAssets().open("server.cert");
 //                HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, new InputStream[]{certificates});
 //                //https双向认证证书
 //                //HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(bksFile, password, certificates);

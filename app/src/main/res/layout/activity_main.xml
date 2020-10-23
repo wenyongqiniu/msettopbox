@@ -39,25 +39,25 @@
                 android:textSize="12sp" />
 
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
-                android:layout_marginLeft="25dp"
-                android:layout_toRightOf="@+id/btn_search"
-                android:background="@drawable/tv_bug_search_bg"
-                android:drawableStart="@drawable/userinfo"
-                android:gravity="center"
-                android:maxLines="1"
-                android:nextFocusLeft="@id/btn_search"
-                android:nextFocusRight="@id/btn_open_vip"
-                android:nextFocusDown="@id/gridviewtv"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="@string/login"
-                android:textColor="@color/font_gray_white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+<!--            <Button-->
+<!--                android:id="@+id/btn_login"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="28dp"-->
+<!--                android:layout_marginLeft="25dp"-->
+<!--                android:layout_toRightOf="@+id/btn_search"-->
+<!--                android:background="@drawable/tv_bug_search_bg"-->
+<!--                android:drawableStart="@drawable/userinfo"-->
+<!--                android:gravity="center"-->
+<!--                android:maxLines="1"-->
+<!--                android:nextFocusLeft="@id/btn_search"-->
+<!--                android:nextFocusRight="@id/btn_open_vip"-->
+<!--                android:nextFocusDown="@id/gridviewtv"-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:paddingRight="10dp"-->
+<!--                android:text="@string/login"-->
+<!--                android:textColor="@color/font_gray_white"-->
+<!--                android:textSize="12sp"-->
+<!--                android:textStyle="bold" />-->
 
 
             <Button
@@ -65,10 +65,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_marginLeft="25dp"
-                android:layout_toRightOf="@+id/btn_login"
+                android:layout_toRightOf="@+id/btn_search"
                 android:background="@drawable/tv_open_vip_bg"
                 android:drawableStart="@drawable/vip"
-                android:nextFocusUp="@id/btn_login"
+                android:nextFocusUp="@id/btn_search"
                 android:nextFocusDown="@id/rl_hot_video"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"

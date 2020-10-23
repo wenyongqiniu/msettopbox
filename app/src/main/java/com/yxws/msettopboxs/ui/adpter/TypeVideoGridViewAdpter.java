@@ -21,7 +21,7 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
     protected void convert(ViewHolder viewHolder, VideoBean item, int position) {
 
         viewHolder.setText(R.id.tv_video_desc, item.getTvName());
-        viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 1 ? true : false);
+        viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 0 ? true : false);
 
 
             RequestOptions options = new RequestOptions()

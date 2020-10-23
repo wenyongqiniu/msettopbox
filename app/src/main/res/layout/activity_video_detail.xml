@@ -98,7 +98,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:scaleType="centerCrop"
-                            android:src="@mipmap/vip_icon"
+                            android:src="@drawable/free"
                             android:visibility="gone"
                             tools:visibility="visible"/>
                     </RelativeLayout>
@@ -117,7 +117,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:maxLines="1"
+                            android:maxLines="2"
                             android:textColor="#fff0f0f0"
                             android:textSize="16sp"
                             tools:text="面肌痉挛的治疗方法有哪些？" />
@@ -128,7 +128,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:text=""
-                            android:visibility="gone"
                             android:textColor="#fff0f0f0"
                             android:textSize="16sp" />
 
@@ -139,9 +138,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:text="简介：中国医学科学院阜外医院 原院长 博士生导师"
-                            android:maxLines="3"
-                            android:ellipsize="end"
                             android:textColor="#F1F1F1"
+                            android:maxLines="6"
+                            android:ellipsize="end"
                             android:textSize="15sp" />
 
                         <View

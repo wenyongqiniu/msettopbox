@@ -26,7 +26,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/vip_icon" />
+            android:src="@drawable/free" />
     </RelativeLayout>
 
 

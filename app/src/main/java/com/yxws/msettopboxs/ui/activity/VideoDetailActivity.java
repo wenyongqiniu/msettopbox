@@ -1,5 +1,6 @@
 package com.yxws.msettopboxs.ui.activity;
 
+import android.app.DevInfoManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,16 +15,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.chinamobile.SWDevInfoManager;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.DoctorInfoBean;
 import com.yxws.msettopboxs.bean.VideoBean;
 import com.yxws.msettopboxs.bean.VideoDetailBean;
-import com.yxws.msettopboxs.config.Constant;
 import com.yxws.msettopboxs.presenter.VideoDetailPresenter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.yxws.msettopboxs.util.ArtUtils;
-import com.yxws.msettopboxs.util.DataHelper;
+import com.yxws.msettopboxs.util.DevInfoUtil;
+import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XActivity;
 import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
@@ -60,8 +62,11 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     private int videoId;
     private String classificationId;
 
+    private DevInfoManager devInfoManager;
+
     @Override
     public void initView() {
+        devInfoManager = SWDevInfoManager.getDevInfoManager(this);
 
         btnSearch = (Button) findViewById(R.id.btn_search);
         ivVideoCover = (ImageView) findViewById(R.id.iv_video_cover);
@@ -194,28 +199,20 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     @Override
     public void onClick(View v) {
-        String userId = DataHelper.getStringSF(this, Constant.USERID);
-        String ottUserToken = DataHelper.getStringSF(this, Constant.OTTUSERTOKEN);
         switch (v.getId()) {
             case R.id.btn_search:
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_free_trial:
-                if (TextUtils.isEmpty(ottUserToken)) {
-                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-//                    TODO 放开
-                    getP().isVip(userId);
-//                    startActivity(mVideoDetailBean);
-                }
+                getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
                 break;
             case R.id.btn_purchase:
-                if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(ottUserToken)) {
-                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                getP().toBuy(userId, ottUserToken);
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                    }
+                });
                 break;
         }
     }
@@ -224,16 +221,16 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
-        RequestOptions options = new RequestOptions()
-                .dontAnimate()
-                .centerInside()
-                .placeholder(R.drawable.bitmap3);
+//        RequestOptions options = new RequestOptions()
+//                .dontAnimate()
+//                .centerInside()
+//                .placeholder(R.drawable.bitmap3);
         Glide.with(this)
                 .load(videoBeanData.getTvPicHead())
-                .apply(options)
+//                .apply(options)
                 .into(ivVideoCover);
         tvVideoTitle.setText(videoBeanData.getTvName());
-        ivVideoIsPurchase.setVisibility(videoBeanData.getIsPurchase() == 1 ? View.VISIBLE : View.GONE);
+        ivVideoIsPurchase.setVisibility(videoBeanData.getIsPurchase() == 0 ? View.VISIBLE : View.GONE);
         getP().getDoctorInfo(videoBeanData.getDoctorId());
         if (classificationId == null) {
             getP().getVideo(videoBeanData.getCpAlbumId());
@@ -241,6 +238,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     }
 
     public void setDoctorInfo(DoctorInfoBean bean) {
+        tvVideoTeacher.setText(bean.name);
         tvVideoTeacherDesc.setText(bean.introduction);
     }
 
