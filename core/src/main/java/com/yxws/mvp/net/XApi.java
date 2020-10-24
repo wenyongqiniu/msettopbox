@@ -139,6 +139,9 @@ public class XApi {
 //            e.printStackTrace();
 //        }
 
+        HttpsUtils.UnSafeTrustManager trustAllCert = new HttpsUtils.UnSafeTrustManager();
+        SSLSocketFactoryCompat socketFactoryCompat = new SSLSocketFactoryCompat(trustAllCert);
+        builder.sslSocketFactory(socketFactoryCompat, trustAllCert);
 
         //https的全局访问规则
 //        builder.hostnameVerifier(new UnSafeHostnameVerifier(baseUrl));
@@ -255,11 +258,11 @@ public class XApi {
                     public Publisher<T> apply(T model) throws Exception {
 
                         if (model == null || model.isNull()) {
-                            return Flowable.error(new NetError(model.getErrorMsg(), NetError.NoDataError));
+                            return Flowable.error(new NetError(new Throwable("空数据"), NetError.NoDataError));
                         } else if (model.isAuthError()) {
-                            return Flowable.error(new NetError(model.getErrorMsg(), NetError.AuthError));
+                            return Flowable.error(new NetError(new Throwable("验证错误"), NetError.AuthError));
                         } else if (model.isBizError()) {
-                            return Flowable.error(new NetError(model.getErrorMsg(), NetError.BusinessError));
+                            return Flowable.error(new NetError(new Throwable("业务错误"), NetError.BusinessError));
                         } else {
                             return Flowable.just(model);
                         }

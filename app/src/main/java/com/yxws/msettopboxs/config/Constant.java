@@ -9,8 +9,11 @@ package com.yxws.msettopboxs.config;
 public class Constant {
 
     public  static final String BASEURL="https://yxwstv.com";
+//    public  static final String BASEURL="http://36.156.158.245:8081";
 
-    public  static final String USERINFO="UserInfo";
+    //盒子Token
+    public  static final String TOKEN="TOKEN";
+    //用户ID 本质上是手机号
     public  static final String USERID="UserID";
     //视频播放时使用
     public  static final String OTTUSERTOKEN="OTTUserToken";

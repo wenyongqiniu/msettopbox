@@ -1,5 +1,8 @@
 package com.yxws.msettopboxs.presenter;
 
+import android.app.DevInfoManager;
+import android.widget.Toast;
+
 import com.yxws.msettopboxs.bean.BasePresponce;
 import com.yxws.msettopboxs.bean.HotVideoBean;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
@@ -10,6 +13,8 @@ import com.yxws.msettopboxs.net.Api;
 import com.yxws.msettopboxs.net.MyApi;
 import com.yxws.msettopboxs.ui.activity.MainActivity;
 import com.yxws.msettopboxs.util.DataHelper;
+import com.yxws.msettopboxs.util.DevInfoUtil;
+import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XPresent;
 import com.yxws.mvp.net.ApiSubscriber;
 import com.yxws.mvp.net.NetError;
@@ -20,7 +25,7 @@ import java.util.List;
 public class MainPresenter extends XPresent<MainActivity> {
 
     /**
-     * 认证SSO
+     * 认证SSO  保存 OTTUserToken
      *
      * @param epg_address         请求地址
      * @param userToken
@@ -87,7 +92,7 @@ public class MainPresenter extends XPresent<MainActivity> {
 
                     @Override
                     protected void onFail(NetError error) {
-
+                        Toast.makeText(getV().getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -121,7 +126,29 @@ public class MainPresenter extends XPresent<MainActivity> {
                 .subscribe(new ApiSubscriber<UserBean>() {
                     @Override
                     public void onNext(UserBean userBean) {
-                        getV().getUserInfo(userBean.getData());
+                        if (userBean.getData() != null) {
+                            getV().getUserInfo(userBean.getData());
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+    public void toLogin(String token) {
+        MyApi.getMyApiService()
+                .login(token)
+                .compose(XApi.<UserBean>getApiTransformer())
+                .compose(XApi.<UserBean>getScheduler())
+                .subscribe(new ApiSubscriber<UserBean>() {
+                    @Override
+                    public void onNext(UserBean userBean) {
+                        if (userBean.getData() != null) {
+                            getV().getUserInfo(userBean.getData());
+                        }
                     }
 
                     @Override
@@ -148,4 +175,28 @@ public class MainPresenter extends XPresent<MainActivity> {
                     }
                 });
     }
+
+
+    public void isVip(String userId) {
+        MyApi.getMyApiService()
+                .isVip(userId)
+                .compose(XApi.<BasePresponce<String>>getApiTransformer())
+                .compose(XApi.<BasePresponce<String>>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce<String>>() {
+                    @Override
+                    public void onNext(BasePresponce<String> vipStateBean) {
+                        if (vipStateBean.getData().contains("true")) {
+                            Toast.makeText(getV().getApplicationContext(), "你已经是Vip会员了", Toast.LENGTH_SHORT).show();
+                        } else {
+                            getV().toBuyVip();
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+                    }
+                });
+    }
+
+
 }

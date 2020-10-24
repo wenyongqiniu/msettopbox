@@ -65,18 +65,15 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
     private String classificationId;
     private int typeId;
-    private String userPhone;
     private VideoBean videoBean;
 
     @Override
     public void initView() {
-        userPhone = getIntent().getStringExtra("user_phone");
         typeId = getIntent().getIntExtra("main_type_id", 0);
         lvVideoMenuId = (ListViewTV) findViewById(R.id.lv_video_menu_id);
         lvVideoMenuId2 = (ListViewTV) findViewById(R.id.lv_video_menu_id_2);
         btnSearch = (Button) findViewById(R.id.btn_search);
         tvAppName = (TextView) findViewById(R.id.tv_app_name);
-
 
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
@@ -91,12 +88,11 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         getP().getSearchLevel();
         getP().getSearchLevel(typeId);
 
-//        getP().getVideo("158813987059492");
 
     }
 
     private boolean islvVideoMenu1 = false;//lvVideoMenuId是否获取焦点
-    private int menu2SelectPosition;
+
 
     private void initListView() {
         mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type_menu_1, mSearchLevel);
@@ -133,8 +129,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lvVideoMenuId2.setPoint(position);
                 //应客户需求默认改为第一个
-//                lvVideoMenuId2.setPoint(0);
-                menu2SelectPosition = position;
                 TypeListMenuBean typeListMenuBean = mSearchLevel2.get(position);
                 classificationId = typeListMenuBean.getCpAlbumId();
                 getP().getVideo(typeListMenuBean.getCpAlbumId());
@@ -229,10 +223,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 videoBean = mVideoBeans.get(position);
-                if (DataHelper.getStringSF(getApplication(), Constant.USERINFO) == null) {
-                    Toast.makeText(TypeVideoActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+
                 toVideoDetail();
             }
         });
@@ -283,7 +274,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mSearchLevel2.addAll(searchLevelBeanData);
         mTypeListMenu2Adpter.notifyDataSetChanged();
         if (mSearchLevel2 != null && mSearchLevel2.size() > 0) {
-//            getP().getVideo(mSearchLevel2.get(menu2SelectPosition).getCpAlbumId());
             //应客户需求默认改为第一个
             getP().getVideo(mSearchLevel2.get(0).getCpAlbumId());
             lvVideoMenuId2.setSelection(0);

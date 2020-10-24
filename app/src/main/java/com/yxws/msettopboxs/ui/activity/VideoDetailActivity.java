@@ -21,9 +21,11 @@ import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.DoctorInfoBean;
 import com.yxws.msettopboxs.bean.VideoBean;
 import com.yxws.msettopboxs.bean.VideoDetailBean;
+import com.yxws.msettopboxs.config.Constant;
 import com.yxws.msettopboxs.presenter.VideoDetailPresenter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.yxws.msettopboxs.util.ArtUtils;
+import com.yxws.msettopboxs.util.DataHelper;
 import com.yxws.msettopboxs.util.DevInfoUtil;
 import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XActivity;
@@ -204,15 +206,42 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_free_trial:
-                getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
+                if (DataHelper.getStringSF(this, Constant.OTTUSERTOKEN) == null) {
+                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                    return;
+
+                    //视频播放需要的数据有
+                } else if (devInfoManager != null && devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK) != null &&
+                        devInfoManager.getValue(DevInfoManager.CDN_ADDRESS) != null &&
+                        devInfoManager.getValue(DevInfoManager.CDN_TYPE) != null &&
+                        devInfoManager.getValue(DevInfoManager.STB_MAC) != null &&
+                        devInfoManager.getValue(DevInfoManager.PHONE) != null) {
+
+                    getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
+
+                } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
+
+                    getP().isVip(DataHelper.getStringSF(this, Constant.USERID));
+
+                } else {
+                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btn_purchase:
-                DevInfoUtil.getToken(this, new OnResultCall() {
-                    @Override
-                    public void onResult(String token) {
-                        getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
-                    }
-                });
+                if (DataHelper.getStringSF(this, Constant.TOKEN) == null) {
+                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (devInfoManager != null) {
+
+                    getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE),
+                            DataHelper.getStringSF(this, Constant.TOKEN));
+
+                } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
+
+                    getP().toBuy(DataHelper.getStringSF(this, Constant.USERID),
+                            DataHelper.getStringSF(this, Constant.TOKEN));
+
+                }
                 break;
         }
     }
@@ -221,13 +250,13 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
-//        RequestOptions options = new RequestOptions()
-//                .dontAnimate()
-//                .centerInside()
-//                .placeholder(R.drawable.bitmap3);
+        RequestOptions options = new RequestOptions()
+                .dontAnimate()
+                .centerInside()
+                .placeholder(R.drawable.bitmap3);
         Glide.with(this)
                 .load(videoBeanData.getTvPicHead())
-//                .apply(options)
+                .apply(options)
                 .into(ivVideoCover);
         tvVideoTitle.setText(videoBeanData.getTvName());
         ivVideoIsPurchase.setVisibility(videoBeanData.getIsPurchase() == 0 ? View.VISIBLE : View.GONE);

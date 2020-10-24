@@ -197,25 +197,31 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
     }
 
 
+    //按下
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction()== KeyEvent.KEYCODE_BACK) {
-            return false;
-        }
+//        if (event.getAction()== KeyEvent.KEYCODE_BACK) {
+//            return false;
+//        }
+        KLog.e("   onKeyDown    " + event.getAction() + "  " + event.getKeyCode());
         if (skbContainer.onSoftKeyDown(keyCode, event))
             return true;
         return super.onKeyDown(keyCode, event);
     }
 
+    //抬起
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (event.getAction()== KeyEvent.KEYCODE_BACK) {
-            return false;
-        }
+        KLog.e("   onKeyUp    " + event.getAction() + "  " + event.getKeyCode());
         if (skbContainer.onSoftKeyUp(keyCode, event))
             return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
+
 
     @Override
     public void initData(Bundle savedInstanceState) {

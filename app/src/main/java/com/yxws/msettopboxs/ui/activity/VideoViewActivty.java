@@ -49,8 +49,8 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
     private DevInfoManager devInfoManager;
     LoadingPopupView loadingPopup;
-    private int contentTotalTime, startWatchTime, endWatchTime, playTime;
-    private int videoId,cpAlbumId,cpTvId;
+    private long contentTotalTime, startWatchTime, endWatchTime, playTime;
+    private int videoId, cpAlbumId, cpTvId;
     private VideoDetailBean mVideoDetailBean;
 
     @SuppressLint("WrongConstant")
@@ -155,8 +155,8 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         });
 
 
-        startWatchTime = (int) System.currentTimeMillis() / 1000;
-        endWatchTime = (int) System.currentTimeMillis() / 1000;
+        startWatchTime = System.currentTimeMillis();
+        endWatchTime = System.currentTimeMillis();
         playTime = endWatchTime - startWatchTime;
 
 //        TODO 开始保存历史任务
@@ -268,13 +268,18 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         public void run() {
             mWeakReference.get().videoView.post(() -> {
 
-                endWatchTime = (int) System.currentTimeMillis() / 1000;
+                endWatchTime = System.currentTimeMillis();
                 playTime = endWatchTime - startWatchTime;
-                if (mVideoDetailBean != null) {
-                    mWeakReference.get().getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
-                            contentTotalTime, startWatchTime, endWatchTime, playTime,
+                if (mVideoDetailBean != null && devInfoManager != null) {
+                    mWeakReference.get().getP().saveHistoty(mWeakReference.get().mVideoDetailBean.getTvName(), mWeakReference.get().
+                                    mVideoDetailBean.getCpAlbumId(), mWeakReference.get().mVideoDetailBean.getCpTvId(),
+                            mWeakReference.get().contentTotalTime,
+                            mWeakReference.get().startWatchTime,
+                            mWeakReference.get().endWatchTime,
+                            mWeakReference.get().playTime,
                             "watching"
-                            , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+                            , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE),
+                            mWeakReference.get().mVideoDetailBean.getTvPicHead());
                 }
             });
         }
@@ -284,11 +289,11 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     //播放结束
     @Override
     public void onCompletion(MediaPlayer mp) {
-        endWatchTime = (int) System.currentTimeMillis() / 1000;
+        endWatchTime = (int) System.currentTimeMillis();
         playTime = endWatchTime - startWatchTime;
-        if (mp != null && mVideoDetailBean != null) {
+        if (mp != null && mVideoDetailBean != null && devInfoManager != null) {
             contentTotalTime = mp.getDuration() / 1000;
-            if (mVideoDetailBean != null) {
+            if (mVideoDetailBean != null && devInfoManager != null) {
                 getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
                         contentTotalTime, startWatchTime, endWatchTime, playTime,
                         "end"
@@ -300,12 +305,12 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     //视频准备完成
     @Override
     public void onPrepared(MediaPlayer mp) {
-        endWatchTime = (int) System.currentTimeMillis() / 1000;
+        endWatchTime = System.currentTimeMillis();
         playTime = endWatchTime - startWatchTime;
 
         loadingPopup.dismiss();
 
-        if (mp != null && mVideoDetailBean != null) {
+        if (mp != null && mVideoDetailBean != null && devInfoManager != null) {
             contentTotalTime = mp.getDuration() / 1000;
             getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
                     contentTotalTime, startWatchTime, endWatchTime, playTime,

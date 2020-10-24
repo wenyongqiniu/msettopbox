@@ -27,6 +27,11 @@ public interface MyAppService {
     @POST("api/home/loginByPhone")
     Flowable<UserBean> login(@Field("phone") String phone, @Field("token") String token);
 
+    //登录
+    @FormUrlEncoded
+    @POST("api/home/loginByPhone")
+    Flowable<UserBean> login(@Field("token") String token);
+
     //购买
     @GET("api/pay/h52To1Pay")
     @Headers({"Content-Type:application/json;charset=utf-8"})

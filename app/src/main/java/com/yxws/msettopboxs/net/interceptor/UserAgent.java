@@ -29,13 +29,15 @@ public class UserAgent implements Interceptor {
         Request request = chain.request();
         HttpUrl url = request.url();
         Request.Builder builder = request.newBuilder();
-        builder.removeHeader("User-Agent");
         DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(mMyApplication);
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
-        if (cdn_type.equals("HW")) {
-            builder.addHeader("User-Agent", "tianhongyxws");
-        } else if (cdn_type.equals("ZTE")) {
-            builder.addHeader("User-Agent", "tianhongyxwszx");
+        if (systemService != null && cdn_type != null) {
+            builder.removeHeader("User-Agent");
+            if (cdn_type.equals("HW")) {
+                builder.addHeader("User-Agent", "tianhongyxws");
+            } else if (cdn_type.equals("ZTE")) {
+                builder.addHeader("User-Agent", "tianhongyxwszx");
+            }
         }
         builder.url(url);
         return chain.proceed(builder.build());

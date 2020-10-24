@@ -29,34 +29,6 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
 
 
     /**
-     * 心跳接口
-     *
-     * @param epg_address         请求地址
-     * @param OTTUserToken
-     * @param mobile_phone_number 手机号
-     */
-    public void heartBeat(String epg_address, String OTTUserToken, String mobile_phone_number) {
-        Api.getVerService(epg_address + "/")
-                .heartBeat(OTTUserToken, mobile_phone_number)
-                .compose(XApi.<VerificationBean>getApiTransformer())
-                .compose(XApi.<VerificationBean>getScheduler())
-                .compose(getV().<VerificationBean>bindToLifecycle())
-                .subscribe(new ApiSubscriber<VerificationBean>() {
-                    @Override
-                    public void onNext(VerificationBean verificationBean) {
-
-                    }
-
-                    @Override
-                    protected void onFail(NetError error) {
-
-                    }
-                });
-
-    }
-
-
-    /**
      * @param contentName      视频名称
      * @param contentId        cp_album_id这个ID
      * @param extraContentId   cp_tv_id这个ID
@@ -68,8 +40,8 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
      * @param account          用户登录账号,机顶盒登陆账号
      * @param imageUrl         海报URL
      */
-    public void saveHistoty(String contentName, String contentId, int extraContentId, int contentTotalTime,
-                            int startWatchTime, int endWatchTime, int playTime, String logType,
+    public void saveHistoty(String contentName, String contentId, int extraContentId, long contentTotalTime,
+                            long startWatchTime, long endWatchTime, long playTime, String logType,
                             String account, String imageUrl) {
         WatchHistoryBean historyBean = new WatchHistoryBean();
         historyBean.setContentName(contentName);
@@ -101,10 +73,6 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
     }
 
     public void getVideoDetail(int videoId) {
-
-
-
-
         MyApi.getMyApiService()
                 .getVideoDetail(videoId)
                 .compose(XApi.<VideoDetailBean>getApiTransformer())
@@ -122,7 +90,6 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     }
                 });
     }
-
 
 
     /**
@@ -152,8 +119,8 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
 
-        AuthParam authParam = new AuthParam();
 
+        AuthParam authParam = new AuthParam();
         authParam.setOTTUserToken(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN));
         authParam.setUserID(systemService.getValue(DevInfoManager.PHONE));
         authParam.setMAC(systemService.getValue(DevInfoManager.STB_MAC));
@@ -213,7 +180,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
 
     private void startActivity(AuthBean videoBean, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
         @SuppressLint("WrongConstant")
-        DevInfoManager systemService = (DevInfoManager) getV().getApplicationContext().getSystemService(DevInfoManager.DATA_SERVER);
+        DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
         StringBuffer stringBuffer = new StringBuffer();
 

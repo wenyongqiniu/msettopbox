@@ -12,7 +12,6 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +52,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private String TAG = MainActivity.class.getName();
     private Button btnSearch, btnOpenVip;
 
-
     private ImageView ivMain2;
     private TextView tvMainDesc;
     private MainUpView mainUpView2;
@@ -84,12 +82,10 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
         mRlHotVideo = (ReflectItemView) findViewById(R.id.rl_hot_video);
 
-        DevInfoUtil.getValue(this);
         btnSearch.setOnClickListener(this);
 
         btnOpenVip.setOnClickListener(this);
         mRlHotVideo.setOnClickListener(this);
-
 
         getP().getSearchLevel();
         getP().getHotVideo();
@@ -113,8 +109,8 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 point = 0;
             }
         });
-    }
 
+    }
 
     private void initGridView() {
         mOpenEffectBridge = (OpenEffectBridge) mainUpView2.getEffectBridge();
@@ -183,7 +179,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, TypeVideoActivity.class);
-                intent.putExtra("user_phone", devInfoManager.getValue(DevInfoManager.PHONE));
                 intent.putExtra("main_type_id", typeList.get(position).getTypeId());
                 startActivity(intent);
             }
@@ -196,10 +191,21 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
-                        , token, devInfoManager.getValue(DevInfoManager.PHONE)
-                        , devInfoManager.getValue(DevInfoManager.STB_MAC));
-                getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                if (devInfoManager != null && token != null && !token.equals("解析失败")) {
+                    if (devInfoManager.getValue(DevInfoManager.EPG_ADDRESS) != null
+                            && devInfoManager.getValue(DevInfoManager.PHONE) != null
+                            && devInfoManager.getValue(DevInfoManager.STB_MAC) != null) {
+                        getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
+                                , token, devInfoManager.getValue(DevInfoManager.PHONE)
+                                , devInfoManager.getValue(DevInfoManager.STB_MAC));
+                    }
+
+                    if (devInfoManager.getValue(DevInfoManager.PHONE) != null) {
+                        getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                    }
+                } else if (devInfoManager == null && token != null) {
+                    getP().toLogin(token);
+                }
             }
         });
     }
@@ -222,21 +228,20 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_open_vip:
-
-                DevInfoUtil.getToken(this, new OnResultCall() {
-                    @Override
-                    public void onResult(String token) {
-
-                        getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
-
-                    }
-                });
-
+                if (devInfoManager != null) {
+                    getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
+                } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
+                    getP().isVip(DataHelper.getStringSF(this, Constant.USERID));
+                } else {
+                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rl_hot_video:
-                Intent intent = new Intent(context, VideoDetailActivity.class);
-                intent.putExtra("videoId", mHotVideoBean.getVideoId());
-                ArtUtils.startActivity(context, intent);
+                if (mHotVideoBean != null) {
+                    Intent intent = new Intent(context, VideoDetailActivity.class);
+                    intent.putExtra("videoId", mHotVideoBean.getVideoId());
+                    ArtUtils.startActivity(context, intent);
+                }
                 break;
         }
     }
@@ -248,13 +253,15 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     }
 
     public void getUserInfo(UserBean userBean) {
-        DataHelper.setStringSF(getApplication(), Constant.USERINFO, userBean.toString());
+        if (userBean.getPhone() != null) {
+            DataHelper.setStringSF(getApplication(), Constant.USERID, userBean.getPhone());
+        }
         if (userBean.getIsVip() == 0) {
             btnOpenVip.setText("已开通");
             btnOpenVip.setEnabled(false);
-        } else
+        } else {
             btnOpenVip.setEnabled(true);
-//        btnLogin.setText(TextUtils.isEmpty(userBean.getPhone()) ? "用户" : userBean.getPhone());
+        }
     }
 
     public void getH5Url(String data) {
@@ -282,4 +289,17 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 .into(ivMain2);
         tvMainDesc.setText(hotVideoBean.getInfo());
     }
+
+    public void toBuyVip() {
+        DevInfoUtil.getToken(this, new OnResultCall() {
+            @Override
+            public void onResult(String token) {
+                if (devInfoManager != null && token != null && !token.equals("解析失败")) {
+                    getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                }
+            }
+        });
+    }
+
+
 }
