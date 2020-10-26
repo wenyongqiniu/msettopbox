@@ -89,7 +89,7 @@
                             android:layout_width="469dp"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/bitmap3" />
+                            android:src="@drawable/bitmap8" />
 
                         <ImageView
                             android:id="@+id/iv_video_is_purchase"

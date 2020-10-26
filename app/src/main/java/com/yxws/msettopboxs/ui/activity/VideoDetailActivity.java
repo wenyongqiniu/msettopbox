@@ -253,7 +253,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         RequestOptions options = new RequestOptions()
                 .dontAnimate()
                 .centerInside()
-                .placeholder(R.drawable.bitmap3);
+                .placeholder(R.drawable.bitmap8);
         Glide.with(this)
                 .load(videoBeanData.getTvPicHead())
                 .apply(options)

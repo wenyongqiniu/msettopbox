@@ -39,25 +39,25 @@
                 android:textSize="12sp" />
 
 
-<!--            <Button-->
-<!--                android:id="@+id/btn_login"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="28dp"-->
-<!--                android:layout_marginLeft="25dp"-->
-<!--                android:layout_toRightOf="@+id/btn_search"-->
-<!--                android:background="@drawable/tv_bug_search_bg"-->
-<!--                android:drawableStart="@drawable/userinfo"-->
-<!--                android:gravity="center"-->
-<!--                android:maxLines="1"-->
-<!--                android:nextFocusLeft="@id/btn_search"-->
-<!--                android:nextFocusRight="@id/btn_open_vip"-->
-<!--                android:nextFocusDown="@id/gridviewtv"-->
-<!--                android:paddingLeft="10dp"-->
-<!--                android:paddingRight="10dp"-->
-<!--                android:text="@string/login"-->
-<!--                android:textColor="@color/font_gray_white"-->
-<!--                android:textSize="12sp"-->
-<!--                android:textStyle="bold" />-->
+            <!--            <Button-->
+            <!--                android:id="@+id/btn_login"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="28dp"-->
+            <!--                android:layout_marginLeft="25dp"-->
+            <!--                android:layout_toRightOf="@+id/btn_search"-->
+            <!--                android:background="@drawable/tv_bug_search_bg"-->
+            <!--                android:drawableStart="@drawable/userinfo"-->
+            <!--                android:gravity="center"-->
+            <!--                android:maxLines="1"-->
+            <!--                android:nextFocusLeft="@id/btn_search"-->
+            <!--                android:nextFocusRight="@id/btn_open_vip"-->
+            <!--                android:nextFocusDown="@id/gridviewtv"-->
+            <!--                android:paddingLeft="10dp"-->
+            <!--                android:paddingRight="10dp"-->
+            <!--                android:text="@string/login"-->
+            <!--                android:textColor="@color/font_gray_white"-->
+            <!--                android:textSize="12sp"-->
+            <!--                android:textStyle="bold" />-->
 
 
             <Button
@@ -147,9 +147,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="122dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="155dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
             android:focusable="false"
             android:orientation="horizontal">
@@ -159,7 +159,8 @@
                 android:id="@+id/iv_main_1"
                 android:layout_width="283dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/bitmap3" />
+                android:scaleType="fitXY"
+                android:src="@drawable/bitmap8" />
 
 
             <LinearLayout
@@ -214,7 +215,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/bitmap3" />
+                        android:src="@drawable/bitmap4" />
 
 
                     <TextView

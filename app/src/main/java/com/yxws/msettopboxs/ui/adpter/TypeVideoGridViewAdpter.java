@@ -27,7 +27,7 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
             RequestOptions options = new RequestOptions()
                     .dontAnimate()
                     .centerInside()
-                    .placeholder(R.drawable.bitmap3);
+                    .placeholder(R.drawable.bitmap8);
             Glide.with(mContext)
                     .load(item.getTvPicHead())
                     .apply(options)
