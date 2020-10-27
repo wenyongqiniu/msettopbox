@@ -1,6 +1,7 @@
 package com.yxws.msettopboxs.presenter;
 
 import android.app.DevInfoManager;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.yxws.msettopboxs.bean.BasePresponce;
@@ -33,6 +34,9 @@ public class MainPresenter extends XPresent<MainActivity> {
      * @param stbmac
      */
     public void verfyUser(final String epg_address, String userToken, final String mobile_phone_number, String stbmac) {
+        if (!TextUtils.isEmpty(epg_address)) {
+            return;
+        }
         Api.getVerService(epg_address + "/")
                 .getVerifyuser(userToken, mobile_phone_number, stbmac)
                 .compose(XApi.<VerificationBean>getApiTransformer())

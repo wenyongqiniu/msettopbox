@@ -249,7 +249,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
         RequestOptions options = new RequestOptions()
-                .centerInside()
                 .placeholder(R.drawable.img_default);
         Glide.with(this)
                 .asBitmap()

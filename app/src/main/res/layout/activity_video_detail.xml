@@ -88,7 +88,7 @@
                             android:id="@+id/iv_video_cover"
                             android:layout_width="469dp"
                             android:layout_height="match_parent"
-                            android:scaleType="centerInside"
+                            android:scaleType="fitXY"
                             tools:src="@drawable/img_home" />
 
                         <ImageView
