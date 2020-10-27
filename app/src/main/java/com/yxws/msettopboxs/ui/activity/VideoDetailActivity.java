@@ -142,14 +142,16 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
             public void onFocusChange(View v, boolean hasFocus) {
                 KLog.i(TAG, "gridView" + hasFocus);
                 if (hasFocus) {
-                    mOpenEffectBridge.setVisibleWidget(false);
-                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-
-                    } else {
-                        KLog.i(TAG, "非空");
-                        mainUpView2.setFocusView(mOldGridView, 1.1f);
+                        mOldGridView = gridviewtv.getChildAt(0);
+                        gridviewtv.setFocusable(true);
+                        gridviewtv.setFocusableInTouchMode(true);
+                        gridviewtv.setSelection(0);
                     }
+                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
+                    mOpenEffectBridge.setVisibleWidget(false);
+                    mOldGridView.bringToFront();
+                    mainUpView2.setFocusView(mOldGridView, 1.1f);
                 } else {
                     mOpenEffectBridge.setVisibleWidget(true); // 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
@@ -204,43 +206,56 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_free_trial:
-                if (DataHelper.getStringSF(this, Constant.OTTUSERTOKEN) == null) {
-                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
-                    return;
+                // 0免费 1收费
+                if (mVideoDetailBean.getIsPurchase() == 1) {
+                    if (DataHelper.getStringSF(this, Constant.OTTUSERTOKEN) == null) {
+                        Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                        return;
+                        //视频播放需要的数据有
+                    } else if (devInfoManager != null && devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK) != null &&
+                            devInfoManager.getValue(DevInfoManager.CDN_ADDRESS) != null &&
+                            devInfoManager.getValue(DevInfoManager.CDN_TYPE) != null &&
+                            devInfoManager.getValue(DevInfoManager.STB_MAC) != null &&
+                            devInfoManager.getValue(DevInfoManager.PHONE) != null) {
 
-                    //视频播放需要的数据有
-                } else if (devInfoManager != null && devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK) != null &&
-                        devInfoManager.getValue(DevInfoManager.CDN_ADDRESS) != null &&
-                        devInfoManager.getValue(DevInfoManager.CDN_TYPE) != null &&
-                        devInfoManager.getValue(DevInfoManager.STB_MAC) != null &&
-                        devInfoManager.getValue(DevInfoManager.PHONE) != null) {
+                        getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
 
-                    getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
+                    } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
 
-                } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
+                        getP().isVip(DataHelper.getStringSF(this, Constant.USERID));
 
-                    getP().isVip(DataHelper.getStringSF(this, Constant.USERID));
-
+                    } else {
+                        Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                    if (mVideoDetailBean != null) {
+                        startActivity(mVideoDetailBean);
+                    } else {
+                        Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.btn_purchase:
-                if (DataHelper.getStringSF(this, Constant.TOKEN) == null) {
-                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (devInfoManager != null) {
-
-                    getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE),
-                            DataHelper.getStringSF(this, Constant.TOKEN));
-
-                } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
-
-                    getP().toBuy(DataHelper.getStringSF(this, Constant.USERID),
-                            DataHelper.getStringSF(this, Constant.TOKEN));
-
-                }
+                toBuyPurchase();
                 break;
+        }
+    }
+
+
+    private void toBuyPurchase() {
+        if (DataHelper.getStringSF(this, Constant.TOKEN) == null) {
+            Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))) {
+
+            getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE),
+                    DataHelper.getStringSF(this, Constant.TOKEN));
+
+        } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
+
+            getP().toBuy(DataHelper.getStringSF(this, Constant.USERID),
+                    DataHelper.getStringSF(this, Constant.TOKEN));
+
         }
     }
 
@@ -297,7 +312,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         if (isVip.contains("true")) {
             startActivity(mVideoDetailBean);
         } else {
-            Toast.makeText(this, "此视频会员才能观看的呢", Toast.LENGTH_SHORT).show();
+            toBuyPurchase();
         }
     }
 

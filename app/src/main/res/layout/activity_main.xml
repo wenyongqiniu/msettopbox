@@ -46,13 +46,14 @@
                 android:layout_marginLeft="25dp"
                 android:layout_toRightOf="@+id/btn_search"
                 android:background="@drawable/tv_open_vip_bg"
-                android:drawableStart="@drawable/vip"
+                android:drawableStart="@drawable/vip_selecet"
+                android:drawablePadding="5dp"
                 android:nextFocusUp="@id/btn_search"
                 android:nextFocusDown="@id/rl_hot_video"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:text="@string/open_vip"
-                android:textColor="#ecce9a"
+                android:textColor="@color/font_white_yellow"
                 android:textSize="12sp"
                 tools:visibility="gone" />
 

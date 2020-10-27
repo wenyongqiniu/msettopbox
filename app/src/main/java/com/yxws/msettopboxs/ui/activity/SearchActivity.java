@@ -308,14 +308,16 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             public void onFocusChange(View v, boolean hasFocus) {
                 KLog.i(TAG, "gridView" + hasFocus);
                 if (hasFocus) {
-                    mOpenEffectBridge.setVisibleWidget(false);
-                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-
-                    } else {
-                        KLog.i(TAG, "非空");
-                        mainUpView2.setFocusView(mOldGridView, 1.1f);
+                        mOldGridView = gridviewtv.getChildAt(0);
+                        gridviewtv.setFocusable(true);
+                        gridviewtv.setFocusableInTouchMode(true);
+                        gridviewtv.setSelection(0);
                     }
+                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
+                    mOpenEffectBridge.setVisibleWidget(false);
+                    mOldGridView.bringToFront();
+                    mainUpView2.setFocusView(mOldGridView, 1.1f);
                 } else {
                     mOpenEffectBridge.setVisibleWidget(true); // 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.

@@ -171,6 +171,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         mVideoGridViewAdpter = new TypeVideoGridViewAdpter(this, R.layout.item_type_video, mVideoBeans);
         gridviewtv.setAdapter(mVideoGridViewAdpter);
         gridviewtv.setSelector(new ColorDrawable(Color.TRANSPARENT));
+
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -204,14 +205,17 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             public void onFocusChange(View v, boolean hasFocus) {
                 KLog.i(TAG, "gridView" + hasFocus);
                 if (hasFocus) {
-                    mOpenEffectBridge.setVisibleWidget(false);
-                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-
-                    } else {
-                        KLog.i(TAG, "非空");
-                        mainUpView2.setFocusView(mOldGridView, 1.1f);
+                        mOldGridView = gridviewtv.getChildAt(0);
+                        gridviewtv.setFocusable(true);
+                        gridviewtv.setFocusableInTouchMode(true);
+                        gridviewtv.setSelection(0);
                     }
+                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
+                    mOpenEffectBridge.setVisibleWidget(false);
+                    mOldGridView.bringToFront();
+                    mainUpView2.setFocusView(mOldGridView, 1.1f);
+
                 } else {
                     mOpenEffectBridge.setVisibleWidget(true); // 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
@@ -223,7 +227,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 videoBean = mVideoBeans.get(position);
-
                 toVideoDetail();
             }
         });

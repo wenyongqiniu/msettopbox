@@ -103,7 +103,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 } else {
                     newFocus.bringToFront();
                     mOpenEffectBridge.setVisibleWidget(false);
-                    mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
+                    mainUpView2.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
                     mainUpView2.setFocusView(newFocus, mOldGridView, 1.1f);
                     mOldGridView = newFocus;
                 }
@@ -133,7 +133,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         effectNoDrawBridge.setTranDurAnimTime(1);
         mOpenEffectBridge.setDrawUpRectEnabled(false);
         mainUpView2.setEffectBridge(effectNoDrawBridge); // 4.3以下版本边框移动.
-        mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
+        mainUpView2.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
 
         gridviewtv.setIsSearch(true);
         mOpenEffectBridge.setVisibleWidget(true); // 隐藏
@@ -175,14 +175,18 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             public void onFocusChange(View v, boolean hasFocus) {
                 KLog.i(TAG, "gridView" + hasFocus);
                 if (hasFocus) {
-                    mOpenEffectBridge.setVisibleWidget(false);
-                    mainUpView2.setUpRectResource(R.drawable.health_foucus_border); // 设置移动边框的图片.
                     if (mOldGridView == null) {
-
-                    } else {
-                        KLog.i(TAG, "非空");
-                        mainUpView2.setFocusView(mOldGridView, 1.1f);
+                        mOldGridView = gridviewtv.getChildAt(0);
+                        gridviewtv.setFocusable(true);
+                        gridviewtv.setFocusableInTouchMode(true);
+                        gridviewtv.setSelection(0);
                     }
+                    mainUpView2.setUpRectResource(R.drawable.white_light_10); // 设置移动边框的图片.
+                    mOpenEffectBridge.setVisibleWidget(false);
+                    mOldGridView.bringToFront();
+                    mainUpView2.setFocusView(mOldGridView, 1.1f);
+
+
                 } else {
                     mOpenEffectBridge.setVisibleWidget(true); // 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.

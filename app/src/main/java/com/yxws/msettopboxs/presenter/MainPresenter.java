@@ -34,7 +34,7 @@ public class MainPresenter extends XPresent<MainActivity> {
      * @param stbmac
      */
     public void verfyUser(final String epg_address, String userToken, final String mobile_phone_number, String stbmac) {
-        if (!TextUtils.isEmpty(epg_address)) {
+        if (TextUtils.isEmpty(epg_address)) {
             return;
         }
         Api.getVerService(epg_address + "/")
