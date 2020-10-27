@@ -191,7 +191,7 @@
                         android:layout_width="283dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"
-                        tools:src="@drawable/img_default" />
+                        tools:src="@drawable/img_home" />
 
 
                     <TextView
