@@ -52,7 +52,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private String TAG = MainActivity.class.getName();
     private Button btnSearch, btnOpenVip;
 
-    private ImageView ivMain2;
+    private ImageView ivMain1, ivMain2;
     private TextView tvMainDesc;
     private MainUpView mainUpView2;
     private GridViewTV gridviewtv;
@@ -75,6 +75,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
+        ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
         ivMain2 = (ImageView) findViewById(R.id.iv_main_2);
         tvMainDesc = (TextView) findViewById(R.id.tv_main_desc);
 
@@ -110,6 +111,20 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             }
         });
 
+        setDefaultImageView(R.drawable.img_home, ivMain1);
+        setDefaultImageView(R.drawable.img_home, ivMain2);
+    }
+
+    //设置首页默认显示图片
+    private void setDefaultImageView(int resourceId, ImageView view) {
+        RequestOptions options = new RequestOptions()
+                .optionalCenterInside()
+                .placeholder(resourceId);
+        Glide.with(this)
+                .asBitmap()
+                .load(resourceId)
+                .apply(options)
+                .into(view);
     }
 
     private void initGridView() {
@@ -191,10 +206,10 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                if (devInfoManager != null && token != null && !token.equals("解析失败")) {
-                    if (devInfoManager.getValue(DevInfoManager.EPG_ADDRESS) != null
-                            && devInfoManager.getValue(DevInfoManager.PHONE) != null
-                            && devInfoManager.getValue(DevInfoManager.STB_MAC) != null) {
+                if (devInfoManager != null && !TextUtils.isEmpty(token) && !token.equals("解析失败")) {
+                    if (!TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS))
+                            && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
+                            && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.STB_MAC))) {
                         getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
                                 , token, devInfoManager.getValue(DevInfoManager.PHONE)
                                 , devInfoManager.getValue(DevInfoManager.STB_MAC));
@@ -280,13 +295,15 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         this.mHotVideoBean = hotVideoBean;
         KLog.e("首页图片显示 " + hotVideoBean.getPic());
         RequestOptions options = new RequestOptions()
-                .dontAnimate()
-                .centerInside()
-                .placeholder(R.drawable.bitmap4);
+                .optionalCenterInside()
+                .placeholder(R.drawable.img_default);
         Glide.with(this)
+                .asBitmap()
                 .load(hotVideoBean.getPic())
                 .apply(options)
                 .into(ivMain2);
+
+
         tvMainDesc.setText(hotVideoBean.getInfo());
     }
 

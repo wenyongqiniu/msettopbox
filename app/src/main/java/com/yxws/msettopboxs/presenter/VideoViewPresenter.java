@@ -43,6 +43,10 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
     public void saveHistoty(String contentName, String contentId, int extraContentId, long contentTotalTime,
                             long startWatchTime, long endWatchTime, long playTime, String logType,
                             String account, String imageUrl) {
+
+        if (contentName == null || contentId == null || logType == null || account == null || imageUrl == null) {
+            return;
+        }
         WatchHistoryBean historyBean = new WatchHistoryBean();
         historyBean.setContentName(contentName);
         historyBean.setContentId(contentId);
@@ -54,6 +58,8 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         historyBean.setLogType(logType);
         historyBean.setAccount(account);
         historyBean.setImageUrl(imageUrl);
+
+
         MyApi.getMyApiService()
                 .saveHistoty(historyBean)
                 .compose(XApi.<BasePresponce>getApiTransformer())

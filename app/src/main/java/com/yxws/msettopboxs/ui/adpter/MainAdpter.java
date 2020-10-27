@@ -20,6 +20,7 @@ public class MainAdpter extends CommonAdapter<ImageBean> {
     @Override
     protected void convert(com.zhy.adapter.abslistview.ViewHolder viewHolder, ImageBean item, int position) {
         Glide.with(mContext)
+                .asBitmap()
                 .load(item.getResId())
                 .into((ImageView) viewHolder.getView(R.id.iv_main));
 

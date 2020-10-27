@@ -26,8 +26,6 @@ import com.yxws.msettopboxs.presenter.VideoDetailPresenter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.yxws.msettopboxs.util.ArtUtils;
 import com.yxws.msettopboxs.util.DataHelper;
-import com.yxws.msettopboxs.util.DevInfoUtil;
-import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XActivity;
 import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
@@ -251,12 +249,12 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     public void setVideoDetail(VideoDetailBean videoBeanData) {
         this.mVideoDetailBean = videoBeanData;
         RequestOptions options = new RequestOptions()
-                .dontAnimate()
                 .centerInside()
-                .placeholder(R.drawable.bitmap8);
+                .placeholder(R.drawable.img_default);
         Glide.with(this)
-                .load(videoBeanData.getTvPicHead())
+                .asBitmap()
                 .apply(options)
+                .load(videoBeanData.getTvPicHead())
                 .into(ivVideoCover);
         tvVideoTitle.setText(videoBeanData.getTvName());
         ivVideoIsPurchase.setVisibility(videoBeanData.getIsPurchase() == 0 ? View.VISIBLE : View.GONE);

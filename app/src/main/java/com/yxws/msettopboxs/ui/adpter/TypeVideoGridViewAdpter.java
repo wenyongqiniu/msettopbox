@@ -23,15 +23,14 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
         viewHolder.setText(R.id.tv_video_desc, item.getTvName());
         viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 0 ? true : false);
 
-
-            RequestOptions options = new RequestOptions()
-                    .dontAnimate()
-                    .centerInside()
-                    .placeholder(R.drawable.bitmap8);
-            Glide.with(mContext)
-                    .load(item.getTvPicHead())
-                    .apply(options)
-                    .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
+        RequestOptions options = new RequestOptions()
+                .optionalCenterInside()
+                .placeholder(R.drawable.img_default);
+        Glide.with(mContext)
+                .asBitmap()
+                .load(item.getTvPicHead())
+                .apply(options)
+                .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
 
     }
 }

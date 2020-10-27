@@ -266,8 +266,10 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
         @Override
         public void run() {
+            if (mWeakReference.get() == null) {
+                return;
+            }
             mWeakReference.get().videoView.post(() -> {
-
                 endWatchTime = System.currentTimeMillis();
                 playTime = endWatchTime - startWatchTime;
                 if (mVideoDetailBean != null && devInfoManager != null) {
@@ -276,7 +278,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                             mWeakReference.get().contentTotalTime,
                             mWeakReference.get().startWatchTime,
                             mWeakReference.get().endWatchTime,
-                            mWeakReference.get().playTime,
+                            playTime,
                             "watching"
                             , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE),
                             mWeakReference.get().mVideoDetailBean.getTvPicHead());

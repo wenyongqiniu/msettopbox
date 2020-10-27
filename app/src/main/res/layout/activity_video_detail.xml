@@ -72,7 +72,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="227dp"
+                    android:layout_height="260dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="27dp"
                     android:layout_marginRight="30dp">
@@ -88,8 +88,8 @@
                             android:id="@+id/iv_video_cover"
                             android:layout_width="469dp"
                             android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/bitmap8" />
+                            android:scaleType="centerInside"
+                            tools:src="@drawable/img_default" />
 
                         <ImageView
                             android:id="@+id/iv_video_is_purchase"
@@ -97,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:scaleType="centerCrop"
+                            android:scaleType="centerInside"
                             android:src="@drawable/free"
                             android:visibility="gone"
                             tools:visibility="visible"/>

@@ -39,27 +39,6 @@
                 android:textSize="12sp" />
 
 
-            <!--            <Button-->
-            <!--                android:id="@+id/btn_login"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="28dp"-->
-            <!--                android:layout_marginLeft="25dp"-->
-            <!--                android:layout_toRightOf="@+id/btn_search"-->
-            <!--                android:background="@drawable/tv_bug_search_bg"-->
-            <!--                android:drawableStart="@drawable/userinfo"-->
-            <!--                android:gravity="center"-->
-            <!--                android:maxLines="1"-->
-            <!--                android:nextFocusLeft="@id/btn_search"-->
-            <!--                android:nextFocusRight="@id/btn_open_vip"-->
-            <!--                android:nextFocusDown="@id/gridviewtv"-->
-            <!--                android:paddingLeft="10dp"-->
-            <!--                android:paddingRight="10dp"-->
-            <!--                android:text="@string/login"-->
-            <!--                android:textColor="@color/font_gray_white"-->
-            <!--                android:textSize="12sp"-->
-            <!--                android:textStyle="bold" />-->
-
-
             <Button
                 android:id="@+id/btn_open_vip"
                 android:layout_width="wrap_content"
@@ -147,7 +126,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="155dp"
+            android:layout_height="122dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
@@ -159,8 +138,8 @@
                 android:id="@+id/iv_main_1"
                 android:layout_width="283dp"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/bitmap8" />
+                android:scaleType="centerInside"
+                tools:src="@drawable/img_home" />
 
 
             <LinearLayout
@@ -171,8 +150,7 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:paddingLeft="13dp"
-                android:paddingRight="13dp"
-                >
+                android:paddingRight="13dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -195,15 +173,13 @@
 
             <com.yxws.tvwidget.view.ReflectItemView
                 android:id="@+id/rl_hot_video"
-                android:layout_width="288dp"
+                android:layout_width="283dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:nextFocusUp="@+id/btn_open_vip"
                 android:nextFocusDown="@+id/gridviewtv"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 app:isShape="false">
 
                 <FrameLayout
@@ -212,10 +188,10 @@
 
                     <ImageView
                         android:id="@+id/iv_main_2"
-                        android:layout_width="match_parent"
+                        android:layout_width="283dp"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/bitmap4" />
+                        android:scaleType="centerInside"
+                        tools:src="@drawable/img_default" />
 
 
                     <TextView
@@ -229,7 +205,7 @@
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
                         android:textColor="@color/tv_ffffff"
-                        android:textSize="11sp"
+                        android:textSize="12sp"
                         tools:text="医生直言：食管癌是“吃”出来的，做好4点！食管癌不敢靠近你" />
                 </FrameLayout>
             </com.yxws.tvwidget.view.ReflectItemView>
