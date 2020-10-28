@@ -1,5 +1,7 @@
 package com.yxws.msettopboxs.ui.activity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -219,6 +221,11 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             finish();
             return true;
         }
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
+            ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            am.killBackgroundProcesses(getPackageName());
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -342,4 +349,6 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
         mVideoBeans.addAll(videoBeanData);
         mVideoGridViewAdpter.notifyDataSetChanged();
     }
+
+
 }

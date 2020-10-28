@@ -1,11 +1,14 @@
 package com.yxws.msettopboxs.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.DevInfoManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -297,4 +300,13 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         ArtUtils.startActivity(context, intent);
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
+            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            am.killBackgroundProcesses(getPackageName());
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }

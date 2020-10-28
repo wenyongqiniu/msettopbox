@@ -328,7 +328,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         KLog.e("MainActivity onKeyUp");
-        if (keyCode == KeyEvent.KEYCODE_HOME) {
+        if (keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_BACK) {
             final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
             am.killBackgroundProcesses(getPackageName());
             return true;

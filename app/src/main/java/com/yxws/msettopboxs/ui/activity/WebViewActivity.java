@@ -1,9 +1,12 @@
 package com.yxws.msettopboxs.ui.activity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -13,7 +16,7 @@ import android.webkit.WebViewClient;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 
-public class WebViewActivity extends AppCompatActivity     {
+public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
 
     @Override
@@ -68,5 +71,13 @@ public class WebViewActivity extends AppCompatActivity     {
         webView.loadUrl(payUrl);
     }
 
-
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
+            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            am.killBackgroundProcesses(getPackageName());
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }
