@@ -1,12 +1,15 @@
 package com.yxws.msettopboxs.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.DevInfoManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -72,7 +75,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     @Override
     public void initView() {
         devInfoManager = SWDevInfoManager.getDevInfoManager(this);
-
+        KLog.e("MainActivity initView");
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
         ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
@@ -322,5 +325,15 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         });
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        KLog.e("MainActivity onKeyUp");
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
+            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            am.killBackgroundProcesses(getPackageName());
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 
 }
