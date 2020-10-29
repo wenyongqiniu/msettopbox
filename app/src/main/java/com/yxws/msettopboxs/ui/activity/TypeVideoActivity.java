@@ -303,8 +303,8 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_HOME) {
-            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            am.killBackgroundProcesses(getPackageName());
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }
         return super.onKeyUp(keyCode, event);

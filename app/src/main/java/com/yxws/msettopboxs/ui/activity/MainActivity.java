@@ -116,6 +116,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         setDefaultImageView(R.drawable.img_home, ivMain1);
         setDefaultImageView(R.drawable.img_home, ivMain2);
+        DevInfoUtil.getValue(this);
     }
 
     //设置首页默认显示图片
@@ -213,18 +214,14 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                if (devInfoManager != null && !TextUtils.isEmpty(token) && !token.equals("解析失败")) {
-                    if (!TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS))
-                            && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
-                            && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.STB_MAC))) {
-                        getP().verfyUser(devInfoManager.getValue(DevInfoManager.EPG_ADDRESS)
-                                , token, devInfoManager.getValue(DevInfoManager.PHONE)
-                                , devInfoManager.getValue(DevInfoManager.STB_MAC));
-                    }
+                if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
+                        && !TextUtils.isEmpty(token)) {
 
-                    if (devInfoManager.getValue(DevInfoManager.PHONE) != null) {
-                        getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
-                    }
+                    getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
+
+                } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))
+                        && !TextUtils.isEmpty(token)) {
+                    getP().toLogin(devInfoManager.getValue(DevInfoManager.ACCOUNT), token);
                 } else if (devInfoManager == null && token != null) {
                     getP().toLogin(token);
                 }
@@ -250,13 +247,15 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_open_vip:
-                if (devInfoManager != null) {
+                if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))) {
                     getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
-                } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
-                    getP().isVip(DataHelper.getStringSF(this, Constant.USERID));
+                } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))) {
+                    getP().isVip(devInfoManager.getValue(DevInfoManager.ACCOUNT));
                 } else {
-                    Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "获取不到用户信息，不能开通会员", Toast.LENGTH_SHORT).show();
                 }
+
+
                 break;
             case R.id.rl_hot_video:
                 if (mHotVideoBean != null) {
@@ -266,6 +265,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 }
                 break;
         }
+
     }
 
     public void setSearchLevel(List<SearchLevelBean> searchLevel) {
@@ -275,9 +275,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     }
 
     public void getUserInfo(UserBean userBean) {
-        if (userBean.getPhone() != null) {
-            DataHelper.setStringSF(getApplication(), Constant.USERID, userBean.getPhone());
-        }
         if (userBean.getIsVip() == 0) {
             btnOpenVip.setText("已开通");
             btnOpenVip.setEnabled(false);
@@ -318,8 +315,12 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                if (devInfoManager != null && token != null && !token.equals("解析失败")) {
+                if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
+                        && !TextUtils.isEmpty(token)) {
                     getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))
+                        && !TextUtils.isEmpty(token)) {
+                    getP().toBuy(devInfoManager.getValue(DevInfoManager.ACCOUNT), token);
                 }
             }
         });
@@ -327,10 +328,9 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        KLog.e("MainActivity onKeyUp");
         if (keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_BACK) {
-            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            am.killBackgroundProcesses(getPackageName());
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }
         return super.onKeyUp(keyCode, event);

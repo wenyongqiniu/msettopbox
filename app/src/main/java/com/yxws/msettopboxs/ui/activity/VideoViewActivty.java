@@ -34,7 +34,8 @@ import java.util.TimerTask;
 
 import me.jessyan.autosize.internal.CustomAdapt;
 
-public class VideoViewActivty extends XActivity<VideoViewPresenter> implements CustomAdapt, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, ISceneListener {
+public class VideoViewActivty extends XActivity<VideoViewPresenter> implements CustomAdapt, MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnPreparedListener, ISceneListener {
 
 
     private VideoView videoView;
@@ -292,7 +293,9 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                             mWeakReference.get().endWatchTime,
                             playTime,
                             "watching"
-                            , mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE),
+                            , TextUtils.isEmpty(mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE)) ?
+                                    mWeakReference.get().devInfoManager.getValue(DevInfoManager.ACCOUNT) :
+                                    mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE),
                             mWeakReference.get().mVideoDetailBean.getTvPicHead());
                 }
             });
@@ -311,7 +314,9 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                 getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
                         contentTotalTime, startWatchTime, endWatchTime, playTime,
                         "end"
-                        , devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+                        , TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE)) ?
+                                devInfoManager.getValue(DevInfoManager.ACCOUNT) :
+                                devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
             }
         }
     }
@@ -329,7 +334,9 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
             getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
                     contentTotalTime, startWatchTime, endWatchTime, playTime,
                     "begin"
-                    , devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+                    , TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE)) ?
+                            devInfoManager.getValue(DevInfoManager.ACCOUNT) :
+                            devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
         }
     }
 
@@ -337,8 +344,8 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_HOME) {
-            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            am.killBackgroundProcesses(getPackageName());
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }
         return super.onKeyUp(keyCode, event);

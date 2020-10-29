@@ -2,8 +2,12 @@ package com.yxws.msettopboxs.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.DevInfoManager;
+import android.os.Looper;
+import android.text.TextUtils;
 
 import com.chinamobile.SWDevInfoManager;
+import com.chinamobile.authclient.AuthClient;
+import com.chinamobile.authclient.Constants;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.bean.AuthBean;
@@ -23,12 +27,17 @@ import com.yxws.mvp.net.ApiSubscriber;
 import com.yxws.mvp.net.NetError;
 import com.yxws.mvp.net.XApi;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import okhttp3.RequestBody;
 
 public class VideoViewPresenter extends XPresent<VideoViewActivty> {
 
 
     /**
+     * 保存观看记录
+     *
      * @param contentName      视频名称
      * @param contentId        cp_album_id这个ID
      * @param extraContentId   cp_tv_id这个ID
@@ -47,6 +56,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         if (contentName == null || contentId == null || logType == null || account == null || imageUrl == null) {
             return;
         }
+
         WatchHistoryBean historyBean = new WatchHistoryBean();
         historyBean.setContentName(contentName);
         historyBean.setContentId(contentId);
@@ -58,7 +68,6 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         historyBean.setLogType(logType);
         historyBean.setAccount(account);
         historyBean.setImageUrl(imageUrl);
-
 
         MyApi.getMyApiService()
                 .saveHistoty(historyBean)
@@ -78,6 +87,12 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
 
     }
 
+
+    /**
+     * 获取视频详情
+     *
+     * @param videoId
+     */
     public void getVideoDetail(int videoId) {
         MyApi.getMyApiService()
                 .getVideoDetail(videoId)
@@ -87,7 +102,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     @Override
                     public void onNext(VideoDetailBean videoBean) {
                         getVideoAddress(videoBean.getData());
-                        KLog.e(" VideoDetailBean  " + videoBean.toString());
+
                     }
 
                     @Override
@@ -110,7 +125,8 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 .subscribe(new ApiSubscriber<VideoAddressBean>() {
                     @Override
                     public void onNext(VideoAddressBean videoBean) {
-                        nextApi(videoBean, mVideoDetailBean);
+//                        nextApi(videoBean, mVideoDetailBean);
+                        verfyUser(videoBean, mVideoDetailBean);
                     }
 
                     @Override
@@ -121,18 +137,86 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
     }
 
 
-    private void nextApi(VideoAddressBean videoBean, VideoDetailBean mVideoDetailBean) {
-        @SuppressLint("WrongConstant")
+    public void verfyUser(VideoAddressBean videoBean, VideoDetailBean mVideoDetailBean) {
         DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
+        String epg_address = systemService.getValue(DevInfoManager.EPG_ADDRESS);
+        String mobile_phone_number = systemService.getValue(DevInfoManager.PHONE);
+        if (TextUtils.isEmpty(mobile_phone_number)) {
+            mobile_phone_number = systemService.getValue(DevInfoManager.ACCOUNT);
+        }
+        String stb_mac = systemService.getValue(DevInfoManager.STB_MAC);
+        String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
 
+        AuthClient mAuthClient = AuthClient.getIntance(getV().getApplicationContext());
+        String finalMobile_phone_number = mobile_phone_number;
+        mAuthClient.getToken(new AuthClient.CallBack() {
+            @Override
+            public void onResult(JSONObject jsonObject) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Looper.prepare();
+                        try {
+                            final String token = jsonObject.getString(Constants.VALUNE_KEY_TOKEN);
+
+                            getVerifyuser(epg_address, cdn_type, token, finalMobile_phone_number, stb_mac, videoBean, mVideoDetailBean);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+
+                        }
+                        Looper.loop();
+                    }
+                }).start();
+
+
+            }
+        });
+
+
+    }
+
+    private void getVerifyuser(String epg_address, String cdn_type, String userToken, final String mobile_phone_number, String stb_mac,
+                               VideoAddressBean videoBean, VideoDetailBean mVideoDetailBean) {
+        if (TextUtils.isEmpty(epg_address) || TextUtils.isEmpty(cdn_type) || TextUtils.isEmpty(userToken)
+                || TextUtils.isEmpty(mobile_phone_number) || TextUtils.isEmpty(stb_mac)) {
+            return;
+        }
+        Api.getVerService(epg_address + "/")
+                .getVerifyuser(userToken, mobile_phone_number, stb_mac)
+                .compose(XApi.<VerificationBean>getApiTransformer())
+                .compose(XApi.<VerificationBean>getScheduler())
+                .subscribe(new ApiSubscriber<VerificationBean>() {
+                    @Override
+                    public void onNext(VerificationBean verificationBean) {
+                        DataHelper.setStringSF(getV().getApplication(), Constant.OTTUSERTOKEN, verificationBean.getOTTUserToken());
+
+                        heartBeat(epg_address, verificationBean.getOTTUserToken(), mobile_phone_number);
+
+                        nextApi(verificationBean.getOTTUserToken(), epg_address, cdn_type
+                                , mobile_phone_number, stb_mac, videoBean, mVideoDetailBean);
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+    }
+
+
+    private void nextApi(String OTTUserToken, String epg_address, String cdn_type, String mobile_phone_number, String stb_mac,
+                         VideoAddressBean videoBean, VideoDetailBean mVideoDetailBean) {
 
         AuthParam authParam = new AuthParam();
-        authParam.setOTTUserToken(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN));
-        authParam.setUserID(systemService.getValue(DevInfoManager.PHONE));
-        authParam.setMAC(systemService.getValue(DevInfoManager.STB_MAC));
+        authParam.setOTTUserToken(OTTUserToken);
+        authParam.setUserID(mobile_phone_number);
+        authParam.setMAC(stb_mac);
 
-        String epg_addresss = systemService.getValue(DevInfoManager.EPG_ADDRESS);
-        String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
 
         if (cdn_type.endsWith("HW")) {
             VideoAddressBean temp = null;
@@ -144,7 +228,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
             }
             authParam.setContentID(temp.getSeriesId());
 
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+            getVideoAddress(epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
         } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
@@ -154,7 +238,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 }
             }
             authParam.setContentID(temp.getSeriesId());
-            getVideoAddress(epg_addresss, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+            getVideoAddress(epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
         }
     }
 
@@ -208,8 +292,34 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
-        KLog.d("wlx", "播放地址：  " + stringBuffer.toString());
         getV().setVideoDetail(stringBuffer.toString(), title, mVideoDetailBean);
     }
 
+
+    /**
+     * 心跳接口
+     *
+     * @param epg_address         请求地址
+     * @param OTTUserToken
+     * @param mobile_phone_number 手机号
+     */
+    public void heartBeat(String epg_address, String OTTUserToken, String mobile_phone_number) {
+        Api.getVerService(epg_address + "/")
+                .heartBeat(OTTUserToken, mobile_phone_number)
+                .compose(XApi.<VerificationBean>getApiTransformer())
+                .compose(XApi.<VerificationBean>getScheduler())
+                .compose(getV().<VerificationBean>bindToLifecycle())
+                .subscribe(new ApiSubscriber<VerificationBean>() {
+                    @Override
+                    public void onNext(VerificationBean verificationBean) {
+
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+
+                    }
+                });
+
+    }
 }

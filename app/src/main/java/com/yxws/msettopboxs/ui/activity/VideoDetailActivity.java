@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chinamobile.SWDevInfoManager;
+import com.chinamobile.authclient.AuthClient;
+import com.chinamobile.authclient.Constants;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.DoctorInfoBean;
@@ -29,11 +32,16 @@ import com.yxws.msettopboxs.presenter.VideoDetailPresenter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.yxws.msettopboxs.util.ArtUtils;
 import com.yxws.msettopboxs.util.DataHelper;
+import com.yxws.msettopboxs.util.DevInfoUtil;
+import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XActivity;
 import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
 import com.yxws.tvwidget.view.GridViewTV;
 import com.yxws.tvwidget.view.MainUpView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +105,8 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         if (classificationId != null) {
             getP().getVideo(classificationId);
         }
+
+        DevInfoUtil.getValue(this);
 
     }
 
@@ -211,30 +221,21 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
             case R.id.btn_free_trial:
                 // 0免费 1收费
                 if (mVideoDetailBean.getIsPurchase() == 1) {
-                    if (DataHelper.getStringSF(this, Constant.OTTUSERTOKEN) == null) {
-                        Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
-                        return;
-                        //视频播放需要的数据有
-                    } else if (devInfoManager != null && devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK) != null &&
-                            devInfoManager.getValue(DevInfoManager.CDN_ADDRESS) != null &&
-                            devInfoManager.getValue(DevInfoManager.CDN_TYPE) != null &&
-                            devInfoManager.getValue(DevInfoManager.STB_MAC) != null &&
-                            devInfoManager.getValue(DevInfoManager.PHONE) != null) {
+                    if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))) {
 
                         getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
 
-                    } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
-
-                        getP().isVip(DataHelper.getStringSF(this, Constant.USERID));
-
+                    } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))) {
+                        getP().isVip(devInfoManager.getValue(DevInfoManager.ACCOUNT));
                     } else {
-                        Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "付费视频获取不到用户信息", Toast.LENGTH_SHORT).show();
+
                     }
                 } else {
                     if (mVideoDetailBean != null) {
                         startActivity(mVideoDetailBean);
                     } else {
-                        Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "免费视频获取不到视频信息", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -244,23 +245,49 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         }
     }
 
-
     private void toBuyPurchase() {
-        if (DataHelper.getStringSF(this, Constant.TOKEN) == null) {
-            Toast.makeText(this, "获取不到用户信息，请确认盒子账号已登录", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))) {
+        AuthClient mAuthClient = AuthClient.getIntance(this);
+        mAuthClient.getToken(new AuthClient.CallBack() {
 
-            getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE),
-                    DataHelper.getStringSF(this, Constant.TOKEN));
+            @Override
+            public void onResult(JSONObject jsonObject) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Looper.prepare();
+                        try {
+                            final String token = jsonObject.getString(Constants.VALUNE_KEY_TOKEN);
 
-        } else if (DataHelper.getStringSF(this, Constant.USERID) != null) {
+//                            Toast.makeText(VideoDetailActivity.this, "token 是  " + token + "  手机号 PHONE" +
+//                                    devInfoManager.getValue(DevInfoManager.PHONE) + "  手机号 ACCOUNT" +
+//                                    devInfoManager.getValue(DevInfoManager.ACCOUNT), Toast.LENGTH_SHORT).show();
 
-            getP().toBuy(DataHelper.getStringSF(this, Constant.USERID),
-                    DataHelper.getStringSF(this, Constant.TOKEN));
 
-        }
+                            if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
+                                    && !TextUtils.isEmpty(token)) {
+                                getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
+                            } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))
+                                    && !TextUtils.isEmpty(token)) {
+                                getP().toBuy(devInfoManager.getValue(DevInfoManager.ACCOUNT), token);
+                            } else {
+                                Toast.makeText(VideoDetailActivity.this, "获取不到用户信息，不能购买", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+
+                        }
+                        Looper.loop();
+                    }
+                }).start();
+
+
+            }
+        });
     }
+
 
     private VideoDetailBean mVideoDetailBean;
 
@@ -322,8 +349,8 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_HOME) {
-            final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            am.killBackgroundProcesses(getPackageName());
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }
         return super.onKeyUp(keyCode, event);

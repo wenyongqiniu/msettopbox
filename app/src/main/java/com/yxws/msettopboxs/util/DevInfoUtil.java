@@ -3,6 +3,7 @@ package com.yxws.msettopboxs.util;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DevInfoManager;
+import android.os.Looper;
 
 import com.chinamobile.SWDevInfoManager;
 import com.chinamobile.authclient.AuthClient;
@@ -60,17 +61,25 @@ public class DevInfoUtil {
             @Override
             public void onResult(JSONObject jsonObject) {
                 KLog.e("wlx", "onResult: " + jsonObject.toString());
-                try {
-                    final String token = jsonObject.getString(Constants.VALUNE_KEY_TOKEN);
-                    DataHelper.setStringSF(activity, Constant.TOKEN, token);
-                    onResultCall.onResult(token);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    onResultCall.onResult("解析失败");
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    onResultCall.onResult(null);
-                }
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Looper.prepare();
+                        try {
+                            final String token = jsonObject.getString(Constants.VALUNE_KEY_TOKEN);
+                            onResultCall.onResult(token);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            onResultCall.onResult(null);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                            onResultCall.onResult(null);
+                        }
+                        Looper.loop();
+                    }
+                }).start();
+
             }
         });
     }

@@ -222,8 +222,8 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_HOME) {
-            ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-            am.killBackgroundProcesses(getPackageName());
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }
         return super.onKeyDown(keyCode, event);
