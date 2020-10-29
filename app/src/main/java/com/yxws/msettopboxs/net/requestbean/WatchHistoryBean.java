@@ -10,6 +10,7 @@ public class WatchHistoryBean {
     private long playTime;//用户看了多少时长
     private String logType;//同步数据时，用户当前播放状态
     private String account;//用户登录账号,机顶盒登陆账号
+    private String userToken;
     private String imageUrl;//海报URL
 
     public String getContentName() {
@@ -82,6 +83,14 @@ public class WatchHistoryBean {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public String getImageUrl() {

@@ -67,14 +67,13 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private OpenEffectBridge mOpenEffectBridge;
     private View mOldGridView;
     private int point = 0; //gridview 位置
-    private DevInfoManager devInfoManager;
 
     private List<ImageBean> typeList = new ArrayList<>();
 
     @SuppressLint("WrongConstant")
     @Override
     public void initView() {
-        devInfoManager = SWDevInfoManager.getDevInfoManager(this);
+
         KLog.e("MainActivity initView");
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
@@ -116,7 +115,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         setDefaultImageView(R.drawable.img_home, ivMain1);
         setDefaultImageView(R.drawable.img_home, ivMain2);
-        DevInfoUtil.getValue(this);
+
     }
 
     //设置首页默认显示图片
@@ -214,17 +213,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
-                        && !TextUtils.isEmpty(token)) {
-
-                    getP().toLogin(devInfoManager.getValue(DevInfoManager.PHONE), token);
-
-                } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))
-                        && !TextUtils.isEmpty(token)) {
-                    getP().toLogin(devInfoManager.getValue(DevInfoManager.ACCOUNT), token);
-                } else if (devInfoManager == null && token != null) {
-                    getP().toLogin(token);
-                }
+                getP().toLogin(token);
             }
         });
     }
@@ -247,14 +236,12 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 ArtUtils.startActivity(this, SearchActivity.class);
                 break;
             case R.id.btn_open_vip:
-                if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))) {
-                    getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
-                } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))) {
-                    getP().isVip(devInfoManager.getValue(DevInfoManager.ACCOUNT));
-                } else {
-                    Toast.makeText(this, "获取不到用户信息，不能开通会员", Toast.LENGTH_SHORT).show();
-                }
-
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        getP().isVip(token);
+                    }
+                });
 
                 break;
             case R.id.rl_hot_video:
@@ -315,13 +302,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
-                        && !TextUtils.isEmpty(token)) {
-                    getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
-                } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))
-                        && !TextUtils.isEmpty(token)) {
-                    getP().toBuy(devInfoManager.getValue(DevInfoManager.ACCOUNT), token);
-                }
+                getP().toBuy(token);
             }
         });
     }

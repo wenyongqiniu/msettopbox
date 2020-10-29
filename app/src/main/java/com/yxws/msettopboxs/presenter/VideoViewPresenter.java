@@ -46,14 +46,14 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
      * @param endWatchTime     用户结束看时间
      * @param playTime         用户看了多少时长
      * @param logType          同步数据时，用户当前播放状态
-     * @param account          用户登录账号,机顶盒登陆账号
+     * @param userToken          用户登录账号,机顶盒登陆账号
      * @param imageUrl         海报URL
      */
     public void saveHistoty(String contentName, String contentId, int extraContentId, long contentTotalTime,
                             long startWatchTime, long endWatchTime, long playTime, String logType,
-                            String account, String imageUrl) {
+                            String userToken, String imageUrl) {
 
-        if (contentName == null || contentId == null || logType == null || account == null || imageUrl == null) {
+        if (contentName == null || contentId == null || logType == null || imageUrl == null) {
             return;
         }
 
@@ -66,7 +66,8 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         historyBean.setEndWatchTime(endWatchTime);
         historyBean.setPlayTime(playTime);
         historyBean.setLogType(logType);
-        historyBean.setAccount(account);
+        historyBean.setUserToken(userToken);
+        historyBean.setAccount("");
         historyBean.setImageUrl(imageUrl);
 
         MyApi.getMyApiService()

@@ -24,6 +24,8 @@ import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.VideoDetailBean;
 import com.yxws.msettopboxs.presenter.VideoViewPresenter;
 import com.yxws.msettopboxs.util.ArtUtils;
+import com.yxws.msettopboxs.util.DevInfoUtil;
+import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.msettopboxs.util.RawFileUtils;
 import com.yxws.msettopboxs.view.MyMediaController;
 import com.yxws.mvp.mvp.XActivity;
@@ -286,17 +288,21 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
                 endWatchTime = System.currentTimeMillis();
                 playTime = endWatchTime - startWatchTime;
                 if (mVideoDetailBean != null && devInfoManager != null) {
-                    mWeakReference.get().getP().saveHistoty(mWeakReference.get().mVideoDetailBean.getTvName(), mWeakReference.get().
-                                    mVideoDetailBean.getCpAlbumId(), mWeakReference.get().mVideoDetailBean.getCpTvId(),
-                            mWeakReference.get().contentTotalTime,
-                            mWeakReference.get().startWatchTime,
-                            mWeakReference.get().endWatchTime,
-                            playTime,
-                            "watching"
-                            , TextUtils.isEmpty(mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE)) ?
-                                    mWeakReference.get().devInfoManager.getValue(DevInfoManager.ACCOUNT) :
-                                    mWeakReference.get().devInfoManager.getValue(DevInfoManager.PHONE),
-                            mWeakReference.get().mVideoDetailBean.getTvPicHead());
+                    DevInfoUtil.getToken(mWeakReference.get(), new OnResultCall() {
+                        @Override
+                        public void onResult(String token) {
+                            mWeakReference.get().getP().saveHistoty(mWeakReference.get().mVideoDetailBean.getTvName(), mWeakReference.get().
+                                            mVideoDetailBean.getCpAlbumId(), mWeakReference.get().mVideoDetailBean.getCpTvId(),
+                                    mWeakReference.get().contentTotalTime,
+                                    mWeakReference.get().startWatchTime,
+                                    mWeakReference.get().endWatchTime,
+                                    playTime,
+                                    "watching"
+                                    , token,
+                                    mWeakReference.get().mVideoDetailBean.getTvPicHead());
+                        }
+                    });
+
                 }
             });
         }
@@ -311,12 +317,16 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         if (mp != null && mVideoDetailBean != null && devInfoManager != null) {
             contentTotalTime = mp.getDuration() / 1000;
             if (mVideoDetailBean != null && devInfoManager != null) {
-                getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
-                        contentTotalTime, startWatchTime, endWatchTime, playTime,
-                        "end"
-                        , TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE)) ?
-                                devInfoManager.getValue(DevInfoManager.ACCOUNT) :
-                                devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+                 DevInfoUtil.getToken(this, new OnResultCall() {
+                     @Override
+                     public void onResult(String token) {
+                         getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                                 contentTotalTime, startWatchTime, endWatchTime, playTime,
+                                 "end"
+                                 , token, mVideoDetailBean.getTvPicHead());
+                     }
+                 });
+
             }
         }
     }
@@ -331,12 +341,15 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
         if (mp != null && mVideoDetailBean != null && devInfoManager != null) {
             contentTotalTime = mp.getDuration() / 1000;
-            getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
-                    contentTotalTime, startWatchTime, endWatchTime, playTime,
-                    "begin"
-                    , TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE)) ?
-                            devInfoManager.getValue(DevInfoManager.ACCOUNT) :
-                            devInfoManager.getValue(DevInfoManager.PHONE), mVideoDetailBean.getTvPicHead());
+            DevInfoUtil.getToken(this, new OnResultCall() {
+                @Override
+                public void onResult(String token) {
+                    getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                            contentTotalTime, startWatchTime, endWatchTime, playTime,
+                            "begin"
+                            , token, mVideoDetailBean.getTvPicHead());
+                }
+            });
         }
     }
 

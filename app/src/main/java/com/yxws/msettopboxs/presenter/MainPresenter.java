@@ -104,9 +104,9 @@ public class MainPresenter extends XPresent<MainActivity> {
                 });
     }
 
-    public void toBuy(String userId, String userToken) {
+    public void toBuy(String userToken) {
         MyApi.getMyApiService()
-                .toBuy(userId, userToken)
+                .toBuy("", userToken)
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {
@@ -123,9 +123,9 @@ public class MainPresenter extends XPresent<MainActivity> {
     }
 
 
-    public void isVip(String userId) {
+    public void isVip(String userToken) {
         MyApi.getMyApiService()
-                .isVip(userId)
+                .isVip("",userToken)
                 .compose(XApi.<BasePresponce<String>>getApiTransformer())
                 .compose(XApi.<BasePresponce<String>>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce<String>>() {

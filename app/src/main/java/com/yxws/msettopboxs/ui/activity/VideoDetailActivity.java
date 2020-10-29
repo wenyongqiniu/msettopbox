@@ -73,11 +73,10 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     private int videoId;
     private String classificationId;
 
-    private DevInfoManager devInfoManager;
 
     @Override
     public void initView() {
-        devInfoManager = SWDevInfoManager.getDevInfoManager(this);
+
 
         btnSearch = (Button) findViewById(R.id.btn_search);
         ivVideoCover = (ImageView) findViewById(R.id.iv_video_cover);
@@ -106,7 +105,6 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
             getP().getVideo(classificationId);
         }
 
-        DevInfoUtil.getValue(this);
 
     }
 
@@ -221,21 +219,15 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
             case R.id.btn_free_trial:
                 // 0免费 1收费
                 if (mVideoDetailBean.getIsPurchase() == 1) {
-                    if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))) {
-
-                        getP().isVip(devInfoManager.getValue(DevInfoManager.PHONE));
-
-                    } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))) {
-                        getP().isVip(devInfoManager.getValue(DevInfoManager.ACCOUNT));
-                    } else {
-                        Toast.makeText(this, "付费视频获取不到用户信息", Toast.LENGTH_SHORT).show();
-
-                    }
+                    DevInfoUtil.getToken(this, new OnResultCall() {
+                        @Override
+                        public void onResult(String token) {
+                            getP().isVip(token);
+                        }
+                    });
                 } else {
                     if (mVideoDetailBean != null) {
                         startActivity(mVideoDetailBean);
-                    } else {
-                        Toast.makeText(this, "免费视频获取不到视频信息", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -246,44 +238,10 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     }
 
     private void toBuyPurchase() {
-        AuthClient mAuthClient = AuthClient.getIntance(this);
-        mAuthClient.getToken(new AuthClient.CallBack() {
-
+        DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
-            public void onResult(JSONObject jsonObject) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Looper.prepare();
-                        try {
-                            final String token = jsonObject.getString(Constants.VALUNE_KEY_TOKEN);
-
-//                            Toast.makeText(VideoDetailActivity.this, "token 是  " + token + "  手机号 PHONE" +
-//                                    devInfoManager.getValue(DevInfoManager.PHONE) + "  手机号 ACCOUNT" +
-//                                    devInfoManager.getValue(DevInfoManager.ACCOUNT), Toast.LENGTH_SHORT).show();
-
-
-                            if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.PHONE))
-                                    && !TextUtils.isEmpty(token)) {
-                                getP().toBuy(devInfoManager.getValue(DevInfoManager.PHONE), token);
-                            } else if (devInfoManager != null && !TextUtils.isEmpty(devInfoManager.getValue(DevInfoManager.ACCOUNT))
-                                    && !TextUtils.isEmpty(token)) {
-                                getP().toBuy(devInfoManager.getValue(DevInfoManager.ACCOUNT), token);
-                            } else {
-                                Toast.makeText(VideoDetailActivity.this, "获取不到用户信息，不能购买", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        } catch (NullPointerException e) {
-                            e.printStackTrace();
-
-                        }
-                        Looper.loop();
-                    }
-                }).start();
-
-
+            public void onResult(String token) {
+                getP().toBuy(token);
             }
         });
     }
