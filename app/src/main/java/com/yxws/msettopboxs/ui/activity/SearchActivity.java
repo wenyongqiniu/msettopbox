@@ -13,10 +13,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.VideoBean;
@@ -37,6 +39,11 @@ import com.yxws.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_HOME_KEY;
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
@@ -54,7 +61,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
     private int point = 0; //gridview 位置
     private List<VideoBean> mVideoBeans = new ArrayList<>();
     private TypeVideoGridViewAdpter mVideoGridViewAdpter;
-    private TextView lemon95MovieMsg_id;
+    private EditText lemon95MovieMsg_id;
     private Button btn_all, btn_t9;
     private LinearLayout linet9;
 
@@ -65,7 +72,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
     public void initView() {
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
-        lemon95MovieMsg_id = (TextView) findViewById(R.id.lemon95_movie_msg_id);
+        lemon95MovieMsg_id = (EditText) findViewById(R.id.lemon95_movie_msg_id);
         btn_all = (Button) findViewById(R.id.btn_all);
         btn_t9 = (Button) findViewById(R.id.btn_t9);
         linet9 = (LinearLayout) findViewById(R.id.linet9);
@@ -105,7 +112,6 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                 } else {
                     lemon95MovieMsg_id.setText(lemon95MovieMsg_id.getText() + softKey.getKeyLabel());
                 }
-                getVideo();
 
             }
 
@@ -136,6 +142,40 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             }
         });
         initReceiver();
+
+        RxTextView.textChanges(lemon95MovieMsg_id)
+                //监听输入完1秒之后发送事件
+                .debounce(1500, TimeUnit.MILLISECONDS)
+                //跳过输入框EditText 初始化的的时候产生的事件。
+                .skip(1)
+                //把观察者切换到UI线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CharSequence>() {
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CharSequence charSequence) {
+                        KLog.e("wlx", "charSequence.toString()  " + charSequence.toString());
+                        mVideoBeans.clear();
+                        mVideoGridViewAdpter.notifyDataSetChanged();
+                        if (!TextUtils.isEmpty(charSequence)) {
+                            getP().getVideo(charSequence.toString());
+                        }
+                    }
+                });
     }
 
     private NineKeybordButton[] mNineKeybordButton = new NineKeybordButton[12];
@@ -169,21 +209,11 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                 } else {
                     lemon95MovieMsg_id.setText(lemon95MovieMsg_id.getText() + key);
                 }
-                getVideo();
             }
 
         });
         if (text2 != "" && text2 != null) {
             mNineKeybordButton[buttonId].setTextToTextView2(text2);
-        }
-    }
-
-    private void getVideo() {
-        mVideoBeans.clear();
-        mVideoGridViewAdpter.notifyDataSetChanged();
-        String ss = lemon95MovieMsg_id.getText().toString().trim();
-        if (!TextUtils.isEmpty(ss)) {
-            getP().getVideo(ss);
         }
     }
 
@@ -224,11 +254,6 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             return true;
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            return true;
-        }
-        if (keyCode == KeyEvent.KEYCODE_HOME) {
-            finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }
         return super.onKeyDown(keyCode, event);
