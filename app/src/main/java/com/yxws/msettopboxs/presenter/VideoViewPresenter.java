@@ -200,7 +200,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 .subscribe(new ApiSubscriber<VerificationBean>() {
                     @Override
                     public void onNext(VerificationBean verificationBean) {
-                        DataHelper.setStringSF(getV().getApplication(), Constant.OTTUSERTOKEN, verificationBean.getOTTUserToken());
+
 
                         heartBeat(epg_address, verificationBean.getOTTUserToken(), mobile_phone_number);
 
@@ -235,7 +235,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
             }
             authParam.setContentID(temp.getSeriesId());
 
-            getVideoAddress(epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+            getVideoAddress(OTTUserToken,epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
         } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
@@ -245,14 +245,14 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 }
             }
             authParam.setContentID(temp.getSeriesId());
-            getVideoAddress(epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+            getVideoAddress(OTTUserToken,epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
         }
     }
 
     /**
      * 视频播放地址
      */
-    private void getVideoAddress(String epg_address, AuthParam authParam, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
+    private void getVideoAddress(String OTTUserToken,String epg_address, AuthParam authParam, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
         Gson gson = new Gson();
         String obj = gson.toJson(authParam);
         KLog.e("wlx", "请求AuthCode参数：  " + obj);
@@ -265,7 +265,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 .subscribe(new ApiSubscriber<AuthBean>() {
                     @Override
                     public void onNext(AuthBean videoBean) {
-                        startActivity(videoBean, seriesId, movieId, title, mVideoDetailBean);
+                        startActivity(OTTUserToken,videoBean, seriesId, movieId, title, mVideoDetailBean);
                     }
 
                     @Override
@@ -275,7 +275,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 });
     }
 
-    private void startActivity(AuthBean videoBean, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
+    private void startActivity(String OTTUserToken,AuthBean videoBean, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
@@ -287,7 +287,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     .append("/vod")
                     .append("/").append(seriesId)
                     .append("/").append(movieId)
-                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
+                    .append("?OTTUserToken=").append(OTTUserToken)
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
 
         } else if (cdn_type.contains("ZTE")) {
@@ -296,7 +296,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     .append("/vod")
                     .append("/").append(seriesId)
                     .append("/").append(movieId)
-                    .append("?OTTUserToken=").append(DataHelper.getStringSF(getV().getApplicationContext(), Constant.OTTUSERTOKEN))
+                    .append("?OTTUserToken=").append(OTTUserToken)
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
         getV().setVideoDetail(stringBuffer.toString(), title, mVideoDetailBean);

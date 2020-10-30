@@ -13,8 +13,7 @@ public class Constant {
 
 
 
-    //视频播放时使用
-    public  static final String OTTUSERTOKEN="OTTUserToken";
+
 
 
 
