@@ -16,4 +16,8 @@ public class Constant {
     //视频播放时使用
     public  static final String OTTUSERTOKEN="OTTUserToken";
 
+
+
+    public static final String SYSTEM_DIALOG_REASON_KEY = "reason";
+    public static final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
 }

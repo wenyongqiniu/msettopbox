@@ -1,8 +1,10 @@
 package com.yxws.msettopboxs.ui.activity;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -35,6 +37,9 @@ import com.yxws.tvwidget.view.MainUpView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_HOME_KEY;
+import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
 
 /**
  * author : Zzy
@@ -130,7 +135,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                 }
             }
         });
-
+        initReceiver();
     }
 
     private NineKeybordButton[] mNineKeybordButton = new NineKeybordButton[12];
@@ -342,6 +347,36 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                 ArtUtils.startActivity(context, intent);
             }
         });
+    }
+
+    private HomeRecaiver mHomeRecaiver;
+
+    private void initReceiver() {
+        mHomeRecaiver = new HomeRecaiver();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(mHomeRecaiver, filter);
+    }
+
+    class HomeRecaiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+                String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
+                if (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) {
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                }
+            }
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mHomeRecaiver != null) {
+            unregisterReceiver(mHomeRecaiver);
+        }
     }
 
     public void setVideoGridData(List<VideoBean> videoBeanData) {

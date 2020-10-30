@@ -30,6 +30,12 @@ import com.yxws.mvp.net.XApi;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import okhttp3.RequestBody;
 
 public class VideoViewPresenter extends XPresent<VideoViewActivty> {
@@ -46,7 +52,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
      * @param endWatchTime     用户结束看时间
      * @param playTime         用户看了多少时长
      * @param logType          同步数据时，用户当前播放状态
-     * @param userToken          用户登录账号,机顶盒登陆账号
+     * @param userToken        用户登录账号,机顶盒登陆账号
      * @param imageUrl         海报URL
      */
     public void saveHistoty(String contentName, String contentId, int extraContentId, long contentTotalTime,
@@ -305,22 +311,54 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
      * @param mobile_phone_number 手机号
      */
     public void heartBeat(String epg_address, String OTTUserToken, String mobile_phone_number) {
-        Api.getVerService(epg_address + "/")
-                .heartBeat(OTTUserToken, mobile_phone_number)
-                .compose(XApi.<VerificationBean>getApiTransformer())
-                .compose(XApi.<VerificationBean>getScheduler())
-                .compose(getV().<VerificationBean>bindToLifecycle())
-                .subscribe(new ApiSubscriber<VerificationBean>() {
+        Observable.interval(2, 60, TimeUnit.SECONDS)
+                // 参数说明：
+                // 参数1 = 第1次延迟时间；
+                // 参数2 = 间隔时间数字；
+                // 参数3 = 时间单位；
+                // 该例子发送的事件特点：延迟2s后发送事件，每隔60秒产生1个数字（从0开始递增1，无限个）
+                .doOnNext(new Consumer<Long>() {
                     @Override
-                    public void onNext(VerificationBean verificationBean) {
+                    public void accept(Long aLong) throws Exception {
+                        Api.getVerService(epg_address + "/")
+                                .heartBeat(OTTUserToken, mobile_phone_number)
+                                .compose(XApi.<VerificationBean>getApiTransformer())
+                                .compose(XApi.<VerificationBean>getScheduler())
+                                .compose(getV().<VerificationBean>bindToLifecycle())
+                                .subscribe(new ApiSubscriber<VerificationBean>() {
+                                    @Override
+                                    public void onNext(VerificationBean verificationBean) {
 
+                                    }
+
+                                    @Override
+                                    protected void onFail(NetError error) {
+
+                                    }
+                                });
                     }
+                }).subscribe(new Observer<Long>() {
+            @Override
+            public void onSubscribe(Disposable d) {
 
-                    @Override
-                    protected void onFail(NetError error) {
+            }
 
-                    }
-                });
+            @Override
+            public void onNext(Long aLong) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
 
     }
 }

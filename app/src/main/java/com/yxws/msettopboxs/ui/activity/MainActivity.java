@@ -3,8 +3,10 @@ package com.yxws.msettopboxs.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.DevInfoManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -44,6 +46,9 @@ import com.yxws.tvwidget.view.ReflectItemView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_HOME_KEY;
+import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
 
 /**
  * author: luxi
@@ -115,7 +120,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
         setDefaultImageView(R.drawable.img_home, ivMain1);
         setDefaultImageView(R.drawable.img_home, ivMain2);
-
+        initReceiver();
     }
 
     //设置首页默认显示图片
@@ -307,10 +312,41 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         });
     }
 
+
+    private HomeRecaiver mHomeRecaiver;
+
+    private void initReceiver() {
+        mHomeRecaiver = new HomeRecaiver();
+        IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(mHomeRecaiver, filter);
+    }
+
+    class HomeRecaiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+                String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
+                if (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) {
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                }
+            }
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mHomeRecaiver != null) {
+            unregisterReceiver(mHomeRecaiver);
+        }
+    }
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        KLog.e("wlx", "主要 keyCode " + keyCode);
         if (keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
             android.os.Process.killProcess(android.os.Process.myPid());
             return true;
         }

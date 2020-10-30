@@ -5,6 +5,7 @@ import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 public class Util {
+
     public static float getScreenWidth(Context context) {
         return getDisplayMetrics(context).widthPixels;
     }
