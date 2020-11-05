@@ -125,7 +125,7 @@ public class MainPresenter extends XPresent<MainActivity> {
 
     public void isVip(String userToken) {
         MyApi.getMyApiService()
-                .isVip("",userToken)
+                .isVip("", userToken, "")
                 .compose(XApi.<BasePresponce<String>>getApiTransformer())
                 .compose(XApi.<BasePresponce<String>>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce<String>>() {

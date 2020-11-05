@@ -1,7 +1,5 @@
 package com.yxws.msettopboxs.ui.activity;
 
-import android.app.ActivityManager;
-import android.app.DevInfoManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -21,19 +17,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.chinamobile.SWDevInfoManager;
-import com.chinamobile.authclient.AuthClient;
-import com.chinamobile.authclient.Constants;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.DoctorInfoBean;
 import com.yxws.msettopboxs.bean.VideoBean;
 import com.yxws.msettopboxs.bean.VideoDetailBean;
-import com.yxws.msettopboxs.config.Constant;
 import com.yxws.msettopboxs.presenter.VideoDetailPresenter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.yxws.msettopboxs.util.ArtUtils;
-import com.yxws.msettopboxs.util.DataHelper;
 import com.yxws.msettopboxs.util.DevInfoUtil;
 import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XActivity;
@@ -41,9 +32,6 @@ import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
 import com.yxws.tvwidget.view.GridViewTV;
 import com.yxws.tvwidget.view.MainUpView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +65,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     private List<VideoBean> mVideoBeans = new ArrayList<>();
     private int videoId;
     private String classificationId;
-
+    private String mPosition = "";//跳转进来的位置
 
     @Override
     public void initView() {
@@ -102,8 +90,10 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         btnPurchase.setOnClickListener(this);
         initGridView();
 
-        videoId = getIntent().getIntExtra("videoId", 0);
+        videoId = getIntent().getIntExtra("id", 0);
+        mPosition = getIntent().getStringExtra("position");
         classificationId = getIntent().getStringExtra("classificationId");
+
 
         getP().getVideoDetail(videoId);
         if (classificationId != null) {
@@ -180,7 +170,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 VideoBean videoBean = mVideoBeans.get(position);
                 Intent intent = new Intent(context, VideoDetailActivity.class);
-                intent.putExtra("videoId", videoBean.getId());
+                intent.putExtra("id", videoBean.getId());
                 intent.putExtra("classificationId", classificationId);
                 ArtUtils.startActivity(context, intent);
             }
@@ -190,7 +180,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        videoId = intent.getIntExtra("videoId", 0);
+        videoId = intent.getIntExtra("id", 0);
         classificationId = intent.getStringExtra("classificationId");
         KLog.e("wlx", "onNewIntent  videoId:" + videoId + "   classificationId:" + classificationId);
         getP().getVideoDetail(videoId);
@@ -227,7 +217,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                     DevInfoUtil.getToken(this, new OnResultCall() {
                         @Override
                         public void onResult(String token) {
-                            getP().isVip(token);
+                            getP().isVip(token, mPosition);
                         }
                     });
                 } else {

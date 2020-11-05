@@ -367,7 +367,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 VideoBean videoBean = mVideoBeans.get(position);
                 Intent intent = new Intent(context, VideoDetailActivity.class);
-                intent.putExtra("videoId", videoBean.getId());
+                intent.putExtra("id", videoBean.getId());
                 intent.putExtra("classificationId", videoBean.getCpAlbumId());
                 ArtUtils.startActivity(context, intent);
             }

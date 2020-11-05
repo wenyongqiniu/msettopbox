@@ -252,7 +252,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             case R.id.rl_hot_video:
                 if (mHotVideoBean != null) {
                     Intent intent = new Intent(context, VideoDetailActivity.class);
-                    intent.putExtra("videoId", mHotVideoBean.getVideoId());
+                    intent.putExtra("id", mHotVideoBean.getVideoId());
                     ArtUtils.startActivity(context, intent);
                 }
                 break;

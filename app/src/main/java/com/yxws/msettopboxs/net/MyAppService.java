@@ -55,7 +55,7 @@ public interface MyAppService {
     Flowable<VideoBean> getVideo(@Query("cpAlbumId") String cpAlbumId);
 
     @GET("api/home/getVipState")
-    Flowable<BasePresponce<String>> isVip(@Query("userId") String userId,@Query("userToken") String userToken);
+    Flowable<BasePresponce<String>> isVip(@Query("userId") String userId,@Query("userToken") String userToken,@Query("position") String position);
 
     //关键字查询
     @GET("api/home/searchVideoByCondition")

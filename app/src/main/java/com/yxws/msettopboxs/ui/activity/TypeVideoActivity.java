@@ -300,7 +300,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
     private void toVideoDetail() {
         Intent intent = new Intent(context, VideoDetailActivity.class);
-        intent.putExtra("videoId", videoBean.getId());
+        intent.putExtra("id", videoBean.getId());
         intent.putExtra("classificationId", classificationId);
         ArtUtils.startActivity(context, intent);
     }

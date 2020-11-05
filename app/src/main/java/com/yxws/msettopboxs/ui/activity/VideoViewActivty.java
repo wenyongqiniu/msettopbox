@@ -60,15 +60,13 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     private DevInfoManager devInfoManager;
     LoadingPopupView loadingPopup;
     private long contentTotalTime, startWatchTime, endWatchTime, playTime;
-    private int videoId, cpAlbumId, cpTvId;
+    private int videoId;
     private VideoDetailBean mVideoDetailBean;
 
     @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
         videoId = getIntent().getIntExtra("id", 0);
-//        cpAlbumId = getIntent().getIntExtra("cpAlbumId", 0);
-//        cpTvId = getIntent().getIntExtra("cpTvId", 0);
         getP().getVideoDetail(videoId);
 
         devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
@@ -327,15 +325,15 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         if (mp != null && mVideoDetailBean != null && devInfoManager != null) {
             contentTotalTime = mp.getDuration() / 1000;
             if (mVideoDetailBean != null && devInfoManager != null) {
-                 DevInfoUtil.getToken(this, new OnResultCall() {
-                     @Override
-                     public void onResult(String token) {
-                         getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
-                                 contentTotalTime, startWatchTime, endWatchTime, playTime,
-                                 "end"
-                                 , token, mVideoDetailBean.getTvPicHead());
-                     }
-                 });
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        getP().saveHistoty(mVideoDetailBean.getTvName(), mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId(),
+                                contentTotalTime, startWatchTime, endWatchTime, playTime,
+                                "end"
+                                , token, mVideoDetailBean.getTvPicHead());
+                    }
+                });
 
             }
         }
@@ -364,10 +362,10 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     }
 
 
-    private  HomeRecaiver mHomeRecaiver;
+    private HomeRecaiver mHomeRecaiver;
 
     private void initReceiver() {
-        mHomeRecaiver = new  HomeRecaiver();
+        mHomeRecaiver = new HomeRecaiver();
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mHomeRecaiver, filter);
     }
@@ -385,7 +383,6 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         }
 
     }
-
 
 
 }

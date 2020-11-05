@@ -90,9 +90,9 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
     }
 
 
-    public void isVip(String userToken) {
+    public void isVip(String userToken,String position) {
         MyApi.getMyApiService()
-                .isVip("",userToken)
+                .isVip("",userToken,position)
                 .compose(XApi.<BasePresponce<String>>getApiTransformer())
                 .compose(XApi.<BasePresponce<String>>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce<String>>() {
