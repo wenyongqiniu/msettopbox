@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_main"
     android:clipChildren="false"
     android:clipToPadding="false"
@@ -14,7 +14,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
 
         <com.yxws.tvwidget.view.ListViewTV
@@ -22,14 +24,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_marginTop="30pt"
+            android:layout_marginBottom="30pt"
             android:layout_weight="1"
+            android:dividerHeight="0dp"
             android:descendantFocusability="afterDescendants"
-            android:focusable="true"
-            android:layout_marginTop="15dp"
-            android:listSelector="@drawable/select_list"
-            android:layout_marginBottom="15dp"
             android:focusableInTouchMode="true"
+            android:listSelector="@drawable/select_list"
+            android:nextFocusLeft="@id/lv_video_menu_id"
             android:nextFocusRight="@+id/lv_video_menu_id_2"
+            android:nextFocusDown="@+id/lv_video_menu_id"
             android:scrollbars="none" />
 
         <com.yxws.tvwidget.view.ListViewTV
@@ -37,13 +41,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="30pt"
+            android:layout_marginBottom="30pt"
             android:descendantFocusability="afterDescendants"
-            android:listSelector="@drawable/lemon_liangguang_03"
-            android:nextFocusLeft="@+id/lv_video_menu_id"
+            android:layout_weight="1"
+            android:dividerHeight="0dp"
+            android:nextFocusLeft="@id/lv_video_menu_id"
             android:nextFocusRight="@+id/gridviewtv"
+            android:nextFocusDown="@+id/lv_video_menu_id"
             android:scrollbars="none" />
 
 
@@ -55,17 +60,17 @@
 
             <Button
                 android:id="@+id/btn_search"
-                android:layout_width="246dp"
-                android:layout_height="28dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_width="562pt"
+                android:layout_height="56pt"
+                android:layout_marginLeft="30pt"
+                android:layout_marginTop="60pt"
                 android:background="@drawable/tv_bug_search_bg"
-                android:drawableStart="@drawable/system_serchb"
+                android:drawableStart="@drawable/svg_search"
                 android:nextFocusRight="@+id/btn_login"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20pt"
                 android:text="@string/hide_search"
                 android:textColor="@color/font_gray_white"
-                android:textSize="12sp" />
+                android:textSize="24sp" />
 
 
             <TextView
@@ -73,35 +78,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="38dp"
+                android:layout_marginTop="60pt"
+                android:layout_marginRight="76pt"
                 android:text="@string/app_name"
                 android:textColor="@color/tv_f1f1f1"
-                android:textSize="18sp" />
+                android:textSize="36sp" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="19dp"
+                android:layout_marginTop="60pt"
+                android:layout_marginRight="38pt"
                 android:layout_toLeftOf="@+id/tv_app_name"
-                tools:text="15:42"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
-                android:textStyle="bold"
                 android:textColor="@color/tv_f1f1f1"
-                android:textSize="18sp" />
+                android:textSize="36sp"
+                android:textStyle="bold"
+                tools:text="15:42" />
 
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/btn_search"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="30pt"
+                android:layout_marginTop="20pt"
+                android:layout_marginRight="60pt"
+                android:layout_marginBottom="60pt"
                 android:focusable="false"
                 android:focusableInTouchMode="false">
 
@@ -111,13 +116,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipChildren="false"
-                    android:columnWidth="189dp"
+                    android:columnWidth="378pt"
                     android:gravity="center_vertical"
+                    android:horizontalSpacing="10pt"
                     android:nextFocusLeft="@+id/lv_video_menu_id_2"
-                    android:horizontalSpacing="5dp"
-                    android:verticalSpacing="5dp"
                     android:numColumns="auto_fit"
-                    android:scrollbars="none" />
+                    android:scrollbars="none"
+                    android:verticalSpacing="10pt" />
             </FrameLayout>
 
         </RelativeLayout>

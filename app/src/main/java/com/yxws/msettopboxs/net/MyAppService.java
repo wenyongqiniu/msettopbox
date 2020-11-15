@@ -39,7 +39,7 @@ public interface MyAppService {
 
     //获取一级分类
     @GET("api/home/searchAllTopLevel")
-    Flowable<SearchLevelBean> getSearchLevel();
+    Flowable<SearchLevelBean> getAllCategory();
 
     //获取首页热门信息
     @GET("api/home/searchHotVideo")
@@ -47,7 +47,7 @@ public interface MyAppService {
 
     //获取二级分类
     @GET("api/home/searchAllLevel2ById")
-    Flowable<TypeListMenuBean> getSearchLevel(@Query("parentId") int parentId);
+    Flowable<TypeListMenuBean> getTwoCategory(@Query("parentId") int parentId);
 
 
     //获取该视频的相关 的视频

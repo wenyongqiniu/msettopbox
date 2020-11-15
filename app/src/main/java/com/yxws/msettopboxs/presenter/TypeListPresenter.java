@@ -13,15 +13,15 @@ import com.yxws.mvp.net.XApi;
 public class TypeListPresenter extends XPresent<TypeVideoActivity> {
 
 
-    public void getSearchLevel() {
+    public void getAllCategory() {
         MyApi.getMyApiService()
-                .getSearchLevel()
+                .getAllCategory()
                 .compose(XApi.<SearchLevelBean>getApiTransformer())
                 .compose(XApi.<SearchLevelBean>getScheduler())
                 .subscribe(new ApiSubscriber<SearchLevelBean>() {
                     @Override
                     public void onNext(SearchLevelBean searchLevelBean) {
-                        getV().setSearchLevel(searchLevelBean.getData());
+                        getV().setAllCategoty(searchLevelBean.getData());
                     }
 
                     @Override
@@ -31,9 +31,9 @@ public class TypeListPresenter extends XPresent<TypeVideoActivity> {
                 });
     }
 
-    public void getSearchLevel(int parentId) {
+    public void getTwoCategory(int parentId) {
         MyApi.getMyApiService()
-                .getSearchLevel(parentId)
+                .getTwoCategory(parentId)
                 .compose(XApi.<TypeListMenuBean>getApiTransformer())
                 .compose(XApi.<TypeListMenuBean>getScheduler())
                 .subscribe(new ApiSubscriber<TypeListMenuBean>() {

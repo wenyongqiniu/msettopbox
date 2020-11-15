@@ -2,18 +2,18 @@
 <Keyboard
     bg_res="@drawable/key_bg_main"
     key_bg_res="@drawable/key_bg_rectangle"
-    key_height="35dp"
-    key_left_padding="10dp"
-    key_select_res="@drawable/softkey_bg_select2"
-    key_text_color="#b3eaea"
-    key_text_size="18dp"
-    key_top_padding="10dp"
-    key_width="35dp"
+    key_height="70dp"
+    key_left_padding="20dp"
+    key_select_res="@drawable/softkey_bg_select"
+    key_text_color="#FFFFFF"
+    key_text_size="36dp"
+    key_top_padding="20dp"
+    key_width="70dp"
     left_right_move="false"
     qwerty="true"
     qwerty_uppercase="false"
-    start_pos_x="1dp"
-    start_pos_y="1dp"
+    start_pos_x="2dp"
+    start_pos_y="2dp"
     top_bottom_move="false">
 
     <!-- 第一行 -->
@@ -39,16 +39,16 @@
         <key
             key_code="1234"
             key_label="ABC"
-            key_text_size="15dp"
+            key_text_size="30dp"
             key_width="80dp"/>
         <key
             key_code="28"
             key_label="清空"
-            key_text_size="15dp" />
+            key_text_size="30dp" />
         <key
             key_code="67"
             key_label="删除"
-            key_text_size="15dp" />
+            key_text_size="30dp" />
 
     </row>
 

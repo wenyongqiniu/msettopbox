@@ -1,21 +1,13 @@
 package com.yxws.msettopboxs.presenter;
 
-import android.app.DevInfoManager;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.yxws.msettopboxs.bean.BasePresponce;
 import com.yxws.msettopboxs.bean.HotVideoBean;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
 import com.yxws.msettopboxs.bean.UserBean;
-import com.yxws.msettopboxs.bean.VerificationBean;
-import com.yxws.msettopboxs.config.Constant;
-import com.yxws.msettopboxs.net.Api;
 import com.yxws.msettopboxs.net.MyApi;
 import com.yxws.msettopboxs.ui.activity.MainActivity;
-import com.yxws.msettopboxs.util.DataHelper;
-import com.yxws.msettopboxs.util.DevInfoUtil;
-import com.yxws.msettopboxs.util.OnResultCall;
 import com.yxws.mvp.mvp.XPresent;
 import com.yxws.mvp.net.ApiSubscriber;
 import com.yxws.mvp.net.NetError;
@@ -25,9 +17,9 @@ import java.util.List;
 
 public class MainPresenter extends XPresent<MainActivity> {
 
-    public void getSearchLevel() {
+    public void getAllCategory() {
         MyApi.getMyApiService()
-                .getSearchLevel()
+                .getAllCategory()
                 .compose(XApi.<SearchLevelBean>getApiTransformer())
                 .compose(XApi.<SearchLevelBean>getScheduler())
                 .subscribe(new ApiSubscriber<SearchLevelBean>() {

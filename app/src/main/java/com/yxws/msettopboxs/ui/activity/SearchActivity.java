@@ -44,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import me.jessyan.autosize.internal.CustomAdapt;
 
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_HOME_KEY;
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
@@ -234,13 +235,10 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
     }
 
 
-    //按下
+    //    //按下
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (event.getAction()== KeyEvent.KEYCODE_BACK) {
-//            return false;
-//        }
-        KLog.e("   onKeyDown    " + event.getAction() + "  " + event.getKeyCode());
+        KLog.e("wlx", "   onKeyDown    " + event.getAction() + "  " + event.getKeyCode());
         if (skbContainer.onSoftKeyDown(keyCode, event))
             return true;
         return super.onKeyDown(keyCode, event);
@@ -249,12 +247,12 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
     //抬起
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        KLog.e("   onKeyUp    " + event.getAction() + "  " + event.getKeyCode());
+        KLog.e("wlx", "   onKeyUp    " + event.getAction() + "  " + event.getKeyCode());
         if (skbContainer.onSoftKeyUp(keyCode, event))
             return true;
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
-            return true;
+            return true;//true 自己处理
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -382,6 +380,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
         registerReceiver(mHomeRecaiver, filter);
     }
 
+
     class HomeRecaiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -389,6 +388,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
             if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
                 if (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) {
+                    KLog.e("wlx", "SearchActivity 关闭  ");
                     android.os.Process.killProcess(android.os.Process.myPid());
                 }
             }

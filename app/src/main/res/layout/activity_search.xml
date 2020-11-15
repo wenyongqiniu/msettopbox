@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_main">
 
     <LinearLayout
@@ -12,47 +13,48 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="2">
+            android:layout_marginLeft="60pt"
+            android:layout_marginTop="60pt"
+            android:layout_marginRight="60pt"
+            android:layout_marginBottom="60pt"
+            android:layout_weight="1">
 
 
             <EditText
                 android:id="@+id/lemon95_movie_msg_id"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="100pt"
                 android:layout_gravity="center"
                 android:background="@null"
-                android:drawableStart="@drawable/system_serchb"
+                android:drawableStart="@drawable/svg_search"
                 android:focusable="false"
                 android:gravity="center"
                 android:hint="输入视频的首字母"
                 android:textColor="#b3aeae"
                 android:textColorHint="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="36sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="4pt"
                 android:layout_below="@+id/lemon95_movie_msg_id"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginLeft="60pt"
+                android:layout_marginRight="30pt"
                 android:background="@color/tv_ffffff" />
 
             <com.yxws.tvwidget.keyboard.SkbContainer
                 android:id="@+id/skbContainer"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
+                android:layout_height="560pt"
                 android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                />
 
             <LinearLayout
                 android:id="@+id/linet9"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
+                android:layout_height="560pt"
                 android:layout_centerInParent="true"
                 android:visibility="gone">
 
@@ -61,10 +63,10 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="100pt"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="2pt"
                 android:focusable="false"
                 android:focusableInTouchMode="false">
 
@@ -72,8 +74,13 @@
                     android:id="@+id/btn_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_selector"
+                    android:background="@drawable/btn_selector"
                     android:text="全键盘"
+                    android:paddingLeft="30pt"
+                    android:paddingRight="30pt"
+                    android:paddingTop="10pt"
+                    android:paddingBottom="10pt"
+                    android:textSize="38sp"
                     android:nextFocusRight="@+id/btn_t9"
                     android:textColor="@color/colorWhite" />
 
@@ -81,10 +88,15 @@
                     android:id="@+id/btn_t9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
+                    android:layout_marginLeft="2pt"
+                    android:paddingLeft="30pt"
+                    android:paddingRight="30pt"
+                    android:paddingTop="10pt"
+                    android:paddingBottom="10pt"
                     android:nextFocusLeft="@+id/btn_all"
-                    android:background="@drawable/button_selector"
+                    android:background="@drawable/btn_selector"
                     android:text="T9键盘"
+                    android:textSize="38sp"
                     android:textColor="@color/colorWhite" />
             </LinearLayout>
 
@@ -96,39 +108,39 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_below="@+id/btn_search"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="5">
+            android:layout_marginTop="60pt"
+            android:layout_marginBottom="60pt"
+            android:layout_weight="3">
 
             <TextView
                 android:id="@+id/tv_app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="38dp"
+                android:layout_marginRight="56pt"
                 android:text="@string/app_name"
                 android:textColor="@color/tv_f1f1f1"
-                android:textSize="18sp" />
+                android:textSize="36sp" />
 
 
             <TextClock
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="19dp"
+                android:layout_marginRight="38pt"
                 android:layout_toLeftOf="@+id/tv_app_name"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
                 android:textColor="@color/tv_f1f1f1"
-                android:textSize="18sp"
+                android:textSize="36sp"
                 android:textStyle="bold" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/tv_app_name"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp">
+                android:layout_marginTop="20pt"
+                android:layout_marginRight="60pt"
+                >
 
 
                 <com.yxws.tvwidget.view.GridViewTV
@@ -136,13 +148,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipChildren="false"
-                    android:columnWidth="189dp"
+                    android:columnWidth="378pt"
                     android:gravity="center_vertical"
-                    android:horizontalSpacing="5dp"
+                    android:horizontalSpacing="10pt"
                     android:nextFocusLeft="@+id/lv_video_menu_id_2"
                     android:numColumns="auto_fit"
                     android:scrollbars="none"
-                    android:verticalSpacing="5dp" />
+                    android:verticalSpacing="10pt" />
             </FrameLayout>
         </RelativeLayout>
     </LinearLayout>

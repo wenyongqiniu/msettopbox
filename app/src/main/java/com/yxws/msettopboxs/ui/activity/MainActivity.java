@@ -78,8 +78,6 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     @SuppressLint("WrongConstant")
     @Override
     public void initView() {
-
-        KLog.e("MainActivity initView");
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
         ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
@@ -95,7 +93,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         btnOpenVip.setOnClickListener(this);
         mRlHotVideo.setOnClickListener(this);
 
-        getP().getSearchLevel();
+        getP().getAllCategory();
         getP().getHotVideo();
 
         initGridView();
@@ -328,6 +326,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
             if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
                 String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
                 if (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) {
+                    KLog.e("wlx", "MainActivity 关闭  ");
                     android.os.Process.killProcess(android.os.Process.myPid());
                 }
             }

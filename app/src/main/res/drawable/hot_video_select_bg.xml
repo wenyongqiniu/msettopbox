@@ -6,10 +6,10 @@
 
         <shape android:shape="rectangle">
             <stroke
-                android:width="5dp"
+                android:width="10pt"
                 android:color="#fff" />
 
-            <corners android:radius="20dp" />
+            <corners android:radius="40pt" />
         </shape>
     </item>
 
@@ -18,16 +18,16 @@
 
         <shape android:shape="rectangle">
             <stroke
-                android:width="5dp"
+                android:width="10pt"
                 android:color="#fff" />
 
-            <corners android:radius="20dp" />
+            <corners android:radius="40pt" />
         </shape>
     </item>
     <item  >
         <shape android:shape="rectangle">
 
-            <corners android:radius="20dp" />
+            <corners android:radius="40pt" />
         </shape>
     </item>
 

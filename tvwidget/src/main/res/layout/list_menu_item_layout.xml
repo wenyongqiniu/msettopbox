@@ -22,6 +22,6 @@
         android:singleLine="true"
         android:text="菜单一"
         android:textColor="#FFFFFF"
-        android:textSize="24sp" />
+        android:textSize="28sp" />
 
 </com.yxws.tvwidget.menu.OpenMenuItemView>

@@ -136,6 +136,8 @@ public class SoftKey {
 		this.mTextColor = textColor;
 	}
 
+
+
 	public float getTextSize() {
 		return mTextSize;
 	}

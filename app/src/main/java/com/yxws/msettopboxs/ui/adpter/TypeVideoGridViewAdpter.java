@@ -29,7 +29,6 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
                 .placeholder(R.drawable.img_default);
         Glide.with(mContext)
                 .asBitmap()
-//                .load(R.drawable.img_default)
                 .load(item.getTvPicHead())
                 .apply(options)
                 .into((ImageView) viewHolder.getView(R.id.iv_video_cover));

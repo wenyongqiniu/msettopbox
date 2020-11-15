@@ -21,3 +21,10 @@
     V4.视频列表和详情页推荐位，视频选中时，图片文字发虚（放大还是透明层覆盖造成的问题）
     v5.普通用户点击播放，不提示“会员才可以看”，直接跳转指购买会员页
     v6.开通会员选中状态金白高亮，造成视觉模糊，修改下选中效果
+
+
+
+
+
+    列表：获取小图  现在字段 tvPicHead    /api/home/searchAllVideoUploadTvlistByCpAlbumId?cpAlbumId=159064924718699
+    视频详情：获取大图 /api/home/searchVideoUploadTvlistById?id=652

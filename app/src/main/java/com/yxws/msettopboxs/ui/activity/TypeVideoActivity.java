@@ -32,6 +32,7 @@ import com.yxws.msettopboxs.util.DataHelper;
 import com.yxws.mvp.mvp.XActivity;
 import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
+import com.yxws.tvwidget.custom.MemoryListView;
 import com.yxws.tvwidget.view.GridViewTV;
 import com.yxws.tvwidget.view.ListViewTV;
 import com.yxws.tvwidget.view.MainUpView;
@@ -93,8 +94,8 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         initGridView();
 
 
-        getP().getSearchLevel();
-        getP().getSearchLevel(typeId);
+        getP().getAllCategory();
+        getP().getTwoCategory(typeId);
 
         initReceiver();
     }
@@ -103,7 +104,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
 
     private void initListView() {
-        mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type_menu_1, mSearchLevel);
+        mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type, mSearchLevel);
         lvVideoMenuId.setItemsCanFocus(true);
         lvVideoMenuId.requestFocus();
         lvVideoMenuId.setAdapter(mTypeListMenuAdpter);
@@ -112,7 +113,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lvVideoMenuId.setPoint(position);
                 SearchLevelBean searchLevelBean = mSearchLevel.get(position);
-                getP().getSearchLevel(searchLevelBean.getId());
+                getP().getTwoCategory(searchLevelBean.getId());
             }
 
             @Override
@@ -131,7 +132,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
                 }
             }
         });
-        mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type_menu_2, mSearchLevel2);
+        mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type, mSearchLevel2);
         lvVideoMenuId2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -267,13 +268,12 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         }
     }
 
-    public void setSearchLevel(List<SearchLevelBean> searchLevel) {
+    public void setAllCategoty(List<SearchLevelBean> searchLevel) {
         mSearchLevel.clear();
         mSearchLevel.addAll(searchLevel);
         for (int i = 0; i < mSearchLevel.size(); i++) {
             if (mSearchLevel.get(i).getId() == typeId) {
                 lvVideoMenuId.setSelection(i);
-                lvVideoMenuId2.setSelection(0);
             }
         }
         mTypeListMenuAdpter.notifyDataSetChanged();
@@ -287,7 +287,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         if (mSearchLevel2 != null && mSearchLevel2.size() > 0) {
             //应客户需求默认改为第一个
             getP().getVideo(mSearchLevel2.get(0).getCpAlbumId());
-            lvVideoMenuId2.setSelection(0);
         }
     }
 

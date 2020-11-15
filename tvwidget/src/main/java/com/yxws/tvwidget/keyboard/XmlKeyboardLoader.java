@@ -73,7 +73,7 @@ public class XmlKeyboardLoader {
 
 	private static final String XMLATTR_TEXT_SIZE = "key_text_size";
 	private static final String XMLATTR_TEXT_COLOR = "key_text_color"; // 文本颜色.
-	private static final String XMLATTR_KEY_WIDTH = "key_width";
+ 	private static final String XMLATTR_KEY_WIDTH = "key_width";
 	private static final String XMLATTR_KEY_HEIGHT = "key_height";
 
 	private static final String XMLATTR_KEY_BG = "key_bg_res"; // 键盘按键背景图片.

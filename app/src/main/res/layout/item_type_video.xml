@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="189dp"
-    android:layout_height="170dp">
+    android:layout_width="378pt"
+    android:layout_height="340pt">
 
     <RelativeLayout
         android:id="@+id/rl_video_img"
-        android:layout_width="171dp"
-        android:layout_height="96dp"
+        android:layout_width="342pt"
+        android:layout_height="215pt"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="9dp">
+        android:layout_marginTop="18pt">
 
         <ImageView
             android:id="@+id/iv_video_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
             tools:src="@drawable/img_default" />
 
         <ImageView
             android:id="@+id/iv_video_is_purchase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100pt"
+            android:layout_height="64pt"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:scaleType="centerInside"
@@ -35,14 +34,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_video_img"
-        android:layout_centerHorizontal="true"
         android:layout_alignLeft="@id/rl_video_img"
         android:layout_alignRight="@id/rl_video_img"
-        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16pt"
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="#fff0f0f0"
-        android:textSize="14sp"
+        android:textSize="28sp"
         tools:text="面肌痉挛的治疗方法有哪些？" />
 
 

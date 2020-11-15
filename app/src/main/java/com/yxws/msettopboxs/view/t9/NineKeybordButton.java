@@ -333,7 +333,7 @@ public class NineKeybordButton extends LinearLayout implements OnFocusChangeList
         float letterHeight = rect.height();
 
         Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG);
-        textPaint.setTextSize(40.0f);
+        textPaint.setTextSize(25.0f);
         textPaint.setTypeface(Typeface.DEFAULT_BOLD);
         textPaint.setColor(Color.WHITE);
 

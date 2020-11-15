@@ -1,26 +1,24 @@
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/NineKeybordButton"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/nineKeybordButton"
-    >
-    <TextView                    
-        android:id="@+id/nineKeybordButtonTextView0" 
+    style="@style/NineKeybordButton">
+
+    <TextView
+        android:id="@+id/nineKeybordButtonTextView0"
         android:layout_width="match_parent"
-        android:layout_height="5dp"               
-        android:visibility="gone" 
-        />
-    <TextView 
-        android:id="@+id/nineKeybordButtonTextView1"      
-        style="@style/NineKeybordButtonText"        
-        />
-    <TextView 
-        android:id="@+id/nineKeybordButtonTextView2"       
-        style="@style/NineKeybordButtonText"            
-        />
-    <TextView                    
-        android:id="@+id/nineKeybordButtonTextView3" 
+        android:layout_height="20pt"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/nineKeybordButtonTextView1"
+        style="@style/NineKeybordButtonText" />
+
+    <TextView
+        android:id="@+id/nineKeybordButtonTextView2"
+        style="@style/NineKeybordButtonText" />
+
+    <TextView
+        android:id="@+id/nineKeybordButtonTextView3"
         android:layout_width="match_parent"
-        android:layout_height="5dp"               
-        android:visibility="gone" 
-        />
+        android:layout_height="20pt"
+        android:visibility="gone" />
 </LinearLayout>

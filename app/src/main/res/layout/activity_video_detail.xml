@@ -15,23 +15,23 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="30dp">
+            android:layout_height="56pt"
+            android:layout_marginLeft="60pt"
+            android:layout_marginTop="60pt"
+            android:layout_marginRight="60pt" >
 
 
             <Button
                 android:id="@+id/btn_search"
-                android:layout_width="246dp"
-                android:layout_height="28dp"
+                android:layout_width="562pt"
+                android:layout_height="56pt"
                 android:background="@drawable/tv_bug_search_bg"
-                android:drawableStart="@drawable/system_serchb"
+                android:drawableStart="@drawable/svg_search"
                 android:nextFocusRight="@+id/btn_free_trial"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20pt"
                 android:text="@string/hide_search"
                 android:textColor="@color/font_gray_white"
-                android:textSize="12sp" />
+                android:textSize="24sp" />
 
 
             <TextView
@@ -39,23 +39,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="38dp"
+                android:layout_marginRight="76pt"
                 android:text="@string/app_name"
                 android:textColor="@color/tv_f1f1f1"
-                android:textSize="18sp" />
+                android:textSize="36sp" />
 
 
             <TextClock
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="19dp"
+                android:layout_marginRight="38pt"
                 android:layout_toLeftOf="@+id/tv_app_name"
                 tools:text="15:42"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
                 android:textStyle="bold"
                 android:textColor="@color/tv_f1f1f1"
-                android:textSize="18sp" />
+                android:textSize="36sp" />
 
 
         </RelativeLayout>
@@ -72,21 +72,21 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="27dp"
-                    android:layout_marginRight="30dp">
+                    android:layout_height="520pt"
+                    android:layout_marginLeft="60pt"
+                    android:layout_marginTop="54pt"
+                    android:layout_marginRight="60pt" >
 
                     <RelativeLayout
                         android:id="@+id/rl_video_img"
-                        android:layout_width="469dp"
+                        android:layout_width="938pt"
                         android:layout_height="match_parent"
                         android:background="@drawable/bg_video_cover"
-                        android:padding="2dp">
+                        android:padding="4pt" >
 
                         <ImageView
                             android:id="@+id/iv_video_cover"
-                            android:layout_width="469dp"
+                            android:layout_width="938pt"
                             android:layout_height="match_parent"
                             android:scaleType="fitXY"
                             tools:src="@drawable/img_home" />
@@ -110,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/rl_video_img"
                         android:orientation="vertical"
-                        android:paddingLeft="15dp">
+                        android:paddingLeft="30pt" >
 
                         <TextView
                             android:id="@+id/tv_video_title"
@@ -119,29 +119,29 @@
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:textColor="#fff0f0f0"
-                            android:textSize="16sp"
+                            android:textSize="32sp"
                             tools:text="面肌痉挛的治疗方法有哪些？" />
 
                         <TextView
                             android:id="@+id/tv_video_teacher"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="30pt"
                             android:text=""
                             android:textColor="#fff0f0f0"
-                            android:textSize="16sp" />
+                            android:textSize="32sp" />
 
 
                         <TextView
                             android:id="@+id/tv_video_teacher_desc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="30pt"
                             android:text="简介：中国医学科学院阜外医院 原院长 博士生导师"
                             android:textColor="#F1F1F1"
                             android:maxLines="6"
                             android:ellipsize="end"
-                            android:textSize="15sp" />
+                            android:textSize="30sp" />
 
                         <View
                             android:layout_width="wrap_content"
@@ -154,33 +154,33 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="36dp">
+                            android:layout_marginBottom="72pt">
 
                             <Button
                                 android:id="@+id/btn_free_trial"
-                                android:layout_width="98dp"
-                                android:layout_height="28dp"
+                                android:layout_width="196pt"
+                                android:layout_height="56pt"
                                 android:background="@drawable/btn_select_bg"
                                 android:focusable="auto"
                                 android:nextFocusLeft="@id/btn_search"
                                 android:nextFocusRight="@+id/btn_purchase"
                                 android:text="@string/watch_now"
                                 android:textColor="@color/tv_f1f1f1"
-                                android:textSize="14sp" >
+                                android:textSize="28sp" >
                                 <requestFocus></requestFocus>
                             </Button>
 
                             <Button
                                 android:id="@+id/btn_purchase"
-                                android:layout_width="98dp"
-                                android:layout_height="28dp"
-                                android:layout_marginLeft="28dp"
+                                android:layout_width="196pt"
+                                android:layout_height="56pt"
+                                android:layout_marginLeft="56pt"
                                 android:background="@drawable/btn_select_bg"
                                 android:focusable="auto"
                                 android:nextFocusDown="@+id/gridviewtv"
                                 android:text="@string/purchase"
                                 android:textColor="@color/tv_f1f1f1"
-                                android:textSize="14sp" />
+                                android:textSize="28sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -196,10 +196,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/btn_search"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginBottom="30dp"
+                        android:layout_marginLeft="60pt"
+                        android:layout_marginTop="60pt"
+                        android:layout_marginRight="60pt"
+                        android:layout_marginBottom="60pt"
                         android:focusable="false"
                         android:focusableInTouchMode="false">
 
@@ -209,13 +209,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clipChildren="false"
-                            android:columnWidth="189dp"
+                            android:columnWidth="378pt"
                             android:gravity="center_vertical"
-                            android:horizontalSpacing="5dp"
+                            android:horizontalSpacing="10pt"
                             android:nextFocusUp="@+id/btn_free_trial"
                             android:numColumns="auto_fit"
                             android:scrollbars="none"
-                            android:verticalSpacing="5dp" />
+                            android:verticalSpacing="10pt"  />
                     </FrameLayout>
                 </com.yxws.tvwidget.view.SmoothHorizontalScrollView>
             </LinearLayout>
