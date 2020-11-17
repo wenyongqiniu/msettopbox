@@ -86,8 +86,8 @@ public class NineKeybordButton extends LinearLayout implements OnFocusChangeList
     }
 
     private void setFocued() {
-        mTextView1.setTextColor(getResources().getColor(R.color.colorGreen));
-        mTextView2.setTextColor(getResources().getColor(R.color.colorGreen));
+        mTextView1.setTextColor(getResources().getColor(R.color.color_3A66B0));
+        mTextView2.setTextColor(getResources().getColor(R.color.color_3A66B0));
     }
 
     private void setUnfocued() {
@@ -339,26 +339,26 @@ public class NineKeybordButton extends LinearLayout implements OnFocusChangeList
 
         switch (letter.length) {
             case 2: {
-                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);//�м�
-                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);//��
+                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);
                 VALUE_ENTER = String.valueOf(letter[0]);
                 VALUE_LEFT = String.valueOf(letter[1]);
                 break;
             }
             case 3: {
-                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);//�м�
-                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);//��
-                canvas.drawText(String.valueOf(letter[2]), width / 2 - letterWidth * 2, height / 6 + letterHeight, textPaint);//��
+                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[2]), width / 2 - letterWidth * 2, height / 6 + letterHeight, textPaint);
                 VALUE_ENTER = String.valueOf(letter[0]);
                 VALUE_LEFT = String.valueOf(letter[1]);
                 VALUE_UP = String.valueOf(letter[2]);
                 break;
             }
             case 4: {
-                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);//�м�
-                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);//��
-                canvas.drawText(String.valueOf(letter[2]), width / 2 - letterWidth * 2, height / 6 + letterHeight, textPaint);//��
-                canvas.drawText(String.valueOf(letter[3]), width * 5 / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);//��
+                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[2]), width / 2 - letterWidth * 2, height / 6 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[3]), width * 5 / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);
                 VALUE_ENTER = String.valueOf(letter[0]);
                 VALUE_LEFT = String.valueOf(letter[1]);
                 VALUE_UP = String.valueOf(letter[2]);
@@ -366,11 +366,11 @@ public class NineKeybordButton extends LinearLayout implements OnFocusChangeList
                 break;
             }
             case 5: {
-                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);//�м�
-                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);//��
-                canvas.drawText(String.valueOf(letter[2]), width / 2 - letterWidth * 2, height / 6 + letterHeight, textPaint);//��
-                canvas.drawText(String.valueOf(letter[3]), width * 5 / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);//��
-                canvas.drawText(String.valueOf(letter[4]), width / 2 - letterWidth * 2, height * 5 / 6 + letterHeight, textPaint);//��
+                canvas.drawText(String.valueOf(letter[0]), width / 2 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[1]), width / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[2]), width / 2 - letterWidth * 2, height / 6 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[3]), width * 5 / 6 - letterWidth * 2, height / 2 + letterHeight, textPaint);
+                canvas.drawText(String.valueOf(letter[4]), width / 2 - letterWidth * 2, height * 5 / 6 + letterHeight, textPaint);
                 VALUE_ENTER = String.valueOf(letter[0]);
                 VALUE_LEFT = String.valueOf(letter[1]);
                 VALUE_UP = String.valueOf(letter[2]);

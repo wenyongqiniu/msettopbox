@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetricsInt;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -45,8 +46,10 @@ public class SoftKeyboardView extends View {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG);
+        mPaint.setAntiAlias(true);//抗锯齿
+        mPaint.setDither(true);//防抖动
+        mPaint.setStyle(Paint.Style.FILL);
         mFmi = mPaint.getFontMetricsInt();
     }
 
@@ -75,7 +78,7 @@ public class SoftKeyboardView extends View {
             mCacheBitmap = createCacheBitmap();
             Canvas canvas = new Canvas(mCacheBitmap);
             // 绘制键盘背景.
-            drawKeyboardBg(canvas);
+//            drawKeyboardBg(canvas);
             // 绘制键盘的按键.
             int rowNum = this.mSoftKeyboard.getRowNum();
             for (int row = 0; row < rowNum; row++) {
@@ -120,15 +123,15 @@ public class SoftKeyboardView extends View {
      * 绘制键盘的背景.
      */
     private void drawKeyboardBg(Canvas canvas) {
-//		Drawable bg = mSoftKeyboard.getKeyboardBg();
-//		Rect rect = new Rect(0, 0, getWidth(), getHeight());
-//		if (bg != null) {
-//			bg.setBounds(rect);
-//			bg.draw(canvas);
-//		} else {
-//			Paint paint = new Paint();
-//			canvas.drawRect(rect, paint);
-//		}
+        Drawable bg = mSoftKeyboard.getKeyboardBg();
+        Rect rect = new Rect(0, 0, getWidth(), getHeight());
+        if (bg != null) {
+            bg.setBounds(rect);
+            bg.draw(canvas);
+        } else {
+            Paint paint = new Paint();
+            canvas.drawRect(rect, paint);
+        }
     }
 
     /**
@@ -156,14 +159,24 @@ public class SoftKeyboardView extends View {
         if (isDrawState && mIsFront) {
             return;
         }
-        // 绘制按键内容.
-        String keyLabel = softKey.getKeyLabel();
-        Drawable keyIcon = softKey.getKeyIcon();
-        if (keyIcon != null) {
-            drawSoftKeyIcon(canvas, softKey, keyIcon);
-        } else if (!TextUtils.isEmpty(keyLabel)) {
-            drawSoftKeyText(canvas, softKey, keyLabel);
-        }
+
+    }
+
+    private void drawSoftKeyUnSelectState(Canvas canvas, SoftKey softKey) {
+        //        mPaint.setTextSize(softKey.getTextSize()); // 文本大小.
+        mPaint.setColor(softKey.getTextColor()); // 文本颜色.
+        mFmi = mPaint.getFontMetricsInt();
+        int fontHeight = mFmi.bottom - mFmi.top; // 字體的高度.
+        float fontWidth = mPaint.measureText(softKey.getKeyLabel());
+        float marginX = (softKey.getWidth() - fontWidth) / 2.0f;
+        float marginY = (softKey.getHeight() - fontHeight) / 2.0f;
+        float x = softKey.getLeftF() + marginX;
+        // float y = softKey.getTopF() - (mFmi.top) + marginY;
+        /**
+         * +1，绘制文字的地方才不会出现问题。
+         */
+        float y = softKey.getTopF() - (mFmi.top + 1) + marginY;
+        canvas.drawText(softKey.getKeyLabel(), x, y, mPaint);
     }
 
     /**
@@ -187,6 +200,7 @@ public class SoftKeyboardView extends View {
     private void drawSoftKeyText(Canvas canvas, SoftKey softKey, String keyLabel) {
         mPaint.setTextSize(softKey.getTextSize()); // 文本大小.
         mPaint.setColor(softKey.getTextColor()); // 文本颜色.
+
         mFmi = mPaint.getFontMetricsInt();
         int fontHeight = mFmi.bottom - mFmi.top; // 字體的高度.
         float fontWidth = mPaint.measureText(keyLabel);
@@ -212,6 +226,25 @@ public class SoftKeyboardView extends View {
             bgDrawable.setBounds(rect);
             bgDrawable.draw(canvas);
         }
+
+
+        mPaint.setFakeBoldText(true);
+        mPaint.setTypeface(Typeface.DEFAULT_BOLD);// 采用默认的
+        mPaint.setFilterBitmap(true);
+        mPaint.setTextSize(softKey.getTextSize());
+        mPaint.setColor(softKey.getTextColor()); // 文本颜色.
+        mFmi = mPaint.getFontMetricsInt();
+        int fontHeight = mFmi.bottom - mFmi.top; // 字體的高度.
+        float fontWidth = mPaint.measureText(softKey.getKeyLabel());
+        float marginX = (softKey.getWidth() - fontWidth) / 2.0f;
+        float marginY = (softKey.getHeight() - fontHeight) / 2.0f;
+        float x = softKey.getLeftF() + marginX;
+        // float y = softKey.getTopF() - (mFmi.top) + marginY;
+        /**
+         * +1，绘制文字的地方才不会出现问题。
+         */
+        float y = softKey.getTopF() - (mFmi.top + 1) + marginY;
+        canvas.drawText(softKey.getKeyLabel(), x, y, mPaint);
     }
 
     /**
@@ -222,10 +255,31 @@ public class SoftKeyboardView extends View {
         if (selectDrawable != null) {
             Rect rect = mIsMoveRect ? softKey.getMoveRect() : softKey.getRect();
             int padding = this.mSelectBgPadding;
-            rect = new Rect(rect.left - padding, rect.top - padding, rect.right + padding, rect.bottom + padding);
+            rect = new Rect(rect.left - padding - 5, rect.top - padding - 5, rect.right + padding + 5, rect.bottom + padding + 5);
             selectDrawable.setBounds(rect);
             selectDrawable.draw(canvas);
         }
+
+        mPaint.setFakeBoldText(true);
+        mPaint.setTypeface(Typeface.DEFAULT_BOLD);// 采用默认的
+        mPaint.setFilterBitmap(true);
+        mPaint.setTextSize(softKey.getTextSize()+2); // 文本大小.
+        mPaint.setColor(softKey.getSelectTextColor()); // 文本颜色.
+
+        mFmi = mPaint.getFontMetricsInt();
+        int fontHeight = mFmi.bottom - mFmi.top; // 字體的高度.
+        float fontWidth = mPaint.measureText(softKey.getKeyLabel());
+        float marginX = (softKey.getWidth() - fontWidth) / 2.0f;
+        float marginY = (softKey.getHeight() - fontHeight) / 2.0f;
+        float x = softKey.getLeftF() + marginX;
+        // float y = softKey.getTopF() - (mFmi.top) + marginY;
+        /**
+         * +1，绘制文字的地方才不会出现问题。
+         */
+        float y = softKey.getTopF() - (mFmi.top + 1) + marginY;
+        canvas.drawText(softKey.getKeyLabel(), x, y, mPaint);
+
+
     }
 
     /**

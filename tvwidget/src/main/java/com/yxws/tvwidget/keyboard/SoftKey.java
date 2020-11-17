@@ -31,6 +31,7 @@ public class SoftKey {
 
 	private float mTextSize; // 字体大小.
 	private int mTextColor; // 字体颜色.
+	private int mSelectTextColor; // 选中字体颜色.
 
 	private boolean isSelected;
 	private boolean isPressed; // 是否按下.
@@ -87,6 +88,14 @@ public class SoftKey {
 		this.mNextBottomKey.key = nextBottomKey;
 		this.mNextBottomKey.row = row;
 		this.mNextBottomKey.index = index;
+	}
+
+	public int getSelectTextColor() {
+		return mSelectTextColor;
+	}
+
+	public void setSelectTextColor(int selectTextColor) {
+		mSelectTextColor = selectTextColor;
 	}
 
 	public Drawable getKeyPressDrawable() {

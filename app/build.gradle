@@ -94,6 +94,8 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     //tvrecyclerview
     implementation 'com.henryblue.library:tvrecyclerview:1.2.4'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'com.android.support:leanback-v17:28.0.0'   //主要是这个
 
 }
 preBuild {

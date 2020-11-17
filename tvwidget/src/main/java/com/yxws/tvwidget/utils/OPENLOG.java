@@ -3,6 +3,8 @@ package com.yxws.tvwidget.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.yxws.tvwidget.BuildConfig;
+
 /**
  * 使用：
  * OPENLOG.initTag("hailongqiu", true); // 测试LOG输出.
@@ -16,8 +18,8 @@ import android.util.Log;
  */
 public class OPENLOG {
 
-    private static String sTag = "";
-    private static boolean sDebug = false;
+    private static String sTag = "wlxlog";
+    private static boolean sDebug = BuildConfig.DEBUG;
 
     /**
      * 初始化tag信息.

@@ -61,7 +61,7 @@
 
             <Button
                 android:id="@+id/btn_search"
-                android:layout_width="562pt"
+                android:layout_width="250pt"
                 android:layout_height="56pt"
                 android:layout_marginLeft="30pt"
                 android:layout_marginTop="60pt"

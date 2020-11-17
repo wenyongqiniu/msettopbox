@@ -12,6 +12,8 @@ import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.util.List;
 
+import me.jessyan.autosize.utils.AutoSizeUtils;
+
 public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
     public TypeVideoGridViewAdpter(Context context, int layoutId, List<VideoBean> datas) {
         super(context, layoutId, datas);
@@ -24,7 +26,8 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
         viewHolder.setVisible(R.id.iv_video_is_purchase, item.getIsPurchase() == 0 ? true : false);
 
         RequestOptions options = new RequestOptions()
-                .optionalCenterInside()
+                .centerCrop()
+                .override(AutoSizeUtils.pt2px(mContext, 342), AutoSizeUtils.pt2px(mContext, 215))
                 .error(R.drawable.img_default)
                 .placeholder(R.drawable.img_default);
         Glide.with(mContext)

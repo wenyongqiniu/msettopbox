@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="60pt"
             android:layout_marginTop="60pt"
-            android:layout_marginRight="60pt"
+            android:layout_marginRight="30pt"
             android:layout_marginBottom="60pt"
             android:layout_weight="1">
 
@@ -38,9 +38,12 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="4pt"
+                android:layout_marginTop="5pt"
                 android:layout_below="@+id/lemon95_movie_msg_id"
-                android:layout_marginLeft="60pt"
-                android:layout_marginRight="30pt"
+                android:layout_alignLeft="@+id/lemon95_movie_msg_id"
+                android:layout_alignRight="@+id/lemon95_movie_msg_id"
+                android:layout_marginRight="15pt"
+                android:layout_marginLeft="15pt"
                 android:background="@color/tv_ffffff" />
 
             <com.yxws.tvwidget.keyboard.SkbContainer

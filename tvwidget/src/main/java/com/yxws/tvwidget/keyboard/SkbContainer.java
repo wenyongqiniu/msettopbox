@@ -84,7 +84,7 @@ public class SkbContainer extends RelativeLayout implements SoftKeyBoardable {
             mSkbLayout = layoutID;
             updateSkbLayout(); // 更新软键盘布局.
             requestLayout(); // 重新加载软键盘高度.
-            setDefualtSelectKey(0, 0); // 设置默认选中的按键.
+            setDefualtSelectKey(2, 2); // 设置默认选中的按键.
         }
         if (mSoftKeyboardView != null) {
             SoftKeyboard skb = mSoftKeyboardView.getSoftKeyboard();

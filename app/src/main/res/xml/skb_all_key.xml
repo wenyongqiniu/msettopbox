@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Keyboard
-    bg_res="@drawable/key_bg_main"
-    key_bg_res="@drawable/key_bg_rectangle"
+    bg_res="@drawable/softkey_bg_main"
+    key_bg_res="@drawable/softkey_bg_oval"
     key_height="70dp"
     key_left_padding="20dp"
-    key_select_res="@drawable/softkey_bg_select"
+    key_select_res="@drawable/softkey_bg_select_oval"
     key_text_color="#FFFFFF"
+    key_text_select_color="#3A66B0"
     key_text_size="36dp"
     key_top_padding="20dp"
     key_width="70dp"
@@ -63,20 +64,22 @@
             key_code="250"
             key_label="123"
             key_text_size="30dp"
-            key_width="80dp"/>
+            key_width="160dp"
+            key_bg_res="@drawable/softkey_bg_rectangle"
+            key_select_res="@drawable/softkey_bg_select_rectangle"/>
 
         <key
             key_code="54"
             key_label="Z"
-            key_text_size="30dp" />
+            key_text_size="30dp"/>
         <key
             key_code="28"
             key_label="清空"
-            key_text_size="30dp" />
+            key_text_size="30dp"    />
         <key
             key_code="67"
             key_label="删除"
-            key_text_size="30dp" />
+            key_text_size="30dp"  />
 
     </row>
 

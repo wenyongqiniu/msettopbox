@@ -27,7 +27,7 @@
 
             <Button
                 android:id="@+id/btn_search"
-                android:layout_width="400pt"
+                android:layout_width="250pt"
                 android:layout_height="56pt"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/svg_search"

@@ -91,20 +91,15 @@ public class WebViewActivity extends AppCompatActivity {
     private void addImageListner(WebView webView) {
         //遍历页面中所有img的节点，因为节点里面的图片的url即objs[i].src，保存所有图片的src.
         //为每个图片设置点击事件，objs[i].onclick
-        webView.loadUrl("javascript:(function(){" +
-                "window.addEventListener('keyup',function(e){"
-                + "window.core.finish('keyup-'+e.keyCode);" +
-                "});"
-                + "})()");
-
-
+        if (webView.getUrl().contains("/api/pay/callback")) {
+            webView.loadUrl("javascript:(function(){" +
+                    "window.addEventListener('keyup',function(e){"
+                    + "window.core.finish('keyup-'+e.keyCode);" +
+                    "});"
+                    + "})()");
+        }
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        KLog.e("wlx", " keyCode  " + keyCode);
-        return super.onKeyUp(keyCode, event);
-    }
 
     private HomeRecaiver mHomeRecaiver;
 

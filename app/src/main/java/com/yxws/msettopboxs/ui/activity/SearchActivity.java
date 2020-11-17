@@ -91,6 +91,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
 
         // 设置属性(默认是不移动的选中边框)
         setSkbContainerOther();
+
         skbContainer.setOnSoftKeyBoardListener(new SoftKeyBoardListener() {
             @Override
             public void onCommitText(SoftKey softKey) {
@@ -135,7 +136,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                     if (mOldSoftKey != null)
                         skbContainer.setKeySelected(mOldSoftKey);
                     else
-                        skbContainer.setDefualtSelectKey(0, 0);
+                        skbContainer.setDefualtSelectKey(2, 2);
                 } else {
                     mOldSoftKey = skbContainer.getSelectKey();
                     skbContainer.setKeySelected(null);
@@ -228,7 +229,6 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
      * 需要重新设置(不用参考我的,只是DEMO)
      */
     private void setSkbContainerOther() {
-        mOldSoftKey = null;
         skbContainer.setMoveSoftKey(false);
         skbContainer.setSoftKeySelectPadding(0);
         skbContainer.setSelectSofkKeyFront(false);

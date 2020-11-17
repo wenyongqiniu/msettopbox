@@ -73,6 +73,7 @@ public class XmlKeyboardLoader {
 
 	private static final String XMLATTR_TEXT_SIZE = "key_text_size";
 	private static final String XMLATTR_TEXT_COLOR = "key_text_color"; // 文本颜色.
+	private static final String XMLATTR_TEXT_SEECT_COLOR = "key_text_select_color"; // 文本选中颜色.
  	private static final String XMLATTR_KEY_WIDTH = "key_width";
 	private static final String XMLATTR_KEY_HEIGHT = "key_height";
 
@@ -239,6 +240,7 @@ public class XmlKeyboardLoader {
 		String keyLabel = getString(xrp, XMLATTR_KEY_LABEL, null); // key_label
 		float textSize = getFloat(xrp, XMLATTR_TEXT_SIZE, attrKey.mTextSize); // 按键文本字体大小
 		int textColor = getColor(xrp, XMLATTR_TEXT_COLOR, attrKey.mTextColor); // 按键文本颜色.
+		int textSelectColor = getColor(xrp, XMLATTR_TEXT_SEECT_COLOR, attrKey.mTextSelectColor); // 按键文本颜色.
 		//
 		float left, right, top = 0, bottom;
 		left = mSaveKeyXPos + attrKey.mKeyXPos + attrKey.mKeyLeftPadding;
@@ -257,6 +259,7 @@ public class XmlKeyboardLoader {
 		softKey.setKeyLabel(keyLabel);
 		softKey.setKeyIcon(keyIcon);
 		softKey.setTextColor(textColor);
+		softKey.setSelectTextColor(textSelectColor);
 		softKey.setKeyCode(keyCode); // 自定义的一些值,比如删除,回车.
 		softKey.setKeySelectDrawable(attrKey.mKeySelectDrawable); // 设置选中的图片.
 		softKey.setKeyPressDrawable(attrKey.mKeyPressDrawable); // 按下的图片.
@@ -281,7 +284,7 @@ public class XmlKeyboardLoader {
 		float mkeyBottomPadding;
 		float mTextSize = KEY_TEXT_SIZE;
 		int mTextColor = Color.RED; // 按键文本颜色.
-
+		int mTextSelectColor = Color.BLUE; // 按键文本颜色.
 		Drawable mKeySelectDrawable;
 		Drawable mKeyPressDrawable;
 		Drawable mKeyBgDrawable;
@@ -303,6 +306,7 @@ public class XmlKeyboardLoader {
 			this.keyHeight = getFloat(mXrp, XMLATTR_KEY_HEIGHT, defAttr.keyHeight);
 			this.mTextSize = getFloat(mXrp, XMLATTR_TEXT_SIZE, defAttr.mTextSize); // 按键文本大小.
 			this.mTextColor = getColor(mXrp, XMLATTR_TEXT_COLOR, defAttr.mTextColor); // 按键文本颜色.
+			this.mTextSelectColor = getColor(mXrp, XMLATTR_TEXT_SEECT_COLOR, defAttr.mTextSelectColor); // 按键选中文本颜色.
 			return true;
 		}
 	}

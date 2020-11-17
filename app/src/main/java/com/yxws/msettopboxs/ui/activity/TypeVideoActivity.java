@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
@@ -110,6 +111,14 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
             }
         });
+        lvVideoMenuId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus &&mTypeListMenu2Adpter!=null){
+                    mTypeListMenu2Adpter.setSelectPosition(-1);
+                }
+            }
+        });
         mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type, mSearchLevel2);
         lvVideoMenuId2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -185,8 +194,8 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
                     }
                     mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     mOpenEffectBridge.setVisibleWidget(false);
-                    mOldGridView.bringToFront();
                     mainUpView2.setFocusView(mOldGridView, 1.1f);
+                    mOldGridView.bringToFront();
 
                 } else {
                     mOpenEffectBridge.setVisibleWidget(true); // 隐藏
@@ -244,10 +253,12 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
     public void setSearchLevel2(List<TypeListMenuBean> searchLevelBeanData) {
         mSearchLevel2.clear();
         mSearchLevel2.addAll(searchLevelBeanData);
+        mTypeListMenu2Adpter.setSecondPosition(-1);
         mTypeListMenu2Adpter.notifyDataSetChanged();
         if (mSearchLevel2 != null && mSearchLevel2.size() > 0) {
             //应客户需求默认改为第一个
             getP().getVideo(mSearchLevel2.get(0).getCpAlbumId());
+            lvVideoMenuId2.setSelection(0);
         }
     }
 

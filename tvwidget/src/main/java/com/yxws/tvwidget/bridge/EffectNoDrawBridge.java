@@ -7,7 +7,10 @@ import android.animation.ObjectAnimator;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.yxws.tvwidget.utils.Utils;
@@ -17,120 +20,136 @@ import com.yxws.tvwidget.utils.Utils;
  * 为了兼容4.3以下版本的 AnimBridge. <br>
  * 使用方法： MainUpView.setAnimBridge(new AnimNoDrawBridge()); <br>
  * 如果边框带了阴影效果，使用这个函数自行调整: MainUpView.setDrawUpRectPadding(-12);
- * 
- * @author hailongqiu
  *
+ * @author hailongqiu
  */
 public class EffectNoDrawBridge extends OpenEffectBridge {
-	protected AnimatorSet mCurrentAnimatorSet;
+    protected AnimatorSet mCurrentAnimatorSet;
 
-	/**
-	 * 设置背景，边框不使用绘制.
-	 */
-	@Override
-	public void setUpRectResource(int resId) {
-		getMainUpView().setBackgroundResource(resId);
-	}
+    /**
+     * 设置背景，边框不使用绘制.
+     */
+    @Override
+    public void setUpRectResource(int resId) {
+        getMainUpView().setBackgroundResource(resId);
+    }
 
-	@Override
-	public void setUpRectDrawable(Drawable upRectDrawable) {
-		getMainUpView().setBackgroundDrawable(upRectDrawable);
-	}
+    @Override
+    public void setUpRectDrawable(Drawable upRectDrawable) {
+        getMainUpView().setBackgroundDrawable(upRectDrawable);
+    }
 
-	@Override
-	public void onOldFocusView(View oldFocusView, float scaleX, float scaleY) {
-		if (!isAnimEnabled())
-			return;
-		if (oldFocusView != null) {
-			oldFocusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
-		}
-	}
+    @Override
+    public void onOldFocusView(View oldFocusView, float scaleX, float scaleY) {
+        if (!isAnimEnabled())
+            return;
+        if (oldFocusView != null) {
+//            if (Build.VERSION.SDK_INT >= 21) {
+//                //抬高Z轴
+//                ViewCompat.animate(oldFocusView).scaleX(scaleX).scaleY(scaleY).translationZ(1).start();
+//            } else {
+//                ViewCompat.animate(oldFocusView).scaleX(scaleX).scaleY(scaleY).start();
+//            }
+        }
+    }
 
-	@Override
-	public void onFocusView(View focusView, float scaleX, float scaleY) {
-		if (!isAnimEnabled())
-			return;
-		if (focusView != null) {
-			/**
-			 * 我这里重写了onFocusView. <br>
-			 * 并且交换了位置. <br>
-			 * 你可以写自己的动画效果. <br>
-			 */
-			runTranslateAnimation(focusView, scaleX, scaleY);
-//			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
-		}
-	}
+    @Override
+    public void onFocusView(View focusView, float scaleX, float scaleY) {
+        if (!isAnimEnabled())
+            return;
+        if (focusView != null) {
+            /**
+             * 我这里重写了onFocusView. <br>
+             * 并且交换了位置. <br>
+             * 你可以写自己的动画效果. <br>
+             */
+            runTranslateAnimation(focusView, scaleX, scaleY);
+//            if (Build.VERSION.SDK_INT >= 21) {
+//                //抬高Z轴
+//                ViewCompat.animate(focusView)
+//                        .scaleX(scaleX)
+//                        .scaleX(scaleY)
+//                        .scaleXBy(scaleX-1).scaleYBy(scaleY-1).translationZ(1).start();
+//            } else {
+//                ViewCompat.animate(focusView)
+//                        .scaleX(scaleX)
+//                        .scaleX(scaleY)
+//                        .scaleXBy(scaleX-1)
+//                        .scaleYBy(scaleY-1).start();
+//            }
+        }
+    }
 
-	/**
-	 * 重写边框移动函数.
-	 */
-	@Override
-	public void flyWhiteBorder(final View focusView, View moveView, float scaleX, float scaleY) {
-		Rect paddingRect = getDrawUpRect();
-		int newWidth = 0;
-		int newHeight = 0;
-		int oldWidth = 0;
-		int oldHeight = 0;
-		
-		int newX = 0;
-		int newY = 0;
-		
-		if (focusView != null) {
-			newWidth = (int) (focusView.getMeasuredWidth() * scaleX);
-			newHeight = (int) (focusView.getMeasuredHeight() * scaleY);
-			oldWidth = moveView.getMeasuredWidth();
-			oldHeight = moveView.getMeasuredHeight();
-			Rect fromRect = findLocationWithView(moveView);
-			Rect toRect = findLocationWithView(focusView);
-			int x = toRect.left - fromRect.left - (paddingRect.left);
-			int y = toRect.top - fromRect.top - (paddingRect.top);
-			newX = x - Math.abs(focusView.getMeasuredWidth() - newWidth) / 2;
-			newY = y - Math.abs(focusView.getMeasuredHeight() - newHeight) / 2;
-			//
-			newWidth += (paddingRect.right + paddingRect.left);
-			newHeight += (paddingRect.bottom + paddingRect.top);
-		}
+    /**
+     * 重写边框移动函数.
+     */
+    @Override
+    public void flyWhiteBorder(final View focusView, View moveView, float scaleX, float scaleY) {
+        Rect paddingRect = getDrawUpRect();
+        int newWidth = 0;
+        int newHeight = 0;
+        int oldWidth = 0;
+        int oldHeight = 0;
 
-		// 取消之前的动画.
-		if (mCurrentAnimatorSet != null)
-			mCurrentAnimatorSet.cancel();
+        int newX = 0;
+        int newY = 0;
 
-		ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(moveView, "translationX", newX);
-		ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(moveView, "translationY", newY);
-		// BUG，因为缩放会造成图片失真(拉伸).
-		// hailong.qiu 2016.02.26 修复 :)
-		ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(moveView), "width", oldWidth,
-				(int) newWidth);
-		ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(moveView), "height", oldHeight,
-				(int) newHeight);
-		//
-		AnimatorSet mAnimatorSet = new AnimatorSet();
-		mAnimatorSet.playTogether(transAnimatorX, transAnimatorY, scaleXAnimator, scaleYAnimator);
-		mAnimatorSet.setInterpolator(new DecelerateInterpolator(1));
-		mAnimatorSet.setDuration(getTranDurAnimTime());
-		mAnimatorSet.addListener(new AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator animation) {
-				if (isVisibleWidget()) {
-					getMainUpView().setVisibility(View.GONE);
-				}
-				if (getNewAnimatorListener() != null)
-					getNewAnimatorListener().onAnimationStart(EffectNoDrawBridge.this, focusView, animation);
-			}
+        if (focusView != null) {
+            newWidth = (int) (focusView.getMeasuredWidth() * scaleX);
+            newHeight = (int) (focusView.getMeasuredHeight() * scaleY);
+            oldWidth = moveView.getMeasuredWidth();
+            oldHeight = moveView.getMeasuredHeight();
+            Rect fromRect = findLocationWithView(moveView);
+            Rect toRect = findLocationWithView(focusView);
+            int x = toRect.left - fromRect.left - (paddingRect.left);
+            int y = toRect.top - fromRect.top - (paddingRect.top);
+            newX = x - Math.abs(focusView.getMeasuredWidth() - newWidth) / 2;
+            newY = y - Math.abs(focusView.getMeasuredHeight() - newHeight) / 2;
+            //
+            newWidth += (paddingRect.right + paddingRect.left);
+            newHeight += (paddingRect.bottom + paddingRect.top);
+        }
 
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-			}
+        // 取消之前的动画.
+        if (mCurrentAnimatorSet != null)
+            mCurrentAnimatorSet.cancel();
 
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				getMainUpView().setVisibility(isVisibleWidget() ? View.GONE : View.VISIBLE);
-				if (getNewAnimatorListener() != null)
-					getNewAnimatorListener().onAnimationEnd(EffectNoDrawBridge.this, focusView, animation);
+        ObjectAnimator transAnimatorX = ObjectAnimator.ofFloat(moveView, "translationX", newX);
+        ObjectAnimator transAnimatorY = ObjectAnimator.ofFloat(moveView, "translationY", newY);
+        // BUG，因为缩放会造成图片失真(拉伸).
+        // hailong.qiu 2016.02.26 修复 :)
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofInt(new ScaleView(moveView), "width", oldWidth,
+                (int) newWidth);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofInt(new ScaleView(moveView), "height", oldHeight,
+                (int) newHeight);
+        //
+        AnimatorSet mAnimatorSet = new AnimatorSet();
+        mAnimatorSet.playTogether(transAnimatorX, transAnimatorY, scaleXAnimator, scaleYAnimator);
+        mAnimatorSet.setInterpolator(new DecelerateInterpolator(1));
+        mAnimatorSet.setDuration(getTranDurAnimTime());
+        mAnimatorSet.addListener(new AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (isVisibleWidget()) {
+                    getMainUpView().setVisibility(View.GONE);
+                }
+                if (getNewAnimatorListener() != null)
+                    getNewAnimatorListener().onAnimationStart(EffectNoDrawBridge.this, focusView, animation);
+            }
 
-				// XF add（先锋TV开发(404780246)修复)
-				// BUG:5.0系统边框错位.
-				if (Utils.getSDKVersion() >= 21) {
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                getMainUpView().setVisibility(isVisibleWidget() ? View.GONE : View.VISIBLE);
+                if (getNewAnimatorListener() != null)
+                    getNewAnimatorListener().onAnimationEnd(EffectNoDrawBridge.this, focusView, animation);
+
+                // XF add（先锋TV开发(404780246)修复)
+                // BUG:5.0系统边框错位.
+                if (Utils.getSDKVersion() >= 21) {
 //					int newWidth = (int) (focusView.getMeasuredWidth() *
 //							mScaleX);
 //					int newHeight = (int) (focusView.getMeasuredHeight() *
@@ -138,24 +157,24 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 //					getMainUpView().getLayoutParams().width = newWidth;
 //					getMainUpView().getLayoutParams().height = newHeight;
 //					getMainUpView().requestLayout();
-				}
-			}
+                }
+            }
 
-			@Override
-			public void onAnimationCancel(Animator animation) {
-			}
-		});
-		mAnimatorSet.start();
-		mCurrentAnimatorSet = mAnimatorSet;
-	}
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+        });
+        mAnimatorSet.start();
+        mCurrentAnimatorSet = mAnimatorSet;
+    }
 
-	/**
-	 * 重写该函数，<br>
-	 * 不进行绘制 边框和阴影.
-	 */
-	@Override
-	public boolean onDrawMainUpView(Canvas canvas) {
-		return false;
-	}
+    /**
+     * 重写该函数，<br>
+     * 不进行绘制 边框和阴影.
+     */
+    @Override
+    public boolean onDrawMainUpView(Canvas canvas) {
+        return false;
+    }
 
 }
