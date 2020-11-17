@@ -1,5 +1,6 @@
 package com.yxws.msettopboxs.ui.activity;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +11,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -19,11 +23,15 @@ import android.webkit.WebViewClient;
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_HOME_KEY;
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class WebViewActivity extends AppCompatActivity {
         //自适应屏幕
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
-
+        webView.addJavascriptInterface(new JavascriptInterface(this), "core");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -65,6 +73,7 @@ public class WebViewActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                addImageListner(webView);
             }
 
             @Override
@@ -74,14 +83,33 @@ public class WebViewActivity extends AppCompatActivity {
                 KLog.e(error);
             }
         });
-        webView.loadUrl(payUrl);
+        webView.loadUrl("https://yxwstv.com/api/pay/callback");
         initReceiver();
+
     }
 
-    private  HomeRecaiver mHomeRecaiver;
+    private void addImageListner(WebView webView) {
+        //遍历页面中所有img的节点，因为节点里面的图片的url即objs[i].src，保存所有图片的src.
+        //为每个图片设置点击事件，objs[i].onclick
+        webView.loadUrl("javascript:(function(){" +
+                "window.addEventListener('keyup',function(e){"
+                + "window.core.finish('keyup-'+e.keyCode);" +
+                "});"
+                + "})()");
+
+
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        KLog.e("wlx", " keyCode  " + keyCode);
+        return super.onKeyUp(keyCode, event);
+    }
+
+    private HomeRecaiver mHomeRecaiver;
 
     private void initReceiver() {
-        mHomeRecaiver = new  HomeRecaiver();
+        mHomeRecaiver = new HomeRecaiver();
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mHomeRecaiver, filter);
     }
@@ -108,4 +136,20 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
+    class JavascriptInterface {
+        private Activity mActivity;
+
+        public JavascriptInterface(Activity activity) {
+            this.mActivity = activity;
+
+        }
+
+        @android.webkit.JavascriptInterface
+        public void finish(String key) {
+            KLog.e("wlx", "finish  " + key);
+            if ("keyup-13".equals(key)) {
+                mActivity.finish();
+            }
+        }
+    }
 }

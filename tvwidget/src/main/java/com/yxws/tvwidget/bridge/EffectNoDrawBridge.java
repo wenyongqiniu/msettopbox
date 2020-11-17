@@ -57,7 +57,7 @@ public class EffectNoDrawBridge extends OpenEffectBridge {
 			 * 你可以写自己的动画效果. <br>
 			 */
 			runTranslateAnimation(focusView, scaleX, scaleY);
-			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
+//			focusView.animate().scaleX(scaleX).scaleY(scaleY).setDuration(getTranDurAnimTime()).start();
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.yxws.tvwidget.custom.adapter;
+package com.yxws.tvwidget.view.adapter;
 
 
 /**

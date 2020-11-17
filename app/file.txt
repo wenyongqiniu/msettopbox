@@ -28,3 +28,17 @@
 
     列表：获取小图  现在字段 tvPicHead    /api/home/searchAllVideoUploadTvlistByCpAlbumId?cpAlbumId=159064924718699
     视频详情：获取大图 /api/home/searchVideoUploadTvlistById?id=652
+
+
+
+{
+	"action": "com.yxws.msettopboxs.ui.activity.VideoDetailActivity",
+	"package": "com.yxws.msettopboxs"
+	"component": {
+		"pkg": "com.yxws.msettopboxs",
+		"cls": "com.yxws.msettopboxs.ui.activity.VideoDetailActivity"
+	},
+	"extras": {
+		"id": " 710  ,
+	}
+}

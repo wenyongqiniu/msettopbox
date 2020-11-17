@@ -141,6 +141,7 @@
  public *;
 }
 -keep class com.yxws.msettopboxs.view.t9.*{*;}
+-keep class com.yxws.msettopboxs.view.*{*;}
 -keep class com.yxws.msettopboxs.bean.*{*;}
 
 

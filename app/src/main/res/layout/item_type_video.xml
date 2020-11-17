@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="378pt"
-    android:layout_height="340pt">
+    android:layout_height="340pt"
+    android:clipToPadding="false"
+    android:clipChildren="false">
 
     <RelativeLayout
         android:id="@+id/rl_video_img"
@@ -15,18 +17,25 @@
             android:id="@+id/iv_video_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             tools:src="@drawable/img_default" />
 
-        <ImageView
+        <TextView
             android:id="@+id/iv_video_is_purchase"
-            android:layout_width="100pt"
-            android:layout_height="64pt"
-            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/free" />
+            android:background="@drawable/bg_white"
+            android:paddingLeft="20pt"
+            android:paddingTop="5pt"
+            android:paddingRight="20pt"
+            android:paddingBottom="5pt"
+            android:text="@string/free_str"
+            android:textColor="@color/red"
+            android:textSize="24sp" />
+
     </RelativeLayout>
+
 
 
     <TextView

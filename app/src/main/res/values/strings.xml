@@ -8,6 +8,7 @@
     <string name="app_brief">医学微视简介</string>
     <string name="classification">学科分类</string>
     <string name="free_trial">免费试看</string>
+    <string name="free_str">免费</string>
     <string name="watch_now">立即观看</string>
     <string name="purchase">立即购买</string>
     <string name="lockscreen_transport_play_description">播放</string>

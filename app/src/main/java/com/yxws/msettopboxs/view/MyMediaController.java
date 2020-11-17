@@ -103,6 +103,7 @@ public class MyMediaController extends MediaController {
             if (mProgress instanceof SeekBar) {
                 SeekBar seeker = (SeekBar) mProgress;
                 seeker.requestFocus();
+
                 seeker.setOnClickListener(mPauseListener);
                 seeker.setOnSeekBarChangeListener(mSeekListener);
 

@@ -48,7 +48,8 @@ import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
 public class VideoDetailActivity extends XActivity<VideoDetailPresenter> implements View.OnClickListener {
     private static final String TAG = VideoDetailActivity.class.getName();
     private Button btnSearch;
-    private ImageView ivVideoCover, ivVideoIsPurchase;
+    private ImageView ivVideoCover;
+    private TextView ivVideoIsPurchase;
     private TextView tvVideoTitle, tvVideoTeacher, tvVideoTeacherDesc;
 
     private Button btnFreeTrial, btnPurchase;
@@ -73,7 +74,7 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
 
         btnSearch = (Button) findViewById(R.id.btn_search);
         ivVideoCover = (ImageView) findViewById(R.id.iv_video_cover);
-        ivVideoIsPurchase = (ImageView) findViewById(R.id.iv_video_is_purchase);
+        ivVideoIsPurchase = (TextView) findViewById(R.id.iv_video_is_purchase);
 
         tvVideoTitle = (TextView) findViewById(R.id.tv_video_title);
         tvVideoTeacher = (TextView) findViewById(R.id.tv_video_teacher);

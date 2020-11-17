@@ -1,8 +1,6 @@
 package com.yxws.msettopboxs.ui.activity;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.app.DevInfoManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,29 +8,23 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.socks.library.KLog;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.SearchLevelBean;
 import com.yxws.msettopboxs.bean.TypeListMenuBean;
 import com.yxws.msettopboxs.bean.VideoBean;
-import com.yxws.msettopboxs.config.Constant;
 import com.yxws.msettopboxs.presenter.TypeListPresenter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoGridViewAdpter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoMenu1Adpter;
 import com.yxws.msettopboxs.ui.adpter.TypeVideoMenu2Adpter;
 import com.yxws.msettopboxs.util.ArtUtils;
-import com.yxws.msettopboxs.util.DataHelper;
 import com.yxws.mvp.mvp.XActivity;
 import com.yxws.tvwidget.bridge.EffectNoDrawBridge;
 import com.yxws.tvwidget.bridge.OpenEffectBridge;
-import com.yxws.tvwidget.custom.MemoryListView;
 import com.yxws.tvwidget.view.GridViewTV;
 import com.yxws.tvwidget.view.ListViewTV;
 import com.yxws.tvwidget.view.MainUpView;
@@ -100,9 +92,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         initReceiver();
     }
 
-    private boolean islvVideoMenu1 = false;//lvVideoMenuId是否获取焦点
-
-
     private void initListView() {
         mTypeListMenuAdpter = new TypeVideoMenu1Adpter(this, R.layout.item_type, mSearchLevel);
         lvVideoMenuId.setItemsCanFocus(true);
@@ -121,17 +110,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
 
             }
         });
-        lvVideoMenuId.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                islvVideoMenu1 = hasFocus;
-                if (hasFocus) {
-                    lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
-                } else {
-                    lvVideoMenuId2.setSelector(new ColorDrawable(Color.TRANSPARENT));
-                }
-            }
-        });
         mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type, mSearchLevel2);
         lvVideoMenuId2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -146,21 +124,6 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-        lvVideoMenuId2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
-                } else {
-                    if (!islvVideoMenu1) {
-                        lvVideoMenuId2.setSelector(getResources().getDrawable(R.drawable.lemon_liangguang_03));
-                    } else {
-                        lvVideoMenuId2.setSelector(new ColorDrawable(Color.TRANSPARENT));
-
-                    }
-                }
             }
         });
         lvVideoMenuId2.setItemsCanFocus(true);
@@ -241,12 +204,10 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
         });
     }
 
-    private DevInfoManager devInfoManager;
 
     @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
-        devInfoManager = (DevInfoManager) getSystemService(DevInfoManager.DATA_SERVER);
     }
 
     @Override

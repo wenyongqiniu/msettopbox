@@ -1,14 +1,20 @@
 package com.yxws.msettopboxs.ui.adpter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.ImageBean;
+import com.yxws.msettopboxs.view.CustomRecyclerView;
 import com.zhy.adapter.abslistview.CommonAdapter;
 
 import java.util.List;
+
 
 public class MainAdpter extends CommonAdapter<ImageBean> {
 

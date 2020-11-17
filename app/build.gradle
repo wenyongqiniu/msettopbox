@@ -73,17 +73,17 @@ dependencies {
     implementation files('libs/XiriScene.jar')
 
     implementation project(path: ':core')
-//    implementation project(path: ':jiaozivideo')
     implementation project(path: ':tvwidget')
-//    implementation project(path: ':LibEasyWebview')
+
 
     implementation 'me.jessyan:autosize:1.1.2'
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.zhy:base-adapter:3.0.3'
+
     implementation('com.android.support:appcompat-v7:28.0.0') {
         exclude module: 'support-annotations'
         exclude module: 'support-compat'
     }
+    implementation 'com.zhy:base-adapter:3.0.3'
     implementation 'com.lxj:xpopup:1.8.9'//就是androidx版本
     implementation 'com.android.support:multidex:1.0.3'
     implementation("com.github.bumptech.glide:okhttp3-integration:4.0.0") {
@@ -92,7 +92,8 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:3.2.422'
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-
+    //tvrecyclerview
+    implementation 'com.henryblue.library:tvrecyclerview:1.2.4'
 
 }
 preBuild {

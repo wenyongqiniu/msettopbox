@@ -7,80 +7,82 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 
+import com.yxws.tvwidget.view.adapter.BaseAdapterImpl;
+
 public class ListViewTV extends ListView {
 
-	private int listPon = 0;
-	private boolean isParam = true;
+    private int listPon = 0;
 
-	public ListViewTV(Context context) {
-		super(context);
-		init(context, null);
-	}
+    public ListViewTV(Context context) {
+        super(context);
+        init(context, null);
+    }
 
-	public ListViewTV(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context, attrs);
-	}
+    public ListViewTV(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
+    }
 
-	public boolean isParam() {
-		return isParam;
-	}
+    /**
+     * 崩溃了.
+     */
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        try {
+            super.dispatchDraw(canvas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void setIsParam(boolean isParam) {
-		this.isParam = isParam;
-	}
+    WidgetTvViewBring mWidgetTvViewBring;
 
-	/**
-	 * 崩溃了.
-	 */
-	@Override
-	protected void dispatchDraw(Canvas canvas) {
-		try {
-			super.dispatchDraw(canvas);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private void init(Context context, AttributeSet attrs) {
+        this.setChildrenDrawingOrderEnabled(true);
+        mWidgetTvViewBring = new WidgetTvViewBring(this);
+    }
 
-	WidgetTvViewBring mWidgetTvViewBring;
+    @Override
+    public void bringChildToFront(View child) {
+        mWidgetTvViewBring.bringChildToFront(this, child);
+    }
 
-	private void init(Context context, AttributeSet attrs) {
-		this.setChildrenDrawingOrderEnabled(true);
-		mWidgetTvViewBring = new WidgetTvViewBring(this);
-	}
+    @Override
+    protected int getChildDrawingOrder(int childCount, int i) {
+        return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
+    }
 
-	@Override
-	public void bringChildToFront(View child) {
-		mWidgetTvViewBring.bringChildToFront(this, child);
-	}
+    public void setPoint(int listPon) {
+        this.listPon = listPon;
+    }
 
-	@Override
-	protected int getChildDrawingOrder(int childCount, int i) {
-		return mWidgetTvViewBring.getChildDrawingOrder(childCount, i);
-	}
 
-	public void setPoint(int listPon) {
-		this.listPon = listPon;
-	}
+    @Override
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        //int lastSelectItem = getSelectedItemPosition();
+        int lastSelectItem = listPon;
+        int b = 0;
+        if (getSelectedView() != null) {
+            b = (int) getSelectedView().getY();
+        }
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+        if (!(getAdapter() instanceof BaseAdapterImpl)) {
+            return;
+        }
+        BaseAdapterImpl adapter = (BaseAdapterImpl) getAdapter();
+        if (gainFocus) {
+            setSelectionFromTop(lastSelectItem, b);
+            adapter.setSelectPosition(lastSelectItem);
+        } else {
+			adapter.setSecondPosition(lastSelectItem);
+        }
 
-	@Override
-	protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
-		//int lastSelectItem = getSelectedItemPosition();
-		int lastSelectItem = listPon;
-		int b = 0;
-		if (getSelectedView() != null) {
-			b = (int)getSelectedView().getY();
-		}
-		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
-		if (gainFocus && isParam) {
-			setSelectionFromTop(lastSelectItem, b);
-		}
-		isParam = true;
-	}
 
-	@Override
-	public void setSelectionFromTop(int position, int y) {
-		super.setSelectionFromTop(position, y);
-	}
+    }
+
+    @Override
+    public void setSelectionFromTop(int position, int y) {
+        super.setSelectionFromTop(position, y);
+    }
 
 }
