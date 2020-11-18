@@ -234,11 +234,10 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     }
 
     private void toBuyPurchase() {
-//        DevInfoUtil.getValue(this);
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                getP().toBuy(token);
+                getP().toBuy(token,mPosition);
             }
         });
     }

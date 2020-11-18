@@ -35,7 +35,7 @@ public interface MyAppService {
     //购买
     @GET("api/pay/h52To1Pay")
     @Headers({"Content-Type:application/json;charset=utf-8"})
-    Flowable<BasePresponce> toBuy(@Query("userId") String userId, @Query("userToken") String userToken);
+    Flowable<BasePresponce> toBuy(@Query("userId") String userId, @Query("userToken") String userToken,@Query("position") String position);
 
     //获取一级分类
     @GET("api/home/searchAllTopLevel")

@@ -98,7 +98,7 @@ public class MainPresenter extends XPresent<MainActivity> {
 
     public void toBuy(String userToken) {
         MyApi.getMyApiService()
-                .toBuy("", userToken)
+                .toBuy("", userToken,"")
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {

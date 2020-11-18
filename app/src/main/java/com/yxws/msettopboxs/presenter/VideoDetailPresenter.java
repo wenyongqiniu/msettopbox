@@ -71,9 +71,9 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
     }
 
 
-    public void toBuy(String userToken) {
+    public void toBuy(String userToken,String postion) {
         MyApi.getMyApiService()
-                .toBuy("", userToken)
+                .toBuy("", userToken,postion)
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {

@@ -83,7 +83,7 @@ public class WebViewActivity extends AppCompatActivity {
                 KLog.e(error);
             }
         });
-        webView.loadUrl("https://yxwstv.com/api/pay/callback");
+        webView.loadUrl(payUrl);
         initReceiver();
 
     }
