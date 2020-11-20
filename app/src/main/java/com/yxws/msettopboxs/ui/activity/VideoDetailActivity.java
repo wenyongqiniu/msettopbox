@@ -228,16 +228,21 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
                 }
                 break;
             case R.id.btn_purchase:
-                toBuyPurchase();
+                DevInfoUtil.getToken(this, new OnResultCall() {
+                    @Override
+                    public void onResult(String token) {
+                        getP().isVipStatus(token, mPosition);
+                    }
+                });
                 break;
         }
     }
 
-    private void toBuyPurchase() {
+    public void toBuyPurchase() {
         DevInfoUtil.getToken(this, new OnResultCall() {
             @Override
             public void onResult(String token) {
-                getP().toBuy(token,mPosition);
+                getP().toBuy(token, mPosition);
             }
         });
     }
@@ -293,9 +298,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     }
 
     public void isVip(String isVip) {
-        if (isVip.contains("true")) {
+        if (isVip.contains("true") ) {
             startActivity(mVideoDetailBean);
-        } else {
+        }   else {
             toBuyPurchase();
         }
     }

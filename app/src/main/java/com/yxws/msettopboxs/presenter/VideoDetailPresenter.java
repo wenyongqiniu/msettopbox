@@ -1,5 +1,7 @@
 package com.yxws.msettopboxs.presenter;
 
+import android.widget.Toast;
+
 import com.yxws.msettopboxs.bean.BasePresponce;
 import com.yxws.msettopboxs.bean.DoctorInfoBean;
 import com.yxws.msettopboxs.bean.VideoBean;
@@ -71,9 +73,9 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
     }
 
 
-    public void toBuy(String userToken,String postion) {
+    public void toBuy(String userToken, String postion) {
         MyApi.getMyApiService()
-                .toBuy("", userToken,postion)
+                .toBuy("", userToken, postion)
                 .compose(XApi.<BasePresponce>getApiTransformer())
                 .compose(XApi.<BasePresponce>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce>() {
@@ -89,10 +91,39 @@ public class VideoDetailPresenter extends XPresent<VideoDetailActivity> {
                 });
     }
 
-
-    public void isVip(String userToken,String position) {
+    /**
+     * @param userToken
+     * @param position
+     */
+    public void isVipStatus(String userToken, String position) {
         MyApi.getMyApiService()
-                .isVip("",userToken,position)
+                .isVip("", userToken, position)
+                .compose(XApi.<BasePresponce<String>>getApiTransformer())
+                .compose(XApi.<BasePresponce<String>>getScheduler())
+                .subscribe(new ApiSubscriber<BasePresponce<String>>() {
+
+                    @Override
+                    public void onNext(BasePresponce<String> vipStateBean) {
+                        if (vipStateBean.getData().contains("true")) {
+                            Toast.makeText(getV().getApplicationContext(), "您已经是会员了请勿重复购买", Toast.LENGTH_SHORT).show();
+                        } else {
+                            getV().toBuyPurchase();
+                        }
+                    }
+
+                    @Override
+                    protected void onFail(NetError error) {
+                    }
+                });
+    }
+
+    /**
+     * @param userToken
+     * @param position
+     */
+    public void isVip(String userToken, String position) {
+        MyApi.getMyApiService()
+                .isVip("", userToken, position)
                 .compose(XApi.<BasePresponce<String>>getApiTransformer())
                 .compose(XApi.<BasePresponce<String>>getScheduler())
                 .subscribe(new ApiSubscriber<BasePresponce<String>>() {
