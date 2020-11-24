@@ -1,6 +1,7 @@
 package com.yxws.msettopboxs.ui.adpter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -27,12 +28,12 @@ public class TypeVideoGridViewAdpter extends CommonAdapter<VideoBean> {
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .override(AutoSizeUtils.pt2px(mContext, 342), AutoSizeUtils.pt2px(mContext, 215))
+//                .override(AutoSizeUtils.pt2px(mContext, 342), AutoSizeUtils.pt2px(mContext, 215))
                 .error(R.drawable.img_default)
                 .placeholder(R.drawable.img_default);
         Glide.with(mContext)
                 .asBitmap()
-                .load(item.getTvPicHead())
+                .load(TextUtils.isEmpty(item.getTvPicSmall()) ? item.getTvPicHead() : item.getTvPicSmall())
                 .apply(options)
                 .into((ImageView) viewHolder.getView(R.id.iv_video_cover));
 

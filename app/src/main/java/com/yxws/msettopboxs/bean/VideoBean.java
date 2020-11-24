@@ -34,6 +34,7 @@ public class VideoBean  extends BasePresponce<List<VideoBean>>{
     private String tvUrl;
     private Object tvDuration;
     private String tvPicHead;
+    private String tvPicSmall;
     private Object bitRate;
     private String viceoFormat;
     private String tvDesc;
@@ -166,5 +167,13 @@ public class VideoBean  extends BasePresponce<List<VideoBean>>{
 
     public void setDoctorId(Object doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public String getTvPicSmall() {
+        return tvPicSmall;
+    }
+
+    public void setTvPicSmall(String tvPicSmall) {
+        this.tvPicSmall = tvPicSmall;
     }
 }

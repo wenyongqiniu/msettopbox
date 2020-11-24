@@ -34,6 +34,7 @@ public class VideoDetailBean extends BasePresponce<VideoDetailBean> implements S
     private String tvUrl;
     private String tvDuration;
     private String tvPicHead;
+    private String tvPicSmall;
     private Object bitRate;
     private String viceoFormat;
     private String tvDesc;
@@ -178,6 +179,14 @@ public class VideoDetailBean extends BasePresponce<VideoDetailBean> implements S
         this.doctorId = doctorId;
     }
 
+    public String getTvPicSmall() {
+        return tvPicSmall;
+    }
+
+    public void setTvPicSmall(String tvPicSmall) {
+        this.tvPicSmall = tvPicSmall;
+    }
+
     @Override
     public String toString() {
         return "VideoDetailBean{" +
@@ -192,6 +201,7 @@ public class VideoDetailBean extends BasePresponce<VideoDetailBean> implements S
                 ", tvUrl='" + tvUrl + '\'' +
                 ", tvDuration='" + tvDuration + '\'' +
                 ", tvPicHead='" + tvPicHead + '\'' +
+                ", tvPicSmall='" + tvPicSmall + '\'' +
                 ", bitRate=" + bitRate +
                 ", viceoFormat='" + viceoFormat + '\'' +
                 ", tvDesc='" + tvDesc + '\'' +
