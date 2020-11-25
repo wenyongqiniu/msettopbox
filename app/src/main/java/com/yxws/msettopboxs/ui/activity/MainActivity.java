@@ -290,7 +290,7 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         KLog.e("首页图片显示 " + hotVideoBean.getPic());
         RequestOptions options = new RequestOptions()
                 .optionalCenterInside()
-                .placeholder(R.drawable.img_default);
+                .placeholder(R.drawable.img_home);
         Glide.with(this)
                 .asBitmap()
                 .load(hotVideoBean.getPic())
