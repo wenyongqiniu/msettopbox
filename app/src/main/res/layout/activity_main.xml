@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60pt"
             android:layout_marginTop="60pt"
-            android:layout_marginRight="60pt" >
+            android:layout_marginRight="60pt">
 
 
             <Button
@@ -31,8 +31,8 @@
                 android:layout_height="56pt"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/svg_search"
-                android:nextFocusRight="@id/btn_login"
-                android:nextFocusDown="@id/gridviewtv"
+                android:nextFocusRight="@+id/btn_open_vip"
+                android:nextFocusDown="@+id/rl_hot_video"
                 android:paddingLeft="20pt"
                 android:text="@string/hide_search"
                 android:textColor="@color/font_gray_white"
@@ -48,8 +48,10 @@
                 android:background="@drawable/tv_open_vip_bg"
                 android:drawableStart="@drawable/vip_selecet"
                 android:drawablePadding="10pt"
-                android:nextFocusUp="@id/btn_search"
-                android:nextFocusDown="@id/rl_hot_video"
+                android:nextFocusLeft="@id/btn_search"
+                android:nextFocusDown="@+id/rl_hot_video"
+                android:nextFocusRight="@+id/rl_hot_video"
+                android:nextFocusUp="@+id/rl_hot_video"
                 android:paddingLeft="30pt"
                 android:paddingRight="30pt"
                 android:text="@string/open_vip"
@@ -65,6 +67,8 @@
                 android:layout_marginRight="76pt"
                 android:layout_toLeftOf="@+id/linetext"
                 android:text="@string/app_name"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:textColor="@color/tv_f1f1f1"
                 android:textSize="36sp" />
 
@@ -76,6 +80,8 @@
                 android:layout_toLeftOf="@+id/tv_app_name"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:textColor="@color/tv_f1f1f1"
                 android:textSize="36sp"
                 android:textStyle="bold" />
@@ -86,6 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -97,16 +105,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="服务电话:"
-                        android:textSize="28sp"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="#FFFFFF"
+                        android:textSize="28sp" />
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4001889205"
-                        android:textSize="28sp"
-                        android:textColor="#FCA938" />
+                        android:textColor="#FCA938"
+                        android:textSize="28sp" />
                 </LinearLayout>
 
 
@@ -114,16 +122,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="服务时间:周一至周五9:00-18:00"
-                    android:textSize="28sp"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="28sp" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="28sp"
                     android:text="收视路径：首页-会员超市-医学微视"
-                    android:textColor="#F92F43" />
+                    android:textColor="#F92F43"
+                    android:textSize="28sp" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -131,11 +139,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="244pt"
+            android:layout_height="235pt"
             android:layout_marginLeft="60pt"
             android:layout_marginTop="30pt"
             android:layout_marginRight="40pt"
             android:focusable="false"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
 
@@ -154,6 +163,8 @@
                 android:background="@drawable/bg_desc_"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:paddingLeft="26pt"
                 android:paddingRight="26pt">
 
@@ -163,64 +174,45 @@
                     android:layout_marginTop="18pt"
                     android:text="@string/app_brief"
                     android:textColor="@color/tv_ffffff"
-                    android:textSize="30sp"  />
+                    android:textSize="30sp" />
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="20pt"
+                    android:layout_marginTop="10pt"
                     android:text="@string/app_desc"
                     android:textColor="@color/tv_ffffff"
                     android:textSize="22sp" />
             </LinearLayout>
 
 
-            <com.yxws.tvwidget.view.ReflectItemView
+            <FrameLayout
                 android:id="@+id/rl_hot_video"
                 android:layout_width="566pt"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30pt"
                 android:clickable="true"
                 android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:nextFocusUp="@+id/btn_open_vip"
-                android:nextFocusDown="@+id/gridviewtv"
-                app:isShape="false">
+                android:nextFocusLeft="@+id/btn_open_vip"
+                android:nextFocusRight="@+id/gridviewtv"
+                android:nextFocusDown="@+id/gridviewtv">
 
-                <FrameLayout
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/iv_main_2"
-                        android:layout_width="566pt"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerInside"
-                        tools:src="@drawable/img_home" />
-
-
-                    <TextView
-                        android:id="@+id/tv_main_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/bg_hot_video"
-                        android:paddingLeft="30pt"
-                        android:paddingTop="10pt"
-                        android:paddingRight="30pt"
-                        android:paddingBottom="10pt"
-                        android:textColor="@color/tv_ffffff"
-                        android:textSize="24sp"
-                        tools:text="医生直言：食管癌是“吃”出来的，做好4点！食管癌不敢靠近你" />
-                </FrameLayout>
-            </com.yxws.tvwidget.view.ReflectItemView>
+                    android:layout_height="match_parent" />
+            </FrameLayout>
 
 
         </LinearLayout>
 
 
         <TextView
-            android:id="@+id/tv_classification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60pt"
@@ -246,12 +238,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
+                android:nextFocusUp="@+id/rl_hot_video"
                 android:columnWidth="268pt"
                 android:gravity="center_vertical"
                 android:horizontalSpacing="30pt"
                 android:numColumns="auto_fit"
                 android:scrollbars="none"
-                android:verticalSpacing="30pt"  />
+                android:verticalSpacing="30pt" />
         </FrameLayout>
 
 

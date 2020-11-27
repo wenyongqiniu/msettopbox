@@ -10,12 +10,14 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.chinamobile.SWDevInfoManager;
 import com.socks.library.KLog;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 import com.yxws.msettopboxs.R;
 import com.yxws.msettopboxs.bean.HotVideoBean;
 import com.yxws.msettopboxs.bean.ImageBean;
@@ -31,6 +36,7 @@ import com.yxws.msettopboxs.bean.SearchLevelBean;
 import com.yxws.msettopboxs.bean.UserBean;
 import com.yxws.msettopboxs.config.Constant;
 import com.yxws.msettopboxs.presenter.MainPresenter;
+import com.yxws.msettopboxs.ui.adpter.GlideImageLoader;
 import com.yxws.msettopboxs.ui.adpter.MainAdpter;
 import com.yxws.msettopboxs.util.ArtUtils;
 import com.yxws.msettopboxs.util.DataHelper;
@@ -60,18 +66,19 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
     private String TAG = MainActivity.class.getName();
     private Button btnSearch, btnOpenVip;
 
-    private ImageView ivMain1, ivMain2;
-    private TextView tvMainDesc;
+    private ImageView ivMain1;
+
     private MainUpView mainUpView2;
     private GridViewTV gridviewtv;
+    private Banner banner;
 
 
     private MainAdpter mMainAdpter;
-    private ReflectItemView mRlHotVideo;
+    private FrameLayout mRlHotVideo;
 
     private OpenEffectBridge mOpenEffectBridge;
     private View mOldGridView;
-    private int point = 0; //gridview 位置
+
 
     private List<ImageBean> typeList = new ArrayList<>();
 
@@ -81,12 +88,12 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         btnSearch = (Button) findViewById(R.id.btn_search);
         btnOpenVip = (Button) findViewById(R.id.btn_open_vip);
         ivMain1 = (ImageView) findViewById(R.id.iv_main_1);
-        ivMain2 = (ImageView) findViewById(R.id.iv_main_2);
-        tvMainDesc = (TextView) findViewById(R.id.tv_main_desc);
+        banner = (Banner) findViewById(R.id.banner);
+
 
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
-        mRlHotVideo = (ReflectItemView) findViewById(R.id.rl_hot_video);
+        mRlHotVideo = (FrameLayout) findViewById(R.id.rl_hot_video);
 
         btnSearch.setOnClickListener(this);
 
@@ -100,31 +107,33 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         mRlHotVideo.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-                if (!(newFocus instanceof ReflectItemView)) {
+                if (!(newFocus instanceof FrameLayout)) {
+                    //失去焦点
                     mainUpView2.setUnFocusView(mOldGridView);
                     mOpenEffectBridge.setVisibleWidget(true);// 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
                     mOldGridView = null;
                 } else {
+                    //获取焦点
                     newFocus.bringToFront();
                     mOpenEffectBridge.setVisibleWidget(false);
                     mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
                     mainUpView2.setFocusView(newFocus, mOldGridView, 1.1f);
                     mOldGridView = newFocus;
                 }
-                point = 0;
+
             }
         });
 
-        setDefaultImageView(R.drawable.img_home, ivMain1);
-        setDefaultImageView(R.drawable.img_home, ivMain2);
+        setDefaultImageView(R.drawable.img_home_left, ivMain1);
+
+
         initReceiver();
     }
 
     //设置首页默认显示图片
     private void setDefaultImageView(int resourceId, ImageView view) {
         RequestOptions options = new RequestOptions()
-                .optionalCenterInside()
                 .placeholder(resourceId);
         Glide.with(this)
                 .asBitmap()
@@ -150,24 +159,9 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         gridviewtv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                /**
-                 * 这里注意要加判断是否为NULL.
-                 * 因为在重新加载数据以后会出问题.
-                 */
                 mOpenEffectBridge.setVisibleWidget(false);
-                if (view != null) {
-                    if (point == 0) {
-                        if (mOldGridView != view) {
-                            view.bringToFront();
-                            KLog.i(TAG, "放大" + position);
-                            mainUpView2.setFocusView(view, mOldGridView, 1.1f);
-                        }
-                    } else {
-                        view.bringToFront();
-                        mainUpView2.setFocusView(view, mOldGridView, 1.1f);
-                    }
-                }
-                point = position;
+                mainUpView2.setFocusView(view,  mOldGridView,1.1f);
+                view.bringToFront();
                 mOldGridView = view;
             }
 
@@ -179,21 +173,20 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         gridviewtv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                KLog.i(TAG, "gridView" + hasFocus);
                 if (hasFocus) {
                     if (mOldGridView == null) {
-                        mOldGridView = gridviewtv.getChildAt(0);
+                        mOldGridView = gridviewtv.getChildAt(4);
+                        gridviewtv.setSelection(4);
                         gridviewtv.setFocusable(true);
                         gridviewtv.setFocusableInTouchMode(true);
-                        gridviewtv.setSelection(0);
+                    }else {
+                        mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
+                        mOpenEffectBridge.setVisibleWidget(false);
+                        mOldGridView.bringToFront();
+                        mainUpView2.setFocusView(mOldGridView, 1.1f);
                     }
-                    mainUpView2.setUpRectResource(R.drawable.bg_video_cover); // 设置移动边框的图片.
-                    mOpenEffectBridge.setVisibleWidget(false);
-                    mOldGridView.bringToFront();
-                    mainUpView2.setFocusView(mOldGridView, 1.1f);
-
-
                 } else {
+                    mOldGridView=null;
                     mOpenEffectBridge.setVisibleWidget(true); // 隐藏
                     mainUpView2.setUpRectResource(R.drawable.test_rectangle); // 设置移动边框的图片.
                     mainUpView2.setUnFocusView(mOldGridView);
@@ -268,6 +261,8 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
         if (userBean.getIsVip() == 0) {
             btnOpenVip.setText("已开通");
             btnOpenVip.setEnabled(false);
+            btnOpenVip.setFocusable(false);
+            btnOpenVip.setFocusableInTouchMode(false);
         } else {
             btnOpenVip.setEnabled(true);
         }
@@ -285,20 +280,38 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
 
     private HotVideoBean mHotVideoBean;
 
-    public void setHotVideo(HotVideoBean hotVideoBean) {
-        this.mHotVideoBean = hotVideoBean;
-        KLog.e("首页图片显示 " + hotVideoBean.getPic());
-        RequestOptions options = new RequestOptions()
-                .optionalCenterInside()
-                .placeholder(R.drawable.img_home);
-        Glide.with(this)
-                .asBitmap()
-                .load(hotVideoBean.getPic())
-                .apply(options)
-                .into(ivMain2);
+    public void setHotVideo(List<HotVideoBean> hotVideoBean) {
+        banner.setBannerStyle(BannerConfig.NOT_INDICATOR);
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(hotVideoBean);
+        //设置banner动画效果
+        banner.setBannerAnimation(Transformer.Default);
+        banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int postion, float v, int i1) {
 
+            }
 
-        tvMainDesc.setText(hotVideoBean.getInfo());
+            @Override
+            public void onPageSelected(int postion) {
+                mHotVideoBean = hotVideoBean.get(postion);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int postion) {
+
+            }
+        });
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(5000);
+        //设置指示器位置（当banner模式中有指示器时）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
     }
 
     public void toBuyVip() {
@@ -331,7 +344,21 @@ public class MainActivity extends XActivity<MainPresenter> implements View.OnCli
                 }
             }
         }
+    }
 
+    //如果你需要考虑更好的体验，可以这么操作
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stopAutoPlay();
     }
 
     @Override

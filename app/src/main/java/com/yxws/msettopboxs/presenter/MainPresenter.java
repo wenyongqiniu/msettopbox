@@ -45,7 +45,8 @@ public class MainPresenter extends XPresent<MainActivity> {
                     public void onNext(HotVideoBean hotVideoBean) {
                         List<HotVideoBean> hotVideoBeans = hotVideoBean.getData();
                         if (hotVideoBeans != null && !hotVideoBeans.isEmpty()) {
-                            getV().setHotVideo(hotVideoBeans.get(0));
+                            getV().setHotVideo(hotVideoBeans);
+//                            getV().setHotVideo(hotVideoBeans.get(0));
                         }
                     }
 

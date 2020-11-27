@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
+
+
+    <ImageView
+        android:id="@+id/iv_main_2"
+        android:layout_width="566pt"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:src="@drawable/img_home_left" />
+
+
+    <TextView
+        android:id="@+id/tv_main_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_hot_video"
+        android:paddingLeft="30pt"
+        android:paddingTop="10pt"
+        android:paddingRight="30pt"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingBottom="10pt"
+        android:textColor="@color/tv_ffffff"
+        android:textSize="24sp"
+        android:visibility="gone"
+        tools:text="医生直言：食管癌是“吃”出来的，做好4点！食管癌不敢靠近你" />
+
+
+</FrameLayout>

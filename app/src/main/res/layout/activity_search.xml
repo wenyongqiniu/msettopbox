@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_main">
 
     <LinearLayout
@@ -36,23 +36,34 @@
                 android:textStyle="bold" />
 
             <View
+                android:id="@+id/v_line"
                 android:layout_width="match_parent"
                 android:layout_height="4pt"
-                android:layout_marginTop="5pt"
                 android:layout_below="@+id/lemon95_movie_msg_id"
                 android:layout_alignLeft="@+id/lemon95_movie_msg_id"
                 android:layout_alignRight="@+id/lemon95_movie_msg_id"
-                android:layout_marginRight="15pt"
                 android:layout_marginLeft="15pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginRight="15pt"
                 android:background="@color/tv_ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/v_line"
+                android:layout_alignRight="@+id/v_line"
+                android:text="搜索至少是俩个字符"
+                android:textSize="28sp"
+                android:gravity="center"
+                android:textColor="#b3aeae"
+                android:layout_below="@+id/v_line" />
 
             <com.yxws.tvwidget.keyboard.SkbContainer
                 android:id="@+id/skbContainer"
                 android:layout_width="match_parent"
                 android:layout_height="560pt"
                 android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
-                />
+                android:layout_centerHorizontal="true" />
 
             <LinearLayout
                 android:id="@+id/linet9"
@@ -78,29 +89,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/btn_selector"
-                    android:text="全键盘"
-                    android:paddingLeft="30pt"
-                    android:paddingRight="30pt"
-                    android:paddingTop="10pt"
-                    android:paddingBottom="10pt"
-                    android:textSize="38sp"
                     android:nextFocusRight="@+id/btn_t9"
-                    android:textColor="@color/colorWhite" />
+                    android:paddingLeft="30pt"
+                    android:paddingTop="10pt"
+                    android:paddingRight="30pt"
+                    android:paddingBottom="10pt"
+                    android:text="全键盘"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="38sp" />
 
                 <Button
                     android:id="@+id/btn_t9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2pt"
-                    android:paddingLeft="30pt"
-                    android:paddingRight="30pt"
-                    android:paddingTop="10pt"
-                    android:paddingBottom="10pt"
-                    android:nextFocusLeft="@+id/btn_all"
                     android:background="@drawable/btn_selector"
+                    android:nextFocusLeft="@+id/btn_all"
+                    android:paddingLeft="30pt"
+                    android:paddingTop="10pt"
+                    android:paddingRight="30pt"
+                    android:paddingBottom="10pt"
                     android:text="T9键盘"
-                    android:textSize="38sp"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="38sp" />
             </LinearLayout>
 
 
@@ -142,8 +153,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/tv_app_name"
                 android:layout_marginTop="20pt"
-                android:layout_marginRight="60pt"
-                >
+                android:layout_marginRight="60pt">
 
 
                 <com.yxws.tvwidget.view.GridViewTV

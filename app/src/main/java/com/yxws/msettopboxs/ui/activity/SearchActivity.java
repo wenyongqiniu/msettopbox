@@ -8,7 +8,10 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -43,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import me.jessyan.autosize.internal.CustomAdapt;
 
@@ -68,6 +72,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
 
 
     SkbContainer skbContainer;
+    private int flag = -1;
 
     @Override
     public void initView() {
@@ -112,7 +117,9 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                     setSkbContainerOther();
                     skbContainer.setSkbLayout(R.xml.skb_all_key);
                 } else {
-                    lemon95MovieMsg_id.setText(lemon95MovieMsg_id.getText() + softKey.getKeyLabel());
+                    if (flag != 0) {
+                        lemon95MovieMsg_id.setText(lemon95MovieMsg_id.getText() + softKey.getKeyLabel());
+                    }
                 }
 
             }
@@ -165,7 +172,6 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
 
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
@@ -173,10 +179,12 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                         KLog.e("wlx", "charSequence.toString()  " + charSequence.toString());
                         mVideoBeans.clear();
                         mVideoGridViewAdpter.notifyDataSetChanged();
-                        if (!TextUtils.isEmpty(charSequence)) {
+                        if (!TextUtils.isEmpty(charSequence) && charSequence.toString().length() >= 2) {
+                            flag = 0;//标志不可输入
                             getP().getVideo(charSequence.toString());
                         }
                     }
+
                 });
     }
 
@@ -209,7 +217,9 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
                 } else if (key.equals("清空")) {
                     lemon95MovieMsg_id.setText("");
                 } else {
-                    lemon95MovieMsg_id.setText(lemon95MovieMsg_id.getText() + key);
+                    if (flag != 0) {
+                        lemon95MovieMsg_id.setText(lemon95MovieMsg_id.getText() + key);
+                    }
                 }
             }
 
@@ -407,6 +417,7 @@ public class SearchActivity extends XActivity<SearchPresenter> implements View.O
     public void setVideoGridData(List<VideoBean> videoBeanData) {
         mVideoBeans.clear();
         mVideoBeans.addAll(videoBeanData);
+        flag = -1;//标志可输入
         mVideoGridViewAdpter.notifyDataSetChanged();
     }
 
