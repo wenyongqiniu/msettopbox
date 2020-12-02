@@ -119,7 +119,7 @@ public class TypeVideoActivity extends XActivity<TypeListPresenter> implements V
                 }
             }
         });
-        mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type, mSearchLevel2);
+        mTypeListMenu2Adpter = new TypeVideoMenu2Adpter(this, R.layout.item_type_2, mSearchLevel2);
         lvVideoMenuId2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
