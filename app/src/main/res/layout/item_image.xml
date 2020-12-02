@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="268pt"
@@ -13,19 +13,17 @@
         android:layout_height="158pt"
         android:layout_centerInParent="true"
         android:scaleType="centerInside"
-        tools:src="@drawable/img1" />
+        tools:src="@drawable/img35" />
 
 
-    <ImageView
-        android:id="@+id/focus_bg"
-        android:layout_width="270pt"
-        android:layout_height="163pt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="-5dp"
-        android:layout_marginTop="-5dp"
-        android:layout_marginRight="-5dp"
-        android:layout_marginBottom="-5dp"
-        android:background="@drawable/bg_video_cover"
-        android:visibility="invisible"
-        tools:visibility="visible" />
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20pt"
+        tools:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:textSize="28sp"
+        android:visibility="gone"/>
+</FrameLayout>

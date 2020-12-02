@@ -3,6 +3,7 @@ package com.yxws.msettopboxs.ui.adpter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +30,14 @@ public class MainAdpter extends CommonAdapter<ImageBean> {
                 .asBitmap()
                 .load(item.getResId())
                 .into((ImageView) viewHolder.getView(R.id.iv_main));
+        TextView tv_main = viewHolder.getView(R.id.tv_main);
 
+        if (TextUtils.isEmpty(item.getName())) {
+            tv_main.setVisibility(View.GONE);
+        } else {
+            tv_main.setVisibility(View.VISIBLE);
+            tv_main.setText(item.getName());
+        }
     }
 
 }

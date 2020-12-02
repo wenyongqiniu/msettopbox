@@ -82,6 +82,8 @@ public class DataUtil {
                 list.add(new ImageBean(R.drawable.img33, levelList.get(i).getId()));
             else if (levelList.get(i).getName().contains("妇科"))
                 list.add(new ImageBean(R.drawable.img34, levelList.get(i).getId()));
+            else
+                list.add(new ImageBean(R.drawable.img35, levelList.get(i).getName(),levelList.get(i).getId()));
         }
 
         return list;
