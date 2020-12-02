@@ -60,165 +60,168 @@
 
         </RelativeLayout>
 
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="454pt"
-                android:layout_marginLeft="60pt"
-                android:layout_marginTop="30pt"
-                android:layout_marginBottom="60pt"
-                android:layout_marginRight="60pt">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/rl_video_img"
-                    android:layout_width="938pt"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_video_cover"
-                    android:padding="4pt">
-
-                    <ImageView
-                        android:id="@+id/iv_video_cover"
-                        android:layout_width="938pt"
-                        android:layout_height="454pt"
-                        android:scaleType="fitXY"
-                        tools:src="@drawable/img_home" />
-
-
-                    <TextView
-                        android:id="@+id/iv_video_is_purchase"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/bg_white"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="20dp"
-                        android:paddingBottom="5dp"
-                        android:text="@string/free_str"
-                        android:textColor="@color/red"
-                        android:textSize="24sp"
-                        android:visibility="gone"
-                        tools:visibility="visible" />
-
-                </RelativeLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/line_video_desc"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/rl_video_img"
-                    android:orientation="vertical"
-                    android:paddingLeft="30pt">
+                    android:layout_height="454pt"
+                    android:layout_marginLeft="60pt"
+                    android:layout_marginTop="30pt"
+                    android:layout_marginRight="60pt"
+                    android:layout_marginBottom="60pt">
 
-                    <TextView
-                        android:id="@+id/tv_video_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:textColor="#fff0f0f0"
-                        android:textSize="32sp"
-                        tools:text="面肌痉挛的治疗方法有哪些？" />
+                    <RelativeLayout
+                        android:id="@+id/rl_video_img"
+                        android:layout_width="938pt"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_video_cover"
+                        android:padding="4pt">
 
-                    <TextView
-                        android:id="@+id/tv_video_teacher"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30pt"
-                        android:text=""
-                        android:textColor="#fff0f0f0"
-                        android:textSize="32sp" />
+                        <ImageView
+                            android:id="@+id/iv_video_cover"
+                            android:layout_width="938pt"
+                            android:layout_height="454pt"
+                            android:scaleType="fitXY"
+                            tools:src="@drawable/img_home" />
 
 
-                    <TextView
-                        android:id="@+id/tv_video_teacher_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="30pt"
-                        android:ellipsize="end"
-                        android:maxLines="6"
-                        android:text="简介：中国医学科学院阜外医院 原院长 博士生导师"
-                        android:textColor="#F1F1F1"
-                        android:textSize="30sp" />
+                        <TextView
+                            android:id="@+id/iv_video_is_purchase"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/bg_white"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="20dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/free_str"
+                            android:textColor="@color/red"
+                            android:textSize="24sp"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
 
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:visibility="visible" />
+                    </RelativeLayout>
 
 
                     <LinearLayout
+                        android:id="@+id/line_video_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="72pt">
+                        android:layout_toRightOf="@+id/rl_video_img"
+                        android:orientation="vertical"
+                        android:paddingLeft="30pt">
 
-                        <Button
-                            android:id="@+id/btn_free_trial"
-                            android:layout_width="196pt"
-                            android:layout_height="56pt"
-                            android:background="@drawable/btn_select_bg"
-                            android:focusable="auto"
-                            android:nextFocusLeft="@id/btn_search"
-                            android:nextFocusRight="@+id/btn_purchase"
-                            android:text="@string/watch_now"
-                            android:textColor="@color/tv_f1f1f1"
-                            android:textSize="28sp">
+                        <TextView
+                            android:id="@+id/tv_video_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textColor="#fff0f0f0"
+                            android:textSize="32sp"
+                            tools:text="面肌痉挛的治疗方法有哪些？" />
 
-                        </Button>
+                        <TextView
+                            android:id="@+id/tv_video_teacher"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30pt"
+                            android:text=""
+                            android:textColor="#fff0f0f0"
+                            android:textSize="32sp" />
 
-                        <Button
-                            android:id="@+id/btn_purchase"
-                            android:layout_width="196pt"
-                            android:layout_height="56pt"
-                            android:layout_marginLeft="56pt"
-                            android:background="@drawable/btn_select_bg"
-                            android:focusable="auto"
-                            android:nextFocusDown="@+id/gridviewtv"
-                            android:text="@string/purchase"
-                            android:textColor="@color/tv_f1f1f1"
-                            android:textSize="28sp" />
+
+                        <TextView
+                            android:id="@+id/tv_video_teacher_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30pt"
+                            android:ellipsize="end"
+                            android:maxLines="6"
+                            android:text="简介：中国医学科学院阜外医院 原院长 博士生导师"
+                            android:textColor="#F1F1F1"
+                            android:textSize="30sp" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:visibility="visible" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="72pt">
+
+                            <Button
+                                android:id="@+id/btn_free_trial"
+                                android:layout_width="196pt"
+                                android:layout_height="56pt"
+                                android:background="@drawable/btn_select_bg"
+                                android:focusable="auto"
+                                android:nextFocusLeft="@id/btn_search"
+                                android:nextFocusRight="@+id/btn_purchase"
+                                android:text="@string/watch_now"
+                                android:textColor="@color/tv_f1f1f1"
+                                android:textSize="28sp">
+
+                            </Button>
+
+                            <Button
+                                android:id="@+id/btn_purchase"
+                                android:layout_width="196pt"
+                                android:layout_height="56pt"
+                                android:layout_marginLeft="56pt"
+                                android:background="@drawable/btn_select_bg"
+                                android:focusable="auto"
+                                android:nextFocusDown="@+id/gridviewtv"
+                                android:text="@string/purchase"
+                                android:textColor="@color/tv_f1f1f1"
+                                android:textSize="28sp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
-            </RelativeLayout>
+                </RelativeLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="60pt"
-                android:layout_marginTop="30pt"
-                android:layout_marginBottom="40pt"
-                android:layout_marginRight="60pt"
-                android:focusable="false"
-                android:focusableInTouchMode="false">
-
-
-                <com.yxws.tvwidget.view.GridViewTV
-                    android:id="@+id/gridviewtv"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clipChildren="false"
-                    android:columnWidth="378pt"
-                    android:gravity="center_vertical"
-                    android:horizontalSpacing="10pt"
-                    android:nextFocusUp="@+id/btn_free_trial"
-                    android:numColumns="auto_fit"
-                    android:scrollbars="none"
-                    android:verticalSpacing="10pt" />
-            </FrameLayout>
-
-        </LinearLayout>
+                    android:layout_marginLeft="60pt"
+                    android:layout_marginTop="30pt"
+                    android:layout_marginRight="60pt"
+                    android:layout_marginBottom="40pt"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false">
 
 
+                    <com.yxws.tvwidget.view.GridViewTV
+                        android:id="@+id/gridviewtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:columnWidth="378pt"
+                        android:gravity="center_vertical"
+                        android:horizontalSpacing="10pt"
+                        android:nextFocusUp="@+id/btn_free_trial"
+                        android:numColumns="auto_fit"
+                        android:scrollbars="none"
+                        android:verticalSpacing="10pt" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
     <com.yxws.tvwidget.view.MainUpView
