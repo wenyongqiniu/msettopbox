@@ -91,10 +91,15 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         btnPurchase.setOnClickListener(this);
         initGridView();
 
-        videoId = getIntent().getIntExtra("id", 0);
-        mPosition = getIntent().getStringExtra("position");
-        classificationId = getIntent().getStringExtra("classificationId");
-
+        Intent intent = getIntent();
+        if (intent != null) {
+            videoId = intent.getIntExtra("id", 0);
+            mPosition = intent.getStringExtra("position");
+            classificationId = intent.getStringExtra("classificationId");
+            if (videoId == 0) {
+                videoId = Integer.valueOf(intent.getStringExtra("id"));
+            }
+        }
 
         getP().getVideoDetail(videoId);
         if (classificationId != null) {
@@ -298,9 +303,9 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
     }
 
     public void isVip(String isVip) {
-        if (isVip.contains("true") ) {
+        if (isVip.contains("true")) {
             startActivity(mVideoDetailBean);
-        }   else {
+        } else {
             toBuyPurchase();
         }
     }
