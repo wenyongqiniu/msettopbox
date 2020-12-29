@@ -235,7 +235,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
             }
             authParam.setContentID(temp.getSeriesId());
 
-            getVideoAddress(OTTUserToken,epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+            getVideoAddress(OTTUserToken, epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
         } else if (cdn_type.endsWith("ZTE")) {
             VideoAddressBean temp = null;
             for (VideoAddressBean videoAddressBean : videoBean.getData()) {
@@ -245,14 +245,14 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 }
             }
             authParam.setContentID(temp.getSeriesId());
-            getVideoAddress(OTTUserToken,epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
+            getVideoAddress(OTTUserToken, epg_address, authParam, temp.getSeriesId(), temp.getMovieId(), temp.getTvName(), mVideoDetailBean);
         }
     }
 
     /**
      * 视频播放地址
      */
-    private void getVideoAddress(String OTTUserToken,String epg_address, AuthParam authParam, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
+    private void getVideoAddress(String OTTUserToken, String epg_address, AuthParam authParam, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
         Gson gson = new Gson();
         String obj = gson.toJson(authParam);
         KLog.e("wlx", "请求AuthCode参数：  " + obj);
@@ -265,7 +265,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 .subscribe(new ApiSubscriber<AuthBean>() {
                     @Override
                     public void onNext(AuthBean videoBean) {
-                        startActivity(OTTUserToken,videoBean, seriesId, movieId, title, mVideoDetailBean);
+                        startActivity(OTTUserToken, videoBean, seriesId, movieId, title, mVideoDetailBean);
                     }
 
                     @Override
@@ -275,15 +275,25 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 });
     }
 
-    private void startActivity(String OTTUserToken,AuthBean videoBean, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
+    private void startActivity(String OTTUserToken, AuthBean videoBean, String seriesId, String movieId, String title, VideoDetailBean mVideoDetailBean) {
         @SuppressLint("WrongConstant")
         DevInfoManager systemService = SWDevInfoManager.getDevInfoManager(getV().getApplicationContext());
         String cdn_type = systemService.getValue(DevInfoManager.CDN_TYPE);
         StringBuffer stringBuffer = new StringBuffer();
+        String isThirdPartyCDN = systemService.getValue("IsThirdPartyCDN");
+
+        if (isThirdPartyCDN != null && isThirdPartyCDN.contains("1")) {
+            stringBuffer.append(systemService.getValue("CDNTPDomainName"));
+        } else {
+            if (cdn_type.endsWith("HW")) {
+                stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS_BACK));
+            } else if (cdn_type.contains("ZTE")) {
+                stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS));
+            }
+        }
 
         if (cdn_type.endsWith("HW")) {
-            stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS_BACK))
-                    .append("/tianhongyxws")
+            stringBuffer.append("/tianhongyxws")
                     .append("/vod")
                     .append("/").append(seriesId)
                     .append("/").append(movieId)
@@ -291,8 +301,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
 
         } else if (cdn_type.contains("ZTE")) {
-            stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS))
-                    .append("/tianhongyxwszx")
+            stringBuffer.append("/tianhongyxwszx")
                     .append("/vod")
                     .append("/").append(seriesId)
                     .append("/").append(movieId)
