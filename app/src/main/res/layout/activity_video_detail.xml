@@ -27,7 +27,6 @@
                 android:layout_height="56pt"
                 android:background="@drawable/tv_bug_search_bg"
                 android:drawableStart="@drawable/svg_search"
-                android:nextFocusRight="@+id/btn_free_trial"
                 android:paddingLeft="20pt"
                 android:text="@string/hide_search"
                 android:textColor="@color/font_gray_white"

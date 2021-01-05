@@ -86,6 +86,12 @@ public class VideoDetailActivity extends XActivity<VideoDetailPresenter> impleme
         gridviewtv = (GridViewTV) findViewById(R.id.gridviewtv);
         mainUpView2 = (MainUpView) findViewById(R.id.mainUpView2);
 
+        btnSearch.setFocusable(false);
+        btnSearch.setFocusableInTouchMode(false);
+
+        btnFreeTrial.setFocusable(true);
+        btnFreeTrial.setFocusableInTouchMode(true);
+
         btnSearch.setOnClickListener(this);
         btnFreeTrial.setOnClickListener(this);
         btnPurchase.setOnClickListener(this);
