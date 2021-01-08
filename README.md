@@ -16,6 +16,7 @@ CDNTPDomainName
 4、节点读取方法为：上述节点同机顶盒其他参数获取方法，通过DevInfoManager获取，若获取不到，
 可用以下方法读取上述IsThirdPartyCDN、CDNTPDomainName节点的值：SWDevInfoManager.getDevInfoManager(context).getValue("字段名称")
 
+- 视频详情页定位到 立即播放
 
 # v1.0.4
 - 搜索键盘

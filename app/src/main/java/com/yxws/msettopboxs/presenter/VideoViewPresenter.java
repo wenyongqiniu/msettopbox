@@ -124,7 +124,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
      * 视频播放地址
      */
     private void getVideoAddress(VideoDetailBean mVideoDetailBean) {
-        KLog.e(mVideoDetailBean.getCpAlbumId() + "     " + mVideoDetailBean.getCpTvId());
+        KLog.e("wlx", "视频参数  " + mVideoDetailBean.getCpAlbumId() + "     " + mVideoDetailBean.getCpTvId());
         MyApi.getMyApiService()
                 .getVideoAddress(mVideoDetailBean.getCpAlbumId(), mVideoDetailBean.getCpTvId())
                 .compose(XApi.<VideoAddressBean>getApiTransformer())
@@ -132,7 +132,6 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                 .subscribe(new ApiSubscriber<VideoAddressBean>() {
                     @Override
                     public void onNext(VideoAddressBean videoBean) {
-//                        nextApi(videoBean, mVideoDetailBean);
                         verfyUser(videoBean, mVideoDetailBean);
                     }
 
@@ -285,11 +284,7 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
         if (isThirdPartyCDN != null && isThirdPartyCDN.contains("1")) {
             stringBuffer.append(systemService.getValue("CDNTPDomainName"));
         } else {
-            if (cdn_type.endsWith("HW")) {
-                stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS_BACK));
-            } else if (cdn_type.contains("ZTE")) {
-                stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS));
-            }
+            stringBuffer.append(systemService.getValue(DevInfoManager.CDN_ADDRESS));
         }
 
         if (cdn_type.endsWith("HW")) {
@@ -308,6 +303,8 @@ public class VideoViewPresenter extends XPresent<VideoViewActivty> {
                     .append("?OTTUserToken=").append(OTTUserToken)
                     .append("&[$").append(videoBean.getAuthCode()).append("]");
         }
+        KLog.e("wlx", "视频播放地址  " + stringBuffer.toString());
+
         getV().setVideoDetail(stringBuffer.toString(), title, mVideoDetailBean);
     }
 

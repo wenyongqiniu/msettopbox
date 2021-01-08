@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.VideoView;
 
+import com.chinamobile.SWDevInfoManager;
 import com.iflytek.xiri.Feedback;
 import com.iflytek.xiri.scene.ISceneListener;
 import com.iflytek.xiri.scene.Scene;
@@ -42,7 +43,7 @@ import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_HOME_KEY
 import static com.yxws.msettopboxs.config.Constant.SYSTEM_DIALOG_REASON_KEY;
 
 public class VideoViewActivty extends XActivity<VideoViewPresenter> implements CustomAdapt, MediaPlayer.OnCompletionListener,
-        MediaPlayer.OnPreparedListener, ISceneListener {
+        MediaPlayer.OnPreparedListener, ISceneListener, MediaPlayer.OnErrorListener {
 
 
     private VideoView videoView;
@@ -62,7 +63,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
     private long contentTotalTime, startWatchTime, endWatchTime, playTime;
     private int videoId;
     private VideoDetailBean mVideoDetailBean;
-
+    private DevInfoManager systemService;
     @SuppressLint("WrongConstant")
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 
         videoView.setOnPreparedListener(this);
         videoView.setOnCompletionListener(this);
+        videoView.setOnErrorListener(this);
 
         loadingPopup = (LoadingPopupView) new XPopup.Builder(this)
                 .asLoading("加载中")
@@ -89,6 +91,8 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
 //        TODO 开始保存历史任务
         startTimer();
         initReceiver();
+
+        systemService = SWDevInfoManager.getDevInfoManager(this);
     }
 
     @Override
@@ -187,6 +191,8 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
         }
     }
 
+    private String videoPathUrl;
+
     /**
      * 设置播放详情
      *
@@ -196,6 +202,7 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
      */
     public void setVideoDetail(String videoPathUrl, String title, VideoDetailBean mVideoDetailBean) {
         this.mVideoDetailBean = mVideoDetailBean;
+        this.videoPathUrl = videoPathUrl;
         videoView.setVideoPath(videoPathUrl);
         videoView.setMediaController(new MyMediaController(this, title));
         videoView.start();
@@ -278,6 +285,14 @@ public class VideoViewActivty extends XActivity<VideoViewPresenter> implements C
             }
 
         }
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        KLog.e("wlx","播放失败 重新播放");
+        videoView.setVideoPath(videoPathUrl.replace(devInfoManager.getValue(DevInfoManager.CDN_ADDRESS),devInfoManager.getValue(DevInfoManager.CDN_ADDRESS_BACK)));
+        videoView.start();
+        return true;
     }
 
     public class SaveHistotyTimerTask extends TimerTask {
